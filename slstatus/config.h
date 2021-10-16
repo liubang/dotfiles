@@ -68,7 +68,7 @@ static const struct arg args[] = {
     { netspeed_tx, " %s ",       "wlp88s0" },
     { wifi_essid,  "  %s ",      "wlp88s0" },
     { wifi_perc,   "%s%% ",       "wlp88s0" },
-    { run_command, "墳%s%% ",     "amixer get PCM | grep Left: | awk -F'[][]' '{ print $2 }'" },
+    { run_command, "墳 %s ",      "amixer get PCM | grep Left: | awk -F'[][]' '{ print $2 }'" },
     { cpu_perc,    " %s%% ",     NULL },
     { ram_perc,    " %s%% ",     NULL },
     { datetime,    " %s",        "%a, %d %b %T" },
