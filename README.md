@@ -1,1 +1,1 @@
-# dotfile
+# my personal dwm
