@@ -1,4 +1,5 @@
 /* See LICENSE file for copyright and license details. */
+#include <X11/XF86keysym.h>
 
 /* appearance */
 static const unsigned int borderpx = 1;        /* border pixel of windows */
@@ -41,10 +42,12 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
-    { "Spotify",  "spotify",  NULL,       1 << 3,       0,           -1 },
+	/* class                     instance   title tags mask     isfloating   monitor */
+	{ "Gimp",                    NULL,      NULL, 0,      1, -1 },
+	{ "Firefox",                 NULL,      NULL, 1 << 8, 0, -1 },
+    { "Spotify",                 "spotify", NULL, 1 << 3, 0, -1 },
+    { "Netease-cloud-music-gtk", NULL,      NULL, 1 << 3, 0, -1 },
+    { "netease-cloud-music",     NULL,      NULL, 1 << 3, 0, -1 },
 };
 
 /* layout(s) */
@@ -72,8 +75,11 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "/home/liubang/.config/rofi/bin/launcher_colorful", NULL };
-static const char *termcmd[]  = { "/opt/app/bin/kitty", NULL };
+static const char *dmenucmd[]  = { "/home/liubang/.config/rofi/bin/launcher_colorful", NULL };
+static const char *termcmd[]   = { "/opt/app/bin/kitty", NULL };
+static const char *voldown[]   = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%", NULL };
+static const char *volup[]     = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%", NULL };
+static const char *voltoggle[] = { "pactl", "set-sink-mute", "@DEFAULT_SINK@", "toggle", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -109,6 +115,13 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
+    { 0,                            XK_F9,      spawn,         {.v = voltoggle} },
+    { 0,                            XK_F11,     spawn,         {.v = voldown} },
+    { 0,                            XK_F12,     spawn,         {.v = volup} },
+    /* XF86Keys */
+    { 0,                            XF86XK_AudioMute,        spawn, {.v = voltoggle} },
+    { 0,                            XF86XK_AudioLowerVolume, spawn, {.v = voldown} },
+    { 0,                            XF86XK_AudioRaiseVolume, spawn, {.v = volup} },
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 
