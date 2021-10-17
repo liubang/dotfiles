@@ -61,8 +61,8 @@
 #define ISVISIBLE(C) ISVISIBLEONTAG(C, C->mon->tagset[C->mon->seltags])
 #define LENGTH(X) (sizeof X / sizeof X[0])
 #define MOUSEMASK (BUTTONMASK | PointerMotionMask)
-#define WIDTH(X) ((X)->w + 2 * (X)->bw + gappx)
-#define HEIGHT(X) ((X)->h + 2 * (X)->bw + gappx)
+#define WIDTH(X)                ((X)->w + 2 * (X)->bw)
+#define HEIGHT(X)               ((X)->h + 2 * (X)->bw)
 #define TAGMASK ((1 << LENGTH(tags)) - 1)
 #define TEXTW(X) (drw_fontset_getwidth(drw, (X)) + lrpad)
 #define XRDB_LOAD_COLOR(R, V)                                                  \
@@ -192,6 +192,10 @@ struct Monitor {
   int ty;             /* tab bar geometry */
   int mx, my, mw, mh; /* screen size */
   int wx, wy, ww, wh; /* window area  */
+  int gappih;           /* horizontal gap between windows */
+  int gappiv;           /* vertical gap between windows */
+  int gappoh;           /* horizontal outer gaps */
+  int gappov;           /* vertical outer gaps */
   unsigned int seltags;
   unsigned int sellt;
   unsigned int tagset[2];
@@ -296,6 +300,16 @@ static void sendmon(Client *c, Monitor *m);
 static void setclientstate(Client *c, long state);
 static void setfocus(Client *c);
 static void setfullscreen(Client *c, int fullscreen);
+static void setgaps(int oh, int ov, int ih, int iv);
+static void incrgaps(const Arg *arg);
+static void incrigaps(const Arg *arg);
+static void incrogaps(const Arg *arg);
+static void incrohgaps(const Arg *arg);
+static void incrovgaps(const Arg *arg);
+static void incrihgaps(const Arg *arg);
+static void incrivgaps(const Arg *arg);
+static void togglegaps(const Arg *arg);
+static void defaultgaps(const Arg *arg);
 static void fullscreen(const Arg *arg);
 static void setlayout(const Arg *arg);
 static void setlayoutsafe(const Arg *arg);
@@ -344,8 +358,6 @@ static void zoom(const Arg *arg);
 static void bstack(Monitor *m);
 static void bstackhoriz(Monitor *m);
 
-static void focusmaster(const Arg *arg);
-
 /* variables */
 static const char autostartblocksh[] = "autostart_blocking.sh";
 static const char autostartsh[] = "autostart.sh";
@@ -356,6 +368,7 @@ static char stext[1024];
 static int screen;
 static int sw, sh;      /* X display screen geometry width, height */
 static int bh, blw = 0; /* bar geometry */
+static int enablegaps = 1;   /* enables gaps, used by togglegaps */
 static int th = 0;      /* tab bar geometry */
 static int lrpad;       /* sum of left and right padding for text */
 static int (*xerrorxlib)(Display *, XErrorEvent *);
@@ -455,68 +468,70 @@ void applyrules(Client *c) {
       c->tags & TAGMASK ? c->tags & TAGMASK : c->mon->tagset[c->mon->seltags];
 }
 
-int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact) {
-  int baseismin;
-  Monitor *m = c->mon;
 
-  /* set minimum possible */
-  *w = MAX(1, *w);
-  *h = MAX(1, *h);
-  if (interact) {
-    if (*x > sw)
-      *x = sw - WIDTH(c);
-    if (*y > sh)
-      *y = sh - HEIGHT(c);
-    if (*x + *w + 2 * c->bw < 0)
-      *x = 0;
-    if (*y + *h + 2 * c->bw < 0)
-      *y = 0;
-  } else {
-    if (*x >= m->wx + m->ww)
-      *x = m->wx + m->ww - WIDTH(c);
-    if (*y >= m->wy + m->wh)
-      *y = m->wy + m->wh - HEIGHT(c);
-    if (*x + *w + 2 * c->bw <= m->wx)
-      *x = m->wx;
-    if (*y + *h + 2 * c->bw <= m->wy)
-      *y = m->wy;
-  }
-  if (*h < bh)
-    *h = bh;
-  if (*w < bh)
-    *w = bh;
-  if (resizehints || c->isfloating || !c->mon->lt[c->mon->sellt]->arrange) {
-    /* see last two sentences in ICCCM 4.1.2.3 */
-    baseismin = c->basew == c->minw && c->baseh == c->minh;
-    if (!baseismin) { /* temporarily remove base dimensions */
-      *w -= c->basew;
-      *h -= c->baseh;
-    }
-    /* adjust for aspect limits */
-    if (c->mina > 0 && c->maxa > 0) {
-      if (c->maxa < (float)*w / *h)
-        *w = *h * c->maxa + 0.5;
-      else if (c->mina < (float)*h / *w)
-        *h = *w * c->mina + 0.5;
-    }
-    if (baseismin) { /* increment calculation requires this */
-      *w -= c->basew;
-      *h -= c->baseh;
-    }
-    /* adjust for increment value */
-    if (c->incw)
-      *w -= *w % c->incw;
-    if (c->inch)
-      *h -= *h % c->inch;
-    /* restore base dimensions */
-    *w = MAX(*w + c->basew, c->minw);
-    *h = MAX(*h + c->baseh, c->minh);
-    if (c->maxw)
-      *w = MIN(*w, c->maxw);
-    if (c->maxh)
-      *h = MIN(*h, c->maxh);
-  }
-  return *x != c->x || *y != c->y || *w != c->w || *h != c->h;
+int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact)
+{
+	int baseismin;
+	Monitor *m = c->mon;
+
+	/* set minimum possible */
+	*w = MAX(1, *w);
+	*h = MAX(1, *h);
+	if (interact) {
+		if (*x > sw)
+			*x = sw - WIDTH(c);
+		if (*y > sh)
+			*y = sh - HEIGHT(c);
+		if (*x + *w + 2 * c->bw < 0)
+			*x = 0;
+		if (*y + *h + 2 * c->bw < 0)
+			*y = 0;
+	} else {
+		if (*x >= m->wx + m->ww)
+			*x = m->wx + m->ww - WIDTH(c);
+		if (*y >= m->wy + m->wh)
+			*y = m->wy + m->wh - HEIGHT(c);
+		if (*x + *w + 2 * c->bw <= m->wx)
+			*x = m->wx;
+		if (*y + *h + 2 * c->bw <= m->wy)
+			*y = m->wy;
+	}
+	if (*h < bh)
+		*h = bh;
+	if (*w < bh)
+		*w = bh;
+	if (resizehints || c->isfloating || !c->mon->lt[c->mon->sellt]->arrange) {
+		/* see last two sentences in ICCCM 4.1.2.3 */
+		baseismin = c->basew == c->minw && c->baseh == c->minh;
+		if (!baseismin) { /* temporarily remove base dimensions */
+			*w -= c->basew;
+			*h -= c->baseh;
+		}
+		/* adjust for aspect limits */
+		if (c->mina > 0 && c->maxa > 0) {
+			if (c->maxa < (float)*w / *h)
+				*w = *h * c->maxa + 0.5;
+			else if (c->mina < (float)*h / *w)
+				*h = *w * c->mina + 0.5;
+		}
+		if (baseismin) { /* increment calculation requires this */
+			*w -= c->basew;
+			*h -= c->baseh;
+		}
+		/* adjust for increment value */
+		if (c->incw)
+			*w -= *w % c->incw;
+		if (c->inch)
+			*h -= *h % c->inch;
+		/* restore base dimensions */
+		*w = MAX(*w + c->basew, c->minw);
+		*h = MAX(*h + c->baseh, c->minh);
+		if (c->maxw)
+			*w = MIN(*w, c->maxw);
+		if (c->maxh)
+			*h = MIN(*h, c->maxh);
+	}
+	return *x != c->x || *y != c->y || *w != c->w || *h != c->h;
 }
 
 void arrange(Monitor *m) {
@@ -861,6 +876,10 @@ Monitor *createmon(void) {
   m->showbar = showbar;
   m->showtab = showtab;
   m->topbar = topbar;
+  m->gappih = gappih;
+  m->gappiv = gappiv;
+  m->gappoh = gappoh;
+  m->gappov = gappov;
   m->toptab = toptab;
   m->bh = bh;
   m->ntabs = 0;
@@ -1827,49 +1846,63 @@ void resize(Client *c, int x, int y, int w, int h, int interact) {
     resizeclient(c, x, y, w, h);
 }
 
-void resizeclient(Client *c, int x, int y, int w, int h) {
-  XWindowChanges wc;
-  unsigned int n;
-  unsigned int gapoffset;
-  unsigned int gapincr;
-  Client *nbc;
 
-  wc.border_width = c->bw;
+void resizeclient(Client *c, int x, int y, int w, int h)
+{
+	XWindowChanges wc;
 
-  /* Get number of clients for the selected monitor */
-  for (n = 0, nbc = nexttiled(selmon->clients); nbc;
-       nbc = nexttiled(nbc->next), n++)
-    ;
-
-  /* Do nothing if layout is floating */
-  if (c->isfloating || selmon->lt[selmon->sellt]->arrange == NULL) {
-    gapincr = gapoffset = 0;
-  } else {
-    /* Remove border and gap if layout is monocle or only one client */
-    if (selmon->lt[selmon->sellt]->arrange == monocle || n == 1) {
-      gapoffset = 0;
-      gapincr = -2 * borderpx;
-      wc.border_width = 0;
-    } else {
-      gapoffset = gappx;
-      gapincr = 2 * gappx;
-    }
-  }
-
-  c->oldx = c->x;
-  c->x = wc.x = x + gapoffset;
-  c->oldy = c->y;
-  c->y = wc.y = y + gapoffset;
-  c->oldw = c->w;
-  c->w = wc.width = w - gapincr;
-  c->oldh = c->h;
-  c->h = wc.height = h - gapincr;
-
-  XConfigureWindow(dpy, c->win, CWX | CWY | CWWidth | CWHeight | CWBorderWidth,
-                   &wc);
-  configure(c);
-  XSync(dpy, False);
+	c->oldx = c->x; c->x = wc.x = x;
+	c->oldy = c->y; c->y = wc.y = y;
+	c->oldw = c->w; c->w = wc.width = w;
+	c->oldh = c->h; c->h = wc.height = h;
+	wc.border_width = c->bw;
+	XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
+	configure(c);
+	XSync(dpy, False);
 }
+
+// void resizeclient(Client *c, int x, int y, int w, int h) {
+//   XWindowChanges wc;
+//   unsigned int n;
+//   unsigned int gapoffset;
+//   unsigned int gapincr;
+//   Client *nbc;
+
+//   wc.border_width = c->bw;
+
+//   /* Get number of clients for the selected monitor */
+//   for (n = 0, nbc = nexttiled(selmon->clients); nbc;
+//        nbc = nexttiled(nbc->next), n++)
+//     ;
+
+//   /* Do nothing if layout is floating */
+//   if (c->isfloating || selmon->lt[selmon->sellt]->arrange == NULL) {
+//     gapincr = gapoffset = 0;
+//   } else {
+//     /* Remove border and gap if layout is monocle or only one client */
+//     if (selmon->lt[selmon->sellt]->arrange == monocle || n == 1) {
+//       gapoffset = 0;
+//       gapincr = -2 * borderpx;
+//       wc.border_width = 0;
+//     } else {
+//       gapoffset = gappx;
+//       gapincr = 2 * gappx;
+//     }
+//   }
+
+//   c->oldx = c->x;
+//   c->x = wc.x = x + gapoffset;
+//   c->oldy = c->y;
+//   c->y = wc.y = y + gapoffset;
+//   c->oldw = c->w;
+//   c->w = wc.width = w - gapincr;
+//   c->oldh = c->h;
+//   c->h = wc.height = h - gapincr;
+
+//   XConfigureWindow(dpy, c->win, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
+//   configure(c);
+//   XSync(dpy, False);
+// }
 
 void resizemouse(const Arg *arg) {
   int ocx, ocy, nw, nh;
@@ -2207,6 +2240,102 @@ void fullscreen(const Arg *arg) {
   togglebar(arg);
 }
 
+
+void setgaps(int oh, int ov, int ih, int iv)
+{
+	if (oh < 0) oh = 0;
+	if (ov < 0) ov = 0;
+	if (ih < 0) ih = 0;
+	if (iv < 0) iv = 0;
+
+	selmon->gappoh = oh;
+	selmon->gappov = ov;
+	selmon->gappih = ih;
+	selmon->gappiv = iv;
+	arrange(selmon);
+}
+
+void togglegaps(const Arg *arg)
+{
+	enablegaps = !enablegaps;
+	arrange(selmon);
+}
+
+void defaultgaps(const Arg *arg)
+{
+	setgaps(gappoh, gappov, gappih, gappiv);
+}
+
+void incrgaps(const Arg *arg)
+{
+	setgaps(
+		selmon->gappoh + arg->i,
+		selmon->gappov + arg->i,
+		selmon->gappih + arg->i,
+		selmon->gappiv + arg->i
+	);
+}
+
+void incrigaps(const Arg *arg)
+{
+	setgaps(
+		selmon->gappoh,
+		selmon->gappov,
+		selmon->gappih + arg->i,
+		selmon->gappiv + arg->i
+	);
+}
+
+void incrogaps(const Arg *arg)
+{
+	setgaps(
+		selmon->gappoh + arg->i,
+		selmon->gappov + arg->i,
+		selmon->gappih,
+		selmon->gappiv
+	);
+}
+
+void incrohgaps(const Arg *arg)
+{
+	setgaps(
+		selmon->gappoh + arg->i,
+		selmon->gappov,
+		selmon->gappih,
+		selmon->gappiv
+	);
+}
+
+void incrovgaps(const Arg *arg)
+{
+	setgaps(
+		selmon->gappoh,
+		selmon->gappov + arg->i,
+		selmon->gappih,
+		selmon->gappiv
+	);
+}
+
+void incrihgaps(const Arg *arg)
+{
+	setgaps(
+		selmon->gappoh,
+		selmon->gappov,
+		selmon->gappih + arg->i,
+		selmon->gappiv
+	);
+}
+
+void incrivgaps(const Arg *arg)
+{
+    setgaps(
+		selmon->gappoh,
+		selmon->gappov,
+		selmon->gappih,
+		selmon->gappiv + arg->i
+	);
+}
+
 void setlayout(const Arg *arg) {
   unsigned int i;
   if (!arg || !arg->v || arg->v != selmon->lt[selmon->sellt])
@@ -2449,30 +2578,33 @@ void tagmon(const Arg *arg) {
 }
 
 void tile(Monitor *m) {
-  unsigned int i, n, h, mw, my, ty;
-  Client *c;
+    unsigned int i, n, h, r, oe = enablegaps, ie = enablegaps, mw, my, ty;
+	Client *c;
 
-  for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++)
-    ;
-  if (n == 0)
-    return;
+	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+	if (n == 0)
+		return;
 
-  if (n > m->nmaster)
-    mw = m->nmaster ? m->ww * m->mfact : 0;
-  else
-    mw = m->ww;
-  for (i = my = ty = 0, c = nexttiled(m->clients); c;
-       c = nexttiled(c->next), i++)
-    if (i < m->nmaster) {
-      h = (m->wh - my) / (MIN(n, m->nmaster) - i);
-      resize(c, m->wx, m->wy + my, mw - (2 * c->bw), h - (2 * c->bw), 0);
-      my += HEIGHT(c);
-    } else {
-      h = (m->wh - ty) / (n - i);
-      resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2 * c->bw),
-             h - (2 * c->bw), 0);
-      ty += HEIGHT(c);
+    if (smartgaps == n) {
+        oe = 0; // outer gaps disabled
     }
+
+	if (n > m->nmaster)
+		mw = m->nmaster ? (m->ww + m->gappiv*ie) * m->mfact : 0;
+	else
+        mw = m->ww - 2*m->gappov*oe + m->gappiv*ie;
+	for (i = 0, my = ty = m->gappoh*oe, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+		if (i < m->nmaster) {
+			r = MIN(n, m->nmaster) - i;
+			h = (m->wh - my - m->gappoh*oe - m->gappih*ie * (r - 1)) / r;
+			resize(c, m->wx + m->gappov*oe, m->wy + my, mw - (2*c->bw) - m->gappiv*ie, h - (2*c->bw), 0);
+			my += HEIGHT(c) + m->gappih*ie;
+		} else {
+			r = n - i;
+			h = (m->wh - ty - m->gappoh*oe - m->gappih*ie * (r - 1)) / r;
+			resize(c, m->wx + mw + m->gappov*oe, m->wy + ty, m->ww - mw - (2*c->bw) - 2*m->gappov*oe, h - (2*c->bw), 0);
+			ty += HEIGHT(c) + m->gappih*ie;
+		}
 }
 
 void togglebar(const Arg *arg) {
@@ -3061,18 +3193,6 @@ int main(int argc, char *argv[]) {
   cleanup();
   XCloseDisplay(dpy);
   return EXIT_SUCCESS;
-}
-
-void focusmaster(const Arg *arg) {
-  Client *c;
-
-  if (selmon->nmaster < 1)
-    return;
-
-  c = nexttiled(selmon->clients);
-
-  if (c)
-    focus(c);
 }
 
 static void bstack(Monitor *m) {
