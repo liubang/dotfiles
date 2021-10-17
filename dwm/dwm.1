@@ -20,32 +20,16 @@ layout applied.
 Windows are grouped by tags. Each window can be tagged with one or multiple
 tags. Selecting certain tags displays all windows with these tags.
 .P
-Each screen contains two small status bars.
-.P
-One bar displays all available tags, the layout, the title of the focused
-window, and the text read from the root window name property, if the screen is
-focused. A floating window is indicated with an empty square and a maximised
-floating window is indicated with a filled square before the windows title.  The
-selected tags are indicated with a different color. The tags of the focused
-window are indicated with a filled square in the top left corner.  The tags
-which are applied to one or more windows are indicated with an empty square in
-the top left corner.
-.P
-Another bar contains a tab for each window of the current view and allows
-navigation between windows, especially in the monocle mode. The different
-display modes of this bar are described under the Mod1\-w Keybord command
-section.  When a single tag is selected, this tag is indicated in the left corner
-of the tab bar.
+Each screen contains a small status bar which displays all available tags, the
+layout, the title of the focused window, and the text read from the root window
+name property, if the screen is focused. A floating window is indicated with an
+empty square and a maximised floating window is indicated with a filled square
+before the windows title.  The selected tags are indicated with a different
+color. The tags of the focused window are indicated with a filled square in the
+top left corner.  The tags which are applied to one or more windows are
+indicated with an empty square in the top left corner.
 .P
 dwm draws a small border around windows to indicate the focus state.
-.P
-On start, dwm can start additional programs that may be specified in two special
-shell scripts (see the FILES section below), autostart_blocking.sh and
-autostart.sh.  The former is executed first and dwm will wait for its
-termination before starting.  The latter is executed in the background before
-dwm enters its handler loop.
-.P
-Either of these files may be omitted.
 .SH OPTIONS
 .TP
 .B \-v
@@ -60,8 +44,7 @@ command.
 .TP
 .B Button1
 click on a tag label to display all windows with that tag, click on the layout
-label toggles between tiled and floating layout, click on a window name in the
-tab bar brings focus to that window.
+label toggles between tiled and floating layout.
 .TP
 .B Button3
 click on a tag label adds/removes all windows with that tag to/from the view.
@@ -127,12 +110,6 @@ Increase master area size.
 .B Mod1\-h
 Decrease master area size.
 .TP
-.B Mod1\-w
-Cycle over the tab bar display modes: never displayed, always displayed,
-displayed only in monocle mode when the view contains more than one window (auto
-mode). Some display modes can be disabled in the configuration, config.h. In
-the default configuration only "never" and "auto" display modes are enabled.
-.TP
 .B Mod1\-Return
 Zooms/cycles focused window to/from master area (tiled layouts only).
 .TP
@@ -165,9 +142,6 @@ Add/remove all windows with nth tag to/from the view.
 .TP
 .B Mod1\-Shift\-q
 Quit dwm.
-.TP
-.B Mod1\-Control\-Shift\-q
-Restart dwm.
 .SS Mouse commands
 .TP
 .B Mod1\-Button1
@@ -178,31 +152,9 @@ Toggles focused window between floating and tiled state.
 .TP
 .B Mod1\-Button3
 Resize focused window while dragging. Tiled windows will be toggled to the floating state.
-.SH FILES
-The files containing programs to be started along with dwm are searched for in
-the following directories:
-.IP "1. $XDG_DATA_HOME/dwm"
-.IP "2. $HOME/.local/share/dwm"
-.IP "3. $HOME/.dwm"
-.P
-The first existing directory is scanned for any of the autostart files below.
-.TP 15
-autostart.sh
-This file is started as a shell background process before dwm enters its handler
-loop.
-.TP 15
-autostart_blocking.sh
-This file is started before any autostart.sh; dwm waits for its termination.
 .SH CUSTOMIZATION
 dwm is customized by creating a custom config.h and (re)compiling the source
 code. This keeps it fast, secure and simple.
-.SH SIGNALS
-.TP
-.B SIGHUP - 1
-Restart the dwm process.
-.TP
-.B SIGTERM - 15
-Cleanly terminate the dwm process.
 .SH SEE ALSO
 .BR dmenu (1),
 .BR st (1)

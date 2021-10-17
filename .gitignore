@@ -1,3 +1,4 @@
 **/*.o
 dwm/dwm
+dwm/config.h
 slstatus/slstatus
