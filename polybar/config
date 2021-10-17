@@ -534,13 +534,13 @@ label = %time%
 [module/mpd]
 type = internal/mpd
 
-;;host = 127.0.0.1
-;;port = 6600
+host = 127.0.0.1
+port = 6600
 ;;password = mysecretpassword
 
 interval = 2
 
-format-online = <label-song> <icon-prev> <toggle> <icon-next>
+format-online = <label-song> <bar-progress> <icon-prev> <toggle> <icon-next>
 format-online-prefix = " "
 format-online-prefix-font = 1
 format-online-prefix-foreground = ${color.GREEN}
@@ -551,6 +551,11 @@ format-paused = <label-song> <toggle>
 format-offline = <label-offline>
 label-offline = "Offline"
 
+bar-progress-width = 15
+bar-progress-indicator = " ﰌ "
+bar-progress-fill = ─
+bar-progress-empty = -
+
 label-song =  " %title% "
 label-song-maxlen = 20
 label-song-ellipsis = true
@@ -558,7 +563,7 @@ label-song-ellipsis = true
 icon-play = " "
 icon-play-font = 2
 icon-play-foreground = ${color.GREEN}
-icon-pause = "  "
+icon-pause = " "
 icon-pause-font = 2
 icon-pause-foreground = ${color.YELLOW}
 icon-stop = " "
