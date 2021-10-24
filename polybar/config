@@ -60,7 +60,7 @@ font-4 = Sarasa UI SC:size=12;2
 
 modules-left = dwm
 modules-center = mpd
-modules-right = weather network cpu memory volume backlight battery date
+modules-right = weather network bluetooth cpu memory volume backlight battery date
 
 separator =
 spacing = 0
@@ -576,13 +576,12 @@ icon-next-font = 2
 icon-next-foreground = ${color.CYAN}
 
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-
 [module/network]
 type = internal/network
 interface = wlp88s0
 interval = 1.0
 ;;ping-interval = 3
-;;udspeed-minwidth = 5
+; udspeed-minwidth = 5
 accumulate-stats = true
 unknown-as-up = true
 format-connected = <ramp-signal> <label-connected>
@@ -605,6 +604,17 @@ animation-packetloss-0 = ⚠
 animation-packetloss-0-foreground = #ffa64c
 animation-packetloss-1 = 📶
 animation-packetloss-1-foreground = #000000
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+[module/bluetooth]
+type = custom/script
+exec = "bluetoothctl paired-devices | cut -d' ' -f2 | xargs -i -n1 bash -c "bluetoothctl info {} | grep -q 'Connected: yes' && bluetoothctl info {} | grep -o 'Alias: .*'" | awk -vORS=', ' '{sub($1 OFS,"")}1' | sed -e 's/, $//'"
+exec-if = "[ $(bluetoothctl show | grep 'Powered: yes' | wc -l) -gt 0 ]"
+interval = 5
+click-right = blueman-manager &
+format-prefix = " "
+; format-foreground = #2193ff
+tail = true
 
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;;    __________  ______
