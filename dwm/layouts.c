@@ -1,33 +1,55 @@
-void
-grid(Monitor *m) {
-	unsigned int i, n, cx, cy, cw, ch, aw, ah, cols, rows;
+void getgaps(Monitor *m, int *oh, int *ov, int *ih, int *iv, unsigned int *nc)
+{
+	unsigned int n, oe, ie;
+	#if PERTAG_PATCH
+	oe = ie = selmon->pertag->enablegaps[selmon->pertag->curtag];
+	#else
+	oe = ie = enablegaps;
+	#endif // PERTAG_PATCH
 	Client *c;
 
-	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next))
-		n++;
+	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+	if (smartgaps && n == 1) {
+		oe = 0; // outer gaps disabled when only one client
+	}
+
+	*oh = m->gappoh*oe; // outer horizontal gap
+	*ov = m->gappov*oe; // outer vertical gap
+	*ih = m->gappih*ie; // inner horizontal gap
+	*iv = m->gappiv*ie; // inner vertical gap
+	*nc = n;            // number of clients
+}
+
+void grid(Monitor *m)
+{
+	unsigned int i, n;
+	int cx, cy, cw, ch, cc, cr, chrest, cwrest, cols, rows;
+	int oh, ov, ih, iv;
+	Client *c;
+
+	getgaps(m, &oh, &ov, &ih, &iv, &n);
 
 	/* grid dimensions */
-	for(rows = 0; rows <= n/2; rows++)
-		if(rows*rows >= n)
+	for (rows = 0; rows <= n/2; rows++)
+		if (rows*rows >= n)
 			break;
 	cols = (rows && (rows - 1) * rows >= n) ? rows - 1 : rows;
 
 	/* window geoms (cell height/width) */
-	ch = m->wh / (rows ? rows : 1);
-	cw = m->ww / (cols ? cols : 1);
-	for(i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next)) {
-		cx = m->wx + (i / rows) * cw;
-		cy = m->wy + (i % rows) * ch;
-		/* adjust height/width of last row/column's windows */
-		ah = ((i + 1) % rows == 0) ? m->wh - ch * rows : 0;
-		aw = (i >= rows * (cols - 1)) ? m->ww - cw * cols : 0;
-		resize(c, cx, cy, cw - 2 * c->bw + aw, ch - 2 * c->bw + ah, False);
-		i++;
+	ch = (m->wh - 2*oh - ih * (rows - 1)) / (rows ? rows : 1);
+	cw = (m->ww - 2*ov - iv * (cols - 1)) / (cols ? cols : 1);
+	chrest = (m->wh - 2*oh - ih * (rows - 1)) - ch * rows;
+	cwrest = (m->ww - 2*ov - iv * (cols - 1)) - cw * cols;
+	for (i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
+		cc = i / rows;
+		cr = i % rows;
+		cx = m->wx + ov + cc * (cw + iv) + MIN(cc, cwrest);
+		cy = m->wy + oh + cr * (ch + ih) + MIN(cr, chrest);
+		resize(c, cx, cy, cw + (cc < cwrest ? 1 : 0) - 2*c->bw, ch + (cr < chrest ? 1 : 0) - 2*c->bw, False);
 	}
 }
 
-void
-tcl(Monitor * m)
+void tcl(Monitor * m)
 {
 	int x, y, h, w, mw, sw, bdw;
 	unsigned int i, n;
