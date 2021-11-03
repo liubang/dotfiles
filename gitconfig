@@ -1,0 +1,20 @@
+[user]
+    email = it.liubang@gmail.com
+    name = liubang
+[core]
+    excludesfile = ~/.gitignore_global
+    editor = "NVIM_TUI_ENABLE_TRUE_COLOR=1 /opt/app/nvim/bin/nvim"
+    ignorecase = false
+    whitespace = cr-at-eol
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    ui = auto
+[alias]
+    co = checkout
+    br = branch
+    ci = commit
+    st = status
+    last = log -1 HEAD
+    ls = log -n 20 --pretty=\"format:%C(auto)%h %ad %C(auto)%s%d  %Cblue(%an)\" --decorate --abbrev-commit --date=local

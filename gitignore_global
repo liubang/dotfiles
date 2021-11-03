@@ -1,0 +1,5 @@
+*~
+.DS_Store
+.idea
+**/lib64_debug*
+**/lib64_release*
