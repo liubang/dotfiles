@@ -29,8 +29,8 @@ from custom.zoomy import Zoomy as CustomZoomy
 # from custom.stack import Stack as CustomStack
 # from custom.windowname import WindowName as CustomWindowName
 
-mod = "mod4"
-mod1 = "mod1"
+mod = "mod1"
+mod1 = "mod4"
 terminal = "/opt/app/bin/kitty"
 
 
@@ -98,13 +98,6 @@ def resize_down(qtile):
 
 
 keys = [
-    # Launching dmenu with custom settings
-    # 'dmenu_height' package from aur needed for 'dmenu_height' argument
-    Key(
-        [mod],
-        "d",
-        lazy.spawn("dmenu_run_history"),
-    ),
     Key(
         [mod],
         "p",
@@ -122,12 +115,6 @@ keys = [
         desc="Launch terminal",
     ),
     Key(
-        [mod, "shift"],
-        "Return",
-        lazy.spawn("alacritty -e zsh"),
-        desc="Launch terminal",
-    ),
-    Key(
         [mod],
         "Tab",
         lazy.next_layout(),
@@ -135,19 +122,7 @@ keys = [
     ),
     Key(
         [mod, "shift"],
-        "Tab",
-        lazy.prev_layout(),
-        desc="Toggle through layouts",
-    ),
-    Key(
-        [mod],
-        "b",
-        lazy.hide_show_bar("top"),
-        desc="Kill focused window",
-    ),
-    Key(
-        [mod],
-        "q",
+        "c",
         lazy.window.kill(),
         desc="Kill focused window",
     ),
@@ -172,112 +147,9 @@ keys = [
     Key(
         [mod, "shift"],
         "a",
-        lazy.spawn("glrnvim /home/ayamir/.config/qtile/config.py"),
-        desc="Config qtile",
-    ),
-    Key(
-        [mod],
-        "e",
-        lazy.spawn("microsoft-edge-stable"),
-        desc="Launches edge",
-    ),
-    Key(
-        [mod, "shift"],
-        "n",
-        lazy.spawn("nemo"),
-        desc="Launches Nemo",
-    ),
-    Key(
-        [mod, "shift"],
-        "m",
-        lazy.spawn("alacritty --class ncmpcpp -e ncmpcpp"),
-        desc="Launches Ncmpcpp",
-    ),
-    Key(
-        [mod, "shift"],
-        "s",
-        lazy.spawn("flameshot gui"),
+        lazy.spawn("/usr/bin/flameshot gui"),
         desc="Launches flameshot",
     ),
-    Key(
-        [mod, "control"],
-        "l",
-        lazy.spawn("switch l"),
-        desc="Switch theme to light",
-    ),
-    Key(
-        [mod, "control"],
-        "n",
-        lazy.spawn("switch n"),
-        desc="Switch theme to dark",
-    ),
-    Key(
-        [mod, "control"],
-        "p",
-        lazy.spawn("mpc toggle"),
-        desc="Play mpd music",
-    ),
-    Key(
-        [mod, "control"],
-        "Left",
-        lazy.spawn("mpc prev"),
-        desc="Mpd music previous",
-    ),
-    Key(
-        [mod, "control"],
-        "Right",
-        lazy.spawn("mpc next"),
-        desc="Mpd music next",
-    ),
-    Key(
-        [mod],
-        "r",
-        lazy.spawn("recordmenu"),
-        desc="Start record",
-    ),
-    Key(
-        [mod],
-        "v",
-        lazy.spawn("glrnvim"),
-        desc="Launches glrnvim",
-    ),
-    Key(
-        [mod],
-        "z",
-        lazy.spawn("zathura"),
-        desc="Launches zathura",
-    ),
-    Key(
-        [mod1],
-        "v",
-        lazy.spawn("neovide"),
-        desc="Launches neovide",
-    ),
-    Key(
-        [mod1],
-        "c",
-        lazy.spawn("clion"),
-        desc="Launches clion",
-    ),
-    Key(
-        [mod1],
-        "i",
-        lazy.spawn("idea"),
-        desc="Launches idea",
-    ),
-    Key(
-        [mod1],
-        "p",
-        lazy.spawn("pycharm"),
-        desc="Launches pycharm",
-    ),
-    Key(
-        [mod1],
-        "g",
-        lazy.spawn("goland"),
-        desc="Launches goland",
-    ),
-
     ### Window controls
     Key(
         [mod],
@@ -321,16 +193,12 @@ keys = [
         [mod, "shift"],
         "h",
         lazy.layout.shuffle_left(),
-        lazy.layout.swap_left(),
-        lazy.layout.client_to_previous(),
         desc="Move windows left in current stack",
     ),
     Key(
         [mod, "shift"],
         "l",
         lazy.layout.shuffle_right(),
-        lazy.layout.swap_right(),
-        lazy.layout.client_to_next(),
         desc="Move windows right in the current stack",
     ),
     Key(
@@ -394,16 +262,6 @@ keys = [
         desc="Toggle window between minimum and maximum sizes",
     ),
     Key(
-        [mod, "control"],
-        "k",
-        lazy.layout.section_up()  # Move up a section in treetab
-    ),
-    Key(
-        [mod, "control"],
-        "j",
-        lazy.layout.section_down()  # Move down a section in treetab
-    ),
-    Key(
         [mod, "shift"],
         "f",
         lazy.window.toggle_fullscreen(),
@@ -415,22 +273,6 @@ keys = [
         lazy.window.toggle_floating(),
         desc="Toggle floating on focused window",
     ),
-
-    ### Stack controls
-    # Key(
-    #     [mod],
-    #     "f",
-    #     lazy.layout.rotate(),
-    #     lazy.layout.flip(),
-    #     desc="Switch which side main pane occupies {MonadTall}",
-    # ),
-    # Key(
-    #     [mod],
-    #     "s",
-    #     lazy.layout.toggle_split(),
-    #     desc="Toggle between split and unsplit sides of stack",
-    # ),
-    # Audio bindings specifically for Logitech G915 media buttons
     Key(
         [],
         "XF86AudioNext",
@@ -478,19 +320,15 @@ workspaces = [
         "key": "1",
         "label": "",
         "layout": "bsp",
-        "matches": [
-            Match(wm_class="solaar"),
-        ],
-        "spawn": ["solaar"],
+        "matches": [],
+        "spawn": [],
     },
     {
         "name": "2",
         "key": "2",
         "label": "",
         "layout": "bsp",
-        "matches": [
-            Match(wm_class="jetbrains-idea"),
-        ],
+        "matches": [],
         "spawn": [],
     },
     {
@@ -526,7 +364,7 @@ workspaces = [
             Match(wm_class="qbittorrent"),
             Match(wm_class="postman"),
         ],
-        "spawn": ["qbittorrent"],
+        "spawn": [],
     },
 ]
 
