@@ -11,12 +11,12 @@ OS="$(uname -s)"
 
 # skip if in non-interactive mode
 case "$-" in
-	*i*) ;;
-	*) return
+    *i*) ;;
+    *) return
 esac
 
 if [[ ! -d "${MY_CONFIG}" ]]; then
-	export MY_CONFIG="$HOME/.config/init"
+    export MY_CONFIG="$HOME/.config/zsh"
 fi
 
 # my config file
