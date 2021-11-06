@@ -24,21 +24,21 @@ alias vim='NVIM_TUI_ENABLE_TRUE_COLOR=1 /opt/app/nvim/bin/nvim'
 
 # Directory coloring
 if which gls >/dev/null 2>&1; then
-	# Prefer GNU version, since it respects dircolors.
-	alias ls='gls --group-directories-first --color=auto'
+    # Prefer GNU version, since it respects dircolors.
+    alias ls='gls --group-directories-first --color=auto'
 elif [ "$OS" = "Darwin" ]; then
-	export CLICOLOR="YES" # Equivalent to passing -G to ls.
-	export LSCOLORS="exgxdHdHcxaHaHhBhDeaec"
+    export CLICOLOR="YES" # Equivalent to passing -G to ls.
+    export LSCOLORS="exgxdHdHcxaHaHhBhDeaec"
     # gnu sed
     if command -v gsed >/dev/null 2>&1; then
         alias sed=gsed
     fi
 else
-	alias ls='ls --group-directories-first --color=auto'
+    alias ls='ls --group-directories-first --color=auto'
 fi
 
 if [ "$OS" = "Linux" ]; then
-	alias pbcopy='xclip -selection clipboard'
-	alias pbpaste='xclip -selection clipboard -o'
+    alias pbcopy='xclip -selection clipboard'
+    alias pbpaste='xclip -selection clipboard -o'
     alias open='xdg-open'
 fi
