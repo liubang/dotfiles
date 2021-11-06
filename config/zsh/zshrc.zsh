@@ -59,8 +59,6 @@ zinit wait lucid for \
     zsh-users/zsh-completions \
  atload"!export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=yellow,fg=white,bold'" \
     zsh-users/zsh-history-substring-search \
- pick"zsh-interactive-cd.plugin.zsh" \
-    changyuheng/zsh-interactive-cd \
  pick"z.sh" \
     rupa/z \
  pick"fz.plugin.zsh" \
