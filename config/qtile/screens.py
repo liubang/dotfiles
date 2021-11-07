@@ -105,7 +105,30 @@ screens = [
                 widget.Net(
                     background=colors[1],
                     foreground=colors[0],
-                    format="{down}"
+                    format="{down}",
+                    fontsize=text_size,
+                ),
+                widget.Sep(
+                    background=colors[1],
+                    linewidth=0,
+                    padding=10,
+                    size_percent=50,
+                ),
+                widget.TextBox(
+                    text=" ",
+                    font="Font Awesome 5 Free Solid",
+                    background=colors[1],
+                    foreground=colors[11],
+                    fontsize=icon_size,
+                ),
+                widget.Wlan(
+                    interface="wlp88s0",
+                    format="{essid}",
+                    background=colors[1],
+                    foreground=colors[0],
+                    padding=5,
+                    fontsize=text_size,
+                    # mouse_callbacks={"Button1": open_connman},
                 ),
                 widget.Sep(
                     linewidth=0,
@@ -173,12 +196,6 @@ screens = [
                     padding=10,
                     size_percent=50,
                 ),
-                widget.Sep(
-                    background=colors[1],
-                    linewidth=0,
-                    padding=10,
-                    size_percent=50,
-                ),
                 widget.TextBox(
                     background=colors[1],
                     foreground=colors[4],
@@ -190,6 +207,21 @@ screens = [
                     background=colors[1],
                     foreground=colors[0],
                     format="%m/%d %A %H:%M:%S",
+                    fontsize=text_size,
+                ),
+                widget.Sep(
+                    background=colors[1],
+                    linewidth=0,
+                    padding=10,
+                    size_percent=50,
+                ),
+                widget.Wttr(
+                    background=colors[1],
+                    foreground=colors[0],
+                    location={
+                        'beijing': 'beijing',
+                    },
+                    format="%c %t %h",
                     fontsize=text_size,
                 ),
                 widget.Sep(

@@ -87,7 +87,7 @@ keys = [
         ),
     # QTILE LAYOUT KEYS
     Key([mod], "Tab", lazy.next_layout()),
-    Key([mod], "n", lazy.layout.reset()),
+    Key([mod], "equal", lazy.layout.reset()),
     Key([mod], "m", lazy.layout.maximize()),
     Key([mod, "shift"], "f", lazy.window.toggle_fullscreen()),
 ]
