@@ -1,53 +1,17 @@
 import os
-import subprocess
 
 from libqtile.config import (
-    # KeyChord,
-    # Key,
     Screen,
-    # Group,
-    # Drag,
-    # Click,
-    # ScratchPad,
-    # DropDown,
-    # Match,
 )
-# from libqtile.command import lazy
 from libqtile import bar, widget  # , hook, layout
-# from libqtile.lazy import lazy
 from libqtile import qtile
-# from custom.bsp import Bsp as CustomBsp
-# from custom.zoomy import Zoomy as CustomZoomy
-# from custom.stack import Stack as CustomStack
-from custom.windowname import WindowName as CustomWindowName
 
 from colors import colors
-
-# terminal = "kitty"
 
 
 def open_pavu():
     qtile.cmd_spawn("pavucontrol")
 
-
-group_box_settings = {
-    "padding": 3,
-    "borderwidth": 4,
-    "active": colors[9],
-    "inactive": colors[10],
-    "disable_drag": True,
-    "rounded": True,
-    "highlight_color": colors[2],
-    "block_highlight_text_color": colors[8],
-    "highlight_method": "block",
-    "this_current_screen_border": colors[1],
-    "this_screen_border": colors[7],
-    "other_current_screen_border": colors[1],
-    "other_screen_border": colors[1],
-    "foreground": colors[0],
-    "background": colors[1],
-    "urgent_border": colors[3],
-}
 
 text_size = 18
 icon_size = 14
@@ -66,7 +30,22 @@ screens = [
                 ),
                 widget.GroupBox(
                     font="Hack Nerd Font",
-                    **group_box_settings,
+                    padding=3,
+                    borderwidth=4,
+                    active=colors[9],
+                    inactive=colors[10],
+                    disable_drag=True,
+                    rounded=True,
+                    highlight_color=colors[2],
+                    block_highlight_text_color=colors[8],
+                    highlight_method="block",
+                    this_current_screen_border=colors[1],
+                    this_screen_border=colors[7],
+                    other_current_screen_border=colors[1],
+                    other_screen_border=colors[1],
+                    foreground=colors[0],
+                    background=colors[1],
+                    urgent_border=colors[3],
                     fontsize=12,
                 ),
                 widget.Sep(
@@ -102,15 +81,13 @@ screens = [
                     font="Font Awesome 5 Free Solid",
                     padding=15,
                 ),
-                CustomWindowName(
+                widget.WindowName(
                     background=colors[1],
                     foreground=colors[0],
-                    width=bar.CALCULATED,
-                    empty_group_string="Desktop",
                     max_chars=30,
                 ),
                 widget.Spacer(
-                    background=colors[1], 
+                    background=colors[1],
                 ),
                 widget.Sep(
                     linewidth=0,
@@ -128,7 +105,7 @@ screens = [
                 widget.Net(
                     background=colors[1],
                     foreground=colors[0],
-                    format = "{down}"
+                    format="{down}"
                 ),
                 widget.Sep(
                     linewidth=0,
@@ -212,7 +189,7 @@ screens = [
                 widget.Clock(
                     background=colors[1],
                     foreground=colors[0],
-                    format="%D %H:%M:%S",
+                    format="%m/%d %A %H:%M:%S",
                     fontsize=text_size,
                 ),
                 widget.Sep(

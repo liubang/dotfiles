@@ -1,54 +1,42 @@
 import os
 import subprocess
-
 from colors import colors
 from screens import screens
 
-from os import environ
-
 from libqtile.config import (
-    # KeyChord,
     Key,
-    # Screen,
     Group,
     Drag,
-    Click,
-    ScratchPad,
-    DropDown,
-    Match,
 )
 
 from libqtile.command import lazy
-from libqtile import layout, bar, widget, hook
-from libqtile.lazy import lazy
-# from libqtile import qtile
-# from typing import List  # noqa: F401
-from custom.bsp import Bsp as CustomBsp
-from custom.bsp import Bsp as CustomBspMargins
-from custom.zoomy import Zoomy as CustomZoomy
-# from custom.stack import Stack as CustomStack
-# from custom.windowname import WindowName as CustomWindowName
+from libqtile import layout, hook
+from typing import List  # noqa: F401
+
 
 mod = "mod1"
 mod1 = "mod4"
-terminal = "/opt/app/bin/kitty"
+
 
 @hook.subscribe.client_new
-def floating_dialogs(window):
-    dialog = window.window.get_wm_type() == 'tk'
-    transient = window.window.get_wm_transient_for()
-    if dialog or transient:
+def set_floating(window):
+    if (window.window.get_wm_transient_for()
+            or window.window.get_wm_type() in floating_types):
         window.floating = True
+
 
 @hook.subscribe.startup_once
 def autostart():
-    home = os.path.expanduser('~/.config/qtile/autostart.sh')
-    subprocess.call([home])
+    home = os.path.expanduser('~')
+    subprocess.call([home + '/.config/qtile/autostart.sh'])
+
+
+floating_types = ["notification", "toolbar", "splash", "dialog"]
 
 keys = [
     Key([mod], "p", lazy.spawn("/home/liubang/.config/rofi/launchers/colorful/launcher.sh")),
     Key([mod], "w", lazy.spawn("rofi -show window")),
-    Key([mod], "Return", lazy.spawn(terminal + " -e --single-instance")),
+    Key([mod], "Return", lazy.spawn("/opt/app/bin/kitty -e --single-instance")),
     Key([mod, "shift"], "c", lazy.window.kill()),
     Key([mod, "shift"], "q", lazy.spawn("xkill")),
     Key([mod, "shift"], "r", lazy.restart()),
@@ -98,8 +86,8 @@ keys = [
         lazy.layout.increase_nmaster(),
         ),
     # QTILE LAYOUT KEYS
-    Key([mod], "n", lazy.layout.normalize()),
     Key([mod], "Tab", lazy.next_layout()),
+    Key([mod], "n", lazy.layout.reset()),
     Key([mod], "m", lazy.layout.maximize()),
     Key([mod, "shift"], "f", lazy.window.toggle_fullscreen()),
 ]
@@ -127,12 +115,14 @@ for workspace in workspaces:
             lazy.group[workspace["name"]].toscreen()),
     ])
 
+
 def init_layout_theme():
-    return {"margin":5,
-            "border_width":2,
+    return {"margin": 5,
+            "border_width": 2,
             "border_focus": "#5e81ac",
             "border_normal": "#4c566a"
             }
+
 
 layout_theme = init_layout_theme()
 
