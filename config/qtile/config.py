@@ -18,7 +18,7 @@ mod = "mod1"  # Setting mod key to "SUPER"
 term = "/opt/app/bin/kitty"  # Setting terminal to "kitty"
 
 keys = [
-    Key([mod], "p", lazy.spawn("rofi -show drun")),
+    Key([mod], "p", lazy.spawn("/home/liubang/.config/rofi/launchers/colorful/launcher.sh")),
     Key([mod], "w", lazy.spawn("rofi -show window")),
     Key([mod], "Return", lazy.spawn("/opt/app/bin/kitty -e --single-instance")),
     Key([mod, "shift"], "c", lazy.window.kill()),
@@ -103,6 +103,11 @@ layout_theme = {
 
 layouts = [
     layout.MonadTall(**layout_theme),
+    layout.Tile(**layout_theme, ratio=0.5),
+    layout.Columns(**layout_theme),
+    layout.Matrix(**layout_theme, columns=3),
+    layout.MonadWide(**layout_theme),
+    layout.RatioTile(**layout_theme),
     layout.TreeTab(**layout_theme),
     layout.Max(**layout_theme),
     layout.Floating(**layout_theme),

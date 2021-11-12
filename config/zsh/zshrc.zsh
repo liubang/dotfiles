@@ -19,9 +19,6 @@ if [[ ! -d "${MY_CONFIG}" ]]; then
     export MY_CONFIG="$HOME/.config/zsh"
 fi
 
-# set fpath
-fpath[1,0]=$MY_CONFIG/completion/
-
 # my config file
 [[ -f "$MY_CONFIG/init.zsh" ]] && source "$MY_CONFIG/init.zsh"
 
@@ -34,6 +31,8 @@ if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
     command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
     command git clone https://github.com/zdharma-continuum/zinit.git "$HOME/.zinit/bin"
 fi
+
+fpath+=("$ZDOTDIR/completions")
 
 # zinit
 source "$HOME/.zinit/bin/zinit.zsh"
