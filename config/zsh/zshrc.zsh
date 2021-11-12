@@ -19,6 +19,9 @@ if [[ ! -d "${MY_CONFIG}" ]]; then
     export MY_CONFIG="$HOME/.config/zsh"
 fi
 
+# set fpath
+fpath[1,0]=$MY_CONFIG/completion/
+
 # my config file
 [[ -f "$MY_CONFIG/init.zsh" ]] && source "$MY_CONFIG/init.zsh"
 
