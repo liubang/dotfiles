@@ -1,40 +1,24 @@
+# -*- coding: utf-8 -*-
+
 import os
 import subprocess
-from colors import colors
-from screens import screens
-
+from libqtile import qtile
 from libqtile.config import (
-    Key,
     Group,
-    Drag,
+    Key,
+    Match,
+    Screen,
+    EzClick as Click,
+    EzDrag as Drag,
 )
-
 from libqtile.command import lazy
-from libqtile import layout, hook
-from typing import List  # noqa: F401
+from libqtile import layout, bar, widget, hook
 
-
-mod = "mod1"
-mod1 = "mod4"
-
-
-@hook.subscribe.client_new
-def set_floating(window):
-    if (window.window.get_wm_transient_for()
-            or window.window.get_wm_type() in floating_types):
-        window.floating = True
-
-
-@hook.subscribe.startup_once
-def autostart():
-    home = os.path.expanduser('~')
-    subprocess.call([home + '/.config/qtile/autostart.sh'])
-
-
-floating_types = ["notification", "toolbar", "splash", "dialog"]
+mod = "mod1"  # Setting mod key to "SUPER"
+term = "/opt/app/bin/kitty"  # Setting terminal to "kitty"
 
 keys = [
-    Key([mod], "p", lazy.spawn("/home/liubang/.config/rofi/launchers/colorful/launcher.sh")),
+    Key([mod], "p", lazy.spawn("rofi -show drun")),
     Key([mod], "w", lazy.spawn("rofi -show window")),
     Key([mod], "Return", lazy.spawn("/opt/app/bin/kitty -e --single-instance")),
     Key([mod, "shift"], "c", lazy.window.kill()),
@@ -47,10 +31,10 @@ keys = [
     Key([mod], "h", lazy.layout.left()),
     Key([mod], "l", lazy.layout.right()),
     # FLIP LAYOUT FOR BSP
-    Key([mod, mod1], "k", lazy.layout.flip_up()),
-    Key([mod, mod1], "j", lazy.layout.flip_down()),
-    Key([mod, mod1], "l", lazy.layout.flip_right()),
-    Key([mod, mod1], "h", lazy.layout.flip_left()),
+    Key([mod, 'mod4'], "k", lazy.layout.flip_up()),
+    Key([mod, 'mod4'], "j", lazy.layout.flip_down()),
+    Key([mod, 'mod4'], "l", lazy.layout.flip_right()),
+    Key([mod, 'mod4'], "h", lazy.layout.flip_left()),
     # MOVE WINDOWS UP OR DOWN BSP LAYOUT
     Key([mod, "shift"], "k", lazy.layout.shuffle_up()),
     Key([mod, "shift"], "j", lazy.layout.shuffle_down()),
@@ -92,81 +76,387 @@ keys = [
     Key([mod, "shift"], "f", lazy.window.toggle_fullscreen()),
 ]
 
-# Command to find out wm_class of window: xprop | grep WM_CLASS
-workspaces = [
-    {"name": "1", "key": "1", "label": "", "layout": "monadtall"},
-    {"name": "2", "key": "2", "label": "", "layout": "monadwide"},
-    {"name": "3", "key": "3", "label": "", "layout": "matrix"},
-    {"name": "4", "key": "4", "label": "", "layout": "bsp"},
-    {"name": "5", "key": "5", "label": "", "layout": "max"},
+# ==== Workspaces and Layouts ====
+groups = [
+    Group("1", label=""),
+    Group("2", label=""),
+    Group("3", label=""),
+    Group("4", label=""),
+    Group("5", label=""),
+    Group("6", label=""),
+    Group("7", label=""),
 ]
-groups = []
-for workspace in workspaces:
-    groups.append(
-        Group(
-            workspace["name"],
-            layout=workspace["layout"],
-            label=workspace["label"],
-        ))
-    keys.extend([
-        Key([mod], workspace["key"], lazy.group[workspace["name"]].toscreen()),
-        Key([mod, "shift"], workspace["key"],
-            lazy.window.togroup(workspace["name"]),
-            lazy.group[workspace["name"]].toscreen()),
-    ])
 
+for i in range(len(groups)):
+    keys.append(Key([mod], str((i+1)), lazy.group[str(i+1)].toscreen()))
+    keys.append(
+        Key([mod, "shift"], str((i+1)),
+            lazy.window.togroup(str(i+1), switch_group=True))
+    )
 
-def init_layout_theme():
-    return {"margin": 5,
-            "border_width": 2,
-            "border_focus": "#5e81ac",
-            "border_normal": "#4c566a"
-            }
-
-
-layout_theme = init_layout_theme()
+layout_theme = {
+    "border_width": 2,
+    "margin": 8,
+    "border_focus": "#e8dfD6",
+    "border_normal": "#021b21",
+}
 
 layouts = [
-    layout.MonadTall(margin=8, border_width=2, border_focus="#5e81ac", border_normal="#4c566a"),
-    layout.MonadWide(margin=8, border_width=2, border_focus="#5e81ac", border_normal="#4c566a"),
-    layout.Matrix(**layout_theme),
-    layout.Bsp(**layout_theme),
+    layout.MonadTall(**layout_theme),
+    layout.TreeTab(**layout_theme),
+    layout.Max(**layout_theme),
     layout.Floating(**layout_theme),
-    layout.RatioTile(**layout_theme),
-    layout.Max(**layout_theme)
 ]
 
+# ==== Colors ====
 
-# Setup bar
-widget_defaults = dict(font="JetBrainsMono Nerd Font Mono Medium",
-                       fontsize=18,
-                       padding=3,
-                       background=colors[0])
+# Navy and Ivory - Snazzy based.
+colors = [
+    ["#021b21", "#021b21"],  # 0
+    ["#032c36", "#065f73"],  # 1
+    ["#e8dfd6", "#e8dfd6"],  # 2
+    ["#c2454e", "#c2454e"],  # 3
+    ["#44b5b1", "#44b5b1"],  # 4
+    ["#9ed9d8", "#9ed9d8"],  # 5
+    ["#f6f6c9", "#f6f6c9"],  # 6
+    ["#61778d", "#61778d"],  # 7
+    ["#e2c5dc", "#e2c5dc"],  # 8
+    ["#5e8d87", "#5e8d87"],  # 9
+    ["#032c36", "#032c36"],  # 10
+    ["#2e3340", "#2e3340"],  # 11
+    ["#065f73", "#065f73"],  # 12
+    ["#8a7a63", "#8a7a63"],  # 13
+    ["#A4947D", "#A4947D"],  # 14
+    ["#BDAD96", "#BDAD96"],  # 15
+    ["#a2d9b1", "#a2d9b1"],  # 16
+]
+
+# ==== Widgets ====
+widget_defaults = dict(
+    font="JetBrainsMono Nerd Font Mono Medium",
+    fontsize=10,
+    padding=3,
+)
 extension_defaults = widget_defaults.copy()
 
-# MOUSE CONFIGURATION
+
+def top_bar():
+    return [
+        widget.Sep(
+            padding=6,
+            linewidth=0,
+            background=colors[6],
+        ),
+        widget.TextBox(
+            text=" ",
+            font="Hack Nerd Font",
+            fontsize=18,
+            background=colors[6],
+            foreground=colors[0],
+            mouse_callbacks={
+                "Button1": lambda: qtile.cmd_spawn("rofi -show drun -modi drun")
+            },
+        ),
+        widget.TextBox(
+            text="\ue0be",
+            font="JetBrainsMono Nerd Font Mono Medium",
+            fontsize="33",
+            padding=0,
+            background=colors[6],
+            foreground=colors[0],
+        ),
+        widget.GroupBox(
+            font="Hack Nerd Font",
+            fontsize=16,
+            margin_y=3,
+            margin_x=6,
+            padding_y=7,
+            padding_x=6,
+            borderwidth=4,
+            active=colors[8],
+            inactive=colors[1],
+            rounded=False,
+            highlight_color=colors[3],
+            highlight_method="block",
+            this_current_screen_border=colors[6],
+            block_highlight_text_color=colors[0],
+        ),
+        widget.TextBox(
+            text="\ue0be",
+            font="JetBrainsMono Nerd Font Mono Medium",
+            fontsize=33,
+            padding=0,
+            background=colors[0],
+            foreground=colors[2],
+        ),
+        widget.WindowName(
+            font="Hack Nerd Font",
+            fontsize=15,
+            max_chars=30,
+            background=colors[2],
+            foreground=colors[0],
+        ),
+        widget.TextBox(
+            text="\ue0be",
+            font="JetBrainsMono Nerd Font Mono Medium",
+            fontsize="33",
+            padding=0,
+            background=colors[2],
+            foreground=colors[0],
+        ),
+        widget.Spacer(
+            background=colors[0],
+        ),
+        widget.TextBox(
+            text="\ue0be",
+            font="JetBrainsMono Nerd Font Mono Medium",
+            fontsize="33",
+            padding=0,
+            background=colors[0],
+            foreground=colors[10],
+        ),
+        widget.CurrentLayoutIcon(
+            custom_icon_paths=[os.path.expanduser("~/.config/qtile/icons")],
+            scale=0.45,
+            padding=0,
+            background=colors[10],
+            foreground=colors[2],
+            font="Hack Nerd Font",
+            fontsize=15,
+        ),
+        widget.CurrentLayout(
+            font="Hack Nerd Font",
+            fontsize=15,
+            background=colors[10],
+            foreground=colors[2],
+        ),
+        widget.TextBox(
+            text="\ue0be",
+            font="JetBrainsMono Nerd Font Mono Medium",
+            fontsize="33",
+            padding=0,
+            background=colors[10],
+            foreground=colors[12],
+        ),
+        widget.TextBox(
+            text=" ",
+            font="Hack Nerd Font",
+            fontsize=15,
+            foreground=colors[2],
+            background=colors[12],
+            padding=0,
+            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("kitty -e bashtop")},
+        ),
+        widget.Memory(
+            background=colors[12],
+            foreground=colors[2],
+            font="Hack Nerd Font",
+            fontsize=15,
+            format="{MemUsed: .0f} MB",
+            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("kitty -e bashtop")},
+        ),
+        widget.Sep(
+            padding=8,
+            linewidth=0,
+            background=colors[12],
+        ),
+        widget.TextBox(
+            text="\ue0be",
+            font="JetBrainsMono Nerd Font Mono Medium",
+            fontsize="33",
+            padding=0,
+            background=colors[12],
+            foreground=colors[7],
+        ),
+        widget.Sep(
+            padding=6,
+            linewidth=0,
+            background=colors[7],
+        ),
+        widget.Systray(
+            background=colors[7],
+            foreground=colors[2],
+            icons_size=18,
+            padding=4,
+        ),
+        widget.TextBox(
+            text="\ue0be",
+            font="JetBrainsMono Nerd Font Mono Medium",
+            fontsize="33",
+            padding=0,
+            background=colors[7],
+            foreground=colors[13],
+        ),
+        widget.TextBox(
+            text="墳",
+            font="Hack Nerd Font",
+            fontsize=18,
+            background=colors[13],
+            foreground=colors[0],
+        ),
+        widget.PulseVolume(
+            background=colors[13],
+            foreground=colors[0],
+            limit_max_volume="True",
+            font="Hack Nerd Font",
+            fontsize=15,
+        ),
+        widget.TextBox(
+            text="\ue0be",
+            font="JetBrainsMono Nerd Font Mono Medium",
+            fontsize="33",
+            padding=0,
+            background=colors[13],
+            foreground=colors[15],
+        ),
+        widget.TextBox(
+            text=" ",
+            font="Hack Nerd Font",
+            fontsize=15,
+            padding=0,
+            background=colors[15],
+            foreground=colors[0],
+        ),
+        widget.Clock(
+            font="Hack Nerd Font",
+            foreground=colors[0],
+            background=colors[15],
+            fontsize=15,
+            format="%d %b, %A",
+        ),
+        widget.Sep(
+            padding=6,
+            linewidth=0,
+            background=colors[15],
+        ),
+        widget.TextBox(
+            text="\ue0be",
+            font="JetBrainsMono Nerd Font Mono Medium",
+            fontsize="33",
+            padding=0,
+            background=colors[15],
+            foreground=colors[16],
+        ),
+        widget.TextBox(
+            text=" ",
+            font="Hack Nerd Font",
+            fontsize=18,
+            padding=0,
+            background=colors[16],
+            foreground=colors[0],
+        ),
+        widget.Clock(
+            font="Hack Nerd Font",
+            foreground=colors[0],
+            background=colors[16],
+            fontsize=15,
+            format="%I:%M %p",
+        ),
+        widget.TextBox(
+            text="\ue0be",
+            font="JetBrainsMono Nerd Font Mono Medium",
+            fontsize="33",
+            padding=0,
+            background=colors[16],
+            foreground=colors[6],
+        ),
+        widget.Sep(
+            padding=6,
+            linewidth=0,
+            background=colors[6],
+        ),
+    ]
+
+
+# Spawn bar at multiple screens.
+screens = [
+    Screen(
+        wallpaper="~/Pictures/Wallpapers/z-w-gu-thronef3handfixweb.jpg",
+        wallpaper_mode="fill",
+        top=bar.Bar(
+            top_bar(),
+            size=28,
+            opacity=0.95,
+            background=colors[0],
+            margin=[8, 8, 0, 8],
+        ),
+    ),
+]
+
+# ==== Helper functions ====
+
+
+def window_to_prev_group(qtile):
+    if qtile.currentWindow is not None:
+        i = qtile.groups.index(qtile.currentGroup)
+        qtile.currentWindow.togroup(qtile.groups[i - 1].name)
+
+
+def window_to_next_group(qtile):
+    if qtile.currentWindow is not None:
+        i = qtile.groups.index(qtile.currentGroup)
+        qtile.currentWindow.togroup(qtile.groups[i + 1].name)
+
+
+def window_to_previous_screen(qtile):
+    i = qtile.screens.index(qtile.current_screen)
+    if i != 0:
+        group = qtile.screens[i - 1].group.name
+        qtile.current_window.togroup(group)
+
+
+def window_to_next_screen(qtile):
+    i = qtile.screens.index(qtile.current_screen)
+    if i + 1 != len(qtile.screens):
+        group = qtile.screens[i + 1].group.name
+        qtile.current_window.togroup(group)
+
+
+def switch_screens(qtile):
+    i = qtile.screens.index(qtile.current_screen)
+    group = qtile.screens[i - 1].group
+    qtile.current_screen.set_group(group)
+
+
+# Mod + Mouse drag -> Floating
+
 mouse = [
-    Drag([mod], "Button1", lazy.window.set_position_floating(),
-         start=lazy.window.get_position()),
-    Drag([mod], "Button3", lazy.window.set_size_floating(),
-         start=lazy.window.get_size())
+    Drag("M-1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
+    Drag("M-3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
+    Click("M-2", lazy.window.bring_to_front()),
 ]
 
 dgroups_key_binder = None
-dgroups_app_rules = []  # type: List
-main = None  # WARNING: this is deprecated and will be removed soon
+dgroups_app_rules = []
+main = None
 follow_mouse_focus = True
-bring_front_click = "floating_only"
+bring_front_click = False
 cursor_warp = False
 auto_fullscreen = True
-focus_on_window_activation = "focus"
+focus_on_window_activation = "smart"
 
-# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
-# string besides java UI toolkits; you can see several discussions on the
-# mailing lists, GitHub issues, and other WM documentation that suggest setting
-# this string if your java app doesn't work correctly. We may as well just lie
-# and say that we're a working one by default.
-#
-# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
-# java that happens to be on java's whitelist.
-wmname = "compiz"
+floating_layout = layout.Floating(
+    float_rules=[
+        *layout.Floating.default_float_rules,
+        Match(title="Confirmation"),
+        Match(title="Qalculate!"),
+        Match(wm_class="OBS"),
+        Match(wm_class="MultiMC"),
+        Match(wm_class="Tilda"),
+        Match(wm_class="Steam"),
+    ]
+)
+
+
+@hook.subscribe.client_new
+def dialogs(window):
+    """Floating dialog"""
+    if window.window.get_wm_type() == "dialog" or window.window.get_wm_transient_for():
+        window.floating = True
+
+
+@hook.subscribe.startup_once
+def start_once():
+    home = os.path.expanduser("~")
+    subprocess.call([home + "/.config/qtile/autostart.sh"])
+

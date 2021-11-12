@@ -9,7 +9,3 @@ for value in ${arr[@]}; do
 done
 
 picom --experimental-backends -b
-
-# if [[ ! $(pgrep xob) ]]; then
-#     exec "sxob"
-# fi
