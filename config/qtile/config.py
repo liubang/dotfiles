@@ -18,7 +18,7 @@ mod = "mod1"  # Setting mod key to "SUPER"
 term = "/opt/app/bin/kitty"  # Setting terminal to "kitty"
 
 keys = [
-    Key([mod], "p", lazy.spawn("/home/liubang/.config/rofi/launchers/colorful/launcher.sh")),
+    Key([mod], "p", lazy.spawn("rofi -show drun -modi drun")),
     Key([mod], "w", lazy.spawn("rofi -show window")),
     Key([mod], "Return", lazy.spawn("/opt/app/bin/kitty -e --single-instance")),
     Key([mod, "shift"], "c", lazy.window.kill()),
