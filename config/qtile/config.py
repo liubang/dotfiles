@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 import os
 import subprocess
 from libqtile import qtile
@@ -8,14 +7,14 @@ from libqtile.config import (
     Key,
     Match,
     Screen,
-    EzClick as Click,
-    EzDrag as Drag,
+    Click,
+    Drag,
 )
 from libqtile.command import lazy
 from libqtile import layout, bar, widget, hook
 
-mod = "mod1"  # Setting mod key to "SUPER"
-term = "/opt/app/bin/kitty"  # Setting terminal to "kitty"
+# 我的键盘win键和alt调换位置了
+mod = "mod1"
 
 keys = [
     Key([mod], "p", lazy.spawn("rofi -show drun -modi drun")),
@@ -389,47 +388,12 @@ screens = [
     ),
 ]
 
-# ==== Helper functions ====
-
-
-def window_to_prev_group(qtile):
-    if qtile.currentWindow is not None:
-        i = qtile.groups.index(qtile.currentGroup)
-        qtile.currentWindow.togroup(qtile.groups[i - 1].name)
-
-
-def window_to_next_group(qtile):
-    if qtile.currentWindow is not None:
-        i = qtile.groups.index(qtile.currentGroup)
-        qtile.currentWindow.togroup(qtile.groups[i + 1].name)
-
-
-def window_to_previous_screen(qtile):
-    i = qtile.screens.index(qtile.current_screen)
-    if i != 0:
-        group = qtile.screens[i - 1].group.name
-        qtile.current_window.togroup(group)
-
-
-def window_to_next_screen(qtile):
-    i = qtile.screens.index(qtile.current_screen)
-    if i + 1 != len(qtile.screens):
-        group = qtile.screens[i + 1].group.name
-        qtile.current_window.togroup(group)
-
-
-def switch_screens(qtile):
-    i = qtile.screens.index(qtile.current_screen)
-    group = qtile.screens[i - 1].group
-    qtile.current_screen.set_group(group)
-
 
 # Mod + Mouse drag -> Floating
-
 mouse = [
-    Drag("M-1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
-    Drag("M-3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
-    Click("M-2", lazy.window.bring_to_front()),
+    Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
+    Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
+    Click([mod], "Button2", lazy.window.bring_to_front())
 ]
 
 dgroups_key_binder = None
@@ -465,4 +429,3 @@ def dialogs(window):
 def start_once():
     home = os.path.expanduser("~")
     subprocess.call([home + "/.config/qtile/autostart.sh"])
-
