@@ -12,6 +12,7 @@ from libqtile.config import (
 )
 from libqtile.command import lazy
 from libqtile import layout, bar, widget, hook
+from typing import List  # noqa: F401
 
 # 我的键盘win键和alt调换位置了
 mod = "mod1"
@@ -83,8 +84,17 @@ groups = [
     Group("3", label="", layout="tile"),
     Group("4", label="", layout="tile"),
     Group("5", label="", layout="tile"),
-    Group("6", label="", layout="max"),
-    Group("7", label="", layout="max"),
+    Group("6", label="", layout="max", matches=[
+        Match(wm_class="VirtualBox Manager"),
+        Match(wm_class="VirtualBox Machine"),
+        Match(wm_class="Vmware"),
+    ]),
+    Group("7", label="", layout="max", matches=[
+        Match(wm_class="spotify"),
+        Match(wm_class="ncmpcpp"),
+        Match(wm_class="yesplaymusic"),
+        Match(wm_class="netease-cloud-music"),
+    ]),
 ]
 
 for i in range(len(groups)):
@@ -399,12 +409,13 @@ mouse = [
 dgroups_key_binder = None
 dgroups_app_rules = []
 main = None
+wmname = "Qtile"
 follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
 auto_fullscreen = True
 focus_on_window_activation = "smart"
-
+dgroups_app_rules = []  # type: List
 floating_layout = layout.Floating(
     float_rules=[
         *layout.Floating.default_float_rules,
@@ -429,3 +440,4 @@ def dialogs(window):
 def start_once():
     home = os.path.expanduser("~")
     subprocess.call([home + "/.config/qtile/autostart.sh"])
+
