@@ -21,6 +21,7 @@ keys = [
     Key([mod], "p", lazy.spawn("rofi -show drun -modi drun")),
     Key([mod], "w", lazy.spawn("rofi -show window")),
     Key([mod], "Return", lazy.spawn("/opt/app/bin/kitty -e --single-instance")),
+    Key([mod, "control"], "l", lazy.spawn("betterlockscreen -l")),
     Key([mod, "shift"], "c", lazy.window.kill()),
     Key([mod, "shift"], "q", lazy.spawn("xkill")),
     Key([mod, "shift"], "r", lazy.restart()),
@@ -78,13 +79,13 @@ keys = [
 
 # ==== Workspaces and Layouts ====
 groups = [
-    Group("1", label=""),
-    Group("2", label=""),
-    Group("3", label=""),
-    Group("4", label=""),
-    Group("5", label=""),
-    Group("6", label=""),
-    Group("7", label=""),
+    Group("1", label="", layout="tile"),
+    Group("2", label="", layout="tile"),
+    Group("3", label="", layout="tile"),
+    Group("4", label="", layout="tile"),
+    Group("5", label="", layout="tile"),
+    Group("6", label="", layout="max"),
+    Group("7", label="", layout="max"),
 ]
 
 for i in range(len(groups)):
@@ -172,11 +173,11 @@ def top_bar():
         ),
         widget.GroupBox(
             font="Hack Nerd Font",
-            fontsize=16,
+            fontsize=18,
             margin_y=3,
-            margin_x=6,
+            margin_x=3,
             padding_y=7,
-            padding_x=6,
+            padding_x=7,
             borderwidth=4,
             active=colors[8],
             inactive=colors[1],
