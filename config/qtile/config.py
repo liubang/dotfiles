@@ -79,17 +79,16 @@ keys = [
 
 # ==== Workspaces and Layouts ====
 groups = [
-    Group("1", label="", layout="tile"),
+    Group("1", label="", layout="tile"),
     Group("2", label="", layout="tile"),
-    Group("3", label="", layout="tile"),
-    Group("4", label="", layout="tile"),
-    Group("5", label="", layout="tile"),
-    Group("6", label="", layout="max", matches=[
+    Group("3", label="", layout="tile"),
+    Group("4", label="", layout="tile"),
+    Group("5", label="", layout="max", matches=[
         Match(wm_class="VirtualBox Manager"),
         Match(wm_class="VirtualBox Machine"),
         Match(wm_class="Vmware"),
     ]),
-    Group("7", label="", layout="max", matches=[
+    Group("6", label="", layout="max", matches=[
         Match(wm_class="spotify"),
         Match(wm_class="ncmpcpp"),
         Match(wm_class="yesplaymusic"),
@@ -313,6 +312,8 @@ def top_bar():
             background=colors[13],
             foreground=colors[0],
             limit_max_volume="True",
+            update_interval=0.1,
+            mouse_callbacks={"Button3": lambda: qtile.cmd_spawn("pavucontrol")},
             font="Hack Nerd Font",
             fontsize=15,
         ),
