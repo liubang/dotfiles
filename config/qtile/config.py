@@ -21,7 +21,7 @@ keys = [
     Key([mod], "p", lazy.spawn("rofi -show drun -modi drun")),
     Key([mod], "w", lazy.spawn("rofi -show window")),
     Key([mod], "Return", lazy.spawn("/opt/app/bin/kitty -e --single-instance")),
-    Key([mod, "control"], "l", lazy.spawn("betterlockscreen -l")),
+    Key([mod, "control"], "l", lazy.spawn("/opt/app/bin/lock")),
     Key([mod, "shift"], "c", lazy.window.kill()),
     Key([mod, "shift"], "q", lazy.spawn("xkill")),
     Key([mod, "shift"], "r", lazy.restart()),
