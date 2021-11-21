@@ -23,7 +23,8 @@ fi
 [[ -f "$MY_CONFIG/init.zsh" ]] && source "$MY_CONFIG/init.zsh"
 
 # enable proxy
-# q_set_http_proxy
+q_set_http_proxy
+
 type BeforeInstallPlug &>/dev/null && BeforeInstallPlug 
 
 ### Added by Zinit's installer
@@ -75,6 +76,9 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' completer _complete _expand _ignored _approximate
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' '+l:|=* r:|=*'
 zstyle ':completion:*' group-name '' # group results by category
+
+autoload -Uz compinit
+compinit
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 
