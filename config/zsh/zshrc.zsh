@@ -7,25 +7,39 @@
 #
 #======================================================================
 
-OS="$(uname -s)"
-
-# skip if in non-interactive mode
-case "$-" in
-    *i*) ;;
-    *) return
-esac
-
-if [[ ! -d "${MY_CONFIG}" ]]; then
-    export MY_CONFIG="$HOME/.config/zsh"
-fi
+module_path+=("$HOME/.zinit/bin/zmodules/Src")
+zmodload zdharma/zplugin &>/dev/null
 
 # my config file
-[[ -f "$MY_CONFIG/init.zsh" ]] && source "$MY_CONFIG/init.zsh"
+export MY_CONFIG="$HOME/.config/zsh"
+source "$MY_CONFIG/init.zsh"
 
 # enable proxy
 q_set_http_proxy
 
-type BeforeInstallPlug &>/dev/null && BeforeInstallPlug 
+# - - - - - - - - - - - - - - - - - - - -
+# ZSH Settings
+# - - - - - - - - - - - - - - - - - - - -
+
+autoload -U colors && colors    # Load Colors.
+unsetopt case_glob              # Use Case-Insensitve Globbing.
+setopt globdots                 # Glob Dotfiles As Well.
+setopt extendedglob             # Use Extended Globbing.
+setopt autocd                   # Automatically Change Directory If A Directory Is Entered.
+
+# Smart URLs.
+autoload -Uz url-quote-magic
+zle -N self-insert url-quote-magic
+
+# General.
+setopt brace_ccl                # Allow Brace Character Class List Expansion.
+setopt combining_chars          # Combine Zero-Length Punctuation Characters ( Accents ) With The Base Character.
+setopt rc_quotes                # Allow 'Henry''s Garage' instead of 'Henry'\''s Garage'.
+unsetopt mail_warning           # Don't Print A Warning Message If A Mail File Has Been Accessed.
+
+fpath+=("$ZDOTDIR/completions")
+autoload -Uz compinit 
+compinit
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
@@ -33,41 +47,36 @@ if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
     command git clone https://github.com/zdharma-continuum/zinit.git "$HOME/.zinit/bin"
 fi
 
-fpath+=("$ZDOTDIR/completions")
-
 # zinit
 source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-zinit ice wait'!'
-zinit snippet OMZ::lib/git.zsh
-zinit ice wait'!'
-zinit snippet OMZP::git
-zinit ice wait'!'
-zinit snippet OMZP::ssh-agent
-zinit ice wait'!'
-zinit snippet OMZP::colored-man-pages
-
 # theme 
-zinit ice depth=1
-zinit light romkatv/powerlevel10k
+zinit ice wait'!' lucid
+zinit ice depth=1; zinit light romkatv/powerlevel10k
 
-zinit wait lucid for \
- silent atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
-    zdharma-continuum/fast-syntax-highlighting \
- atload"!_zsh_autosuggest_start" \
-    zsh-users/zsh-autosuggestions \
- as"completion" \
-    zsh-users/zsh-completions \
- atload"!export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=yellow,fg=white,bold'" \
-    zsh-users/zsh-history-substring-search \
- pick"z.sh" \
-    rupa/z \
- pick"fz.plugin.zsh" \
-    changyuheng/fz \
- pick"git-it-on.plugin.zsh" \
-    peterhurford/git-it-on.zsh
+# - - - - - - - - - - - - - - - - - - - -
+# Plugins
+# - - - - - - - - - - - - - - - - - - - -
+
+zinit wait lucid light-mode for \
+      OMZ::lib/completion.zsh \
+      OMZ::lib/functions.zsh \
+      OMZ::lib/git.zsh \
+      OMZ::lib/grep.zsh \
+  atinit"zicompinit; zicdreplay" \
+      zdharma-continuum/fast-syntax-highlighting \
+      OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh \
+      OMZ::plugins/command-not-found/command-not-found.plugin.zsh \
+  atload"_zsh_autosuggest_start" \
+      zsh-users/zsh-autosuggestions \
+  as"completion" \
+      OMZ::plugins/docker/_docker
+
+# Recommended Be Loaded Last.
+zinit ice wait blockf lucid atpull'zinit creinstall -q .'
+zinit load zsh-users/zsh-completions
 
 # Automatically refresh completions
 zstyle ':completion:*' rehash true
@@ -77,9 +86,6 @@ zstyle ':completion:*' completer _complete _expand _ignored _approximate
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' '+l:|=* r:|=*'
 zstyle ':completion:*' group-name '' # group results by category
 
-autoload -Uz compinit
-compinit
-
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 
 # Use hyphen-insensitive completion. Case sensitive completion must be off. _ and - will be interchangeable.
@@ -87,9 +93,6 @@ HYPHEN_INSENSITIVE="true"
 
 # Display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
-
-# Include dotfiles in completions
-setopt globdots
 
 # homebrew completions
 if type brew &>/dev/null; then
