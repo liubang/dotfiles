@@ -79,8 +79,12 @@ keys = [
 
 # ==== Workspaces and Layouts ====
 groups = [
-    Group("1", label="", layout="tile"),
-    Group("2", label="", layout="tile"),
+    Group("1", label="", layout="tile", matches=[
+        Match(wm_class="google-chrome"),
+    ]),
+    Group("2", label="", layout="tile", matches=[
+        # Match(wm_class="kitty"),
+    ]),
     Group("3", label="", layout="tile"),
     Group("4", label="", layout="tile"),
     Group("5", label="", layout="max", matches=[
@@ -188,12 +192,13 @@ def top_bar():
             padding_x=7,
             borderwidth=4,
             active=colors[8],
-            inactive=colors[1],
+            inactive=colors[3],
+            center_aligned=True,
             rounded=False,
-            highlight_color=colors[3],
+            highlight_color=colors[8],
             highlight_method="block",
-            this_current_screen_border=colors[6],
-            block_highlight_text_color=colors[0],
+            this_current_screen_border=colors[15],
+            block_highlight_text_color=colors[3],
         ),
         widget.TextBox(
             text="\ue0be",
@@ -201,25 +206,26 @@ def top_bar():
             fontsize=33,
             padding=0,
             background=colors[0],
-            foreground=colors[2],
+            foreground=colors[0],
         ),
         widget.WindowName(
             font="Hack Nerd Font",
             fontsize=15,
-            max_chars=30,
-            background=colors[2],
-            foreground=colors[0],
+            max_chars=15,
+            background=colors[0],
+            foreground=colors[2],
         ),
-        widget.TextBox(
-            text="\ue0be",
-            font="JetBrainsMono Nerd Font Mono Medium",
-            fontsize="33",
-            padding=0,
-            background=colors[2],
-            foreground=colors[0],
-        ),
+        # widget.TextBox(
+        #     text="\ue0be",
+        #     font="JetBrainsMono Nerd Font Mono Medium",
+        #     fontsize="33",
+        #     padding=0,
+        #     background=colors[2],
+        #     foreground=colors[0],
+        # ),
         widget.Spacer(
             background=colors[0],
+            length=1350,
         ),
         widget.TextBox(
             text="\ue0be",
@@ -309,10 +315,10 @@ def top_bar():
             foreground=colors[0],
         ),
         widget.PulseVolume(
+            cardid="SPA33",
             background=colors[13],
             foreground=colors[0],
             limit_max_volume="True",
-            update_interval=0.1,
             mouse_callbacks={"Button3": lambda: qtile.cmd_spawn("pavucontrol")},
             font="Hack Nerd Font",
             fontsize=15,
