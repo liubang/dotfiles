@@ -23,7 +23,6 @@ q_set_http_proxy
 
 autoload -U colors && colors    # Load Colors.
 unsetopt case_glob              # Use Case-Insensitve Globbing.
-setopt globdots                 # Glob Dotfiles As Well.
 setopt extendedglob             # Use Extended Globbing.
 setopt autocd                   # Automatically Change Directory If A Directory Is Entered.
 
@@ -71,6 +70,8 @@ zinit wait lucid light-mode for \
       OMZ::plugins/command-not-found/command-not-found.plugin.zsh \
   atload"_zsh_autosuggest_start" \
       zsh-users/zsh-autosuggestions \
+  pick"z.sh" \
+    rupa/z \
   as"completion" \
       OMZ::plugins/docker/_docker
 
