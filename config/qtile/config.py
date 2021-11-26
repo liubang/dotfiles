@@ -130,23 +130,22 @@ layouts = [
 
 # Navy and Ivory - Snazzy based.
 colors = [
-    ["#021b21", "#021b21"],  # 0
-    ["#032c36", "#065f73"],  # 1
-    ["#e8dfd6", "#e8dfd6"],  # 2
-    ["#c2454e", "#c2454e"],  # 3
-    ["#44b5b1", "#44b5b1"],  # 4
-    ["#9ed9d8", "#9ed9d8"],  # 5
-    ["#f6f6c9", "#f6f6c9"],  # 6
-    ["#61778d", "#61778d"],  # 7
-    ["#e2c5dc", "#e2c5dc"],  # 8
-    ["#5e8d87", "#5e8d87"],  # 9
-    ["#032c36", "#032c36"],  # 10
-    ["#2e3340", "#2e3340"],  # 11
-    ["#065f73", "#065f73"],  # 12
-    ["#8a7a63", "#8a7a63"],  # 13
-    ["#A4947D", "#A4947D"],  # 14
-    ["#BDAD96", "#BDAD96"],  # 15
-    ["#a2d9b1", "#a2d9b1"],  # 16
+    ["#282828", "#282828"],  # 0 background
+    ["#ebdbb2", "#ebdbb2"],  # 1 foreground
+    ["#fb4934", "#fb4934"],  # 2 red
+    ["#cc241d", "#cc241d"],  # 3 red
+    ["#98971a", "#98971a"],  # 4 green
+    ["#b8bb26", "#b8bb26"],  # 5 green
+    ["#d79921", "#d79921"],  # 6 yellow
+    ["#fabd2f", "#fabd2f"],  # 7 yellow
+    ["#458588", "#458588"],  # 8 blue
+    ["#83a598", "#83a598"],  # 9 blue
+    ["#b16286", "#b16286"],  # 10 purple
+    ["#d3869b", "#d3869b"],  # 11 purple
+    ["#689d6a", "#689d6a"],  # 12 aqua
+    ["#8ec07c", "#8ec07c"],  # 13 aqua
+    ["#a89984", "#a89984"],  # 14 white
+    ["#fbf1c7", "#fbf1c7"],  # 15 white
 ]
 
 # ==== Widgets ====
@@ -161,231 +160,196 @@ extension_defaults = widget_defaults.copy()
 def top_bar():
     return [
         widget.Sep(
-            padding=6,
+            padding=10,
             linewidth=0,
-            background=colors[6],
         ),
         widget.TextBox(
-            text=" ",
-            font="Hack Nerd Font",
-            fontsize=18,
-            background=colors[6],
-            foreground=colors[0],
+            text="  ",
+            font="Iosevka Nerd Font",
+            fontsize=20,
+            foreground=colors[15],
+            background=colors[13],
             mouse_callbacks={
                 "Button1": lambda: qtile.cmd_spawn("rofi -show drun -modi drun")
             },
         ),
-        widget.TextBox(
-            text="\ue0be",
-            font="JetBrainsMono Nerd Font Mono Medium",
-            fontsize="33",
-            padding=0,
-            background=colors[6],
-            foreground=colors[0],
+        widget.Sep(
+            padding=5,
+            linewidth=0,
         ),
-        widget.GroupBox(
-            font="Hack Nerd Font",
+        widget.TextBox(
+            text=' ',
+            font="Iosevka Nerd Font",
             fontsize=18,
-            margin_y=3,
-            margin_x=3,
-            padding_y=7,
-            padding_x=7,
-            borderwidth=4,
-            active=colors[8],
-            inactive=colors[3],
-            center_aligned=True,
-            rounded=False,
-            highlight_color=colors[8],
-            highlight_method="block",
-            this_current_screen_border=colors[15],
-            block_highlight_text_color=colors[3],
+            foreground=colors[6],
         ),
-        widget.TextBox(
-            text="\ue0be",
-            font="JetBrainsMono Nerd Font Mono Medium",
-            fontsize=33,
-            padding=0,
-            background=colors[0],
-            foreground=colors[0],
-        ),
-        widget.WindowName(
+        widget.CPU(
             font="Hack Nerd Font",
             fontsize=15,
-            max_chars=15,
-            background=colors[0],
-            foreground=colors[2],
+            foreground=colors[1],
+            format='{load_percent}%',
         ),
-        # widget.TextBox(
-        #     text="\ue0be",
-        #     font="JetBrainsMono Nerd Font Mono Medium",
-        #     fontsize="33",
-        #     padding=0,
-        #     background=colors[2],
-        #     foreground=colors[0],
-        # ),
-        widget.Spacer(
-            background=colors[0],
-            length=1350,
+        widget.Sep(
+            padding=5,
+            linewidth=0,
         ),
         widget.TextBox(
-            text="\ue0be",
-            font="JetBrainsMono Nerd Font Mono Medium",
-            fontsize="33",
-            padding=0,
-            background=colors[0],
+            text=' ',
+            font="Iosevka Nerd Font",
+            fontsize=15,
             foreground=colors[10],
+        ),
+        widget.Memory(
+            font="Hack Nerd Font",
+            fontsize=15,
+            foreground=colors[1],
+            format='{MemUsed:.0f}{mm}/{MemTotal:.0f}{mm}'
+        ),
+        widget.Sep(
+            padding=5,
+            linewidth=0,
+        ),
+        widget.TextBox(
+            text="",
+            font="Iosevka Nerd Font",
+            foreground=colors[14],
+            fontsize=18,
+        ),
+        widget.Systray(
+            foreground=colors[2],
+            font="Iosevka Nerd Font",
+            icons_size=18,
+            padding=4,
+        ),
+        widget.Spacer(
+            length=bar.STRETCH,
+        ),
+        widget.GroupBox(
+            font="Iosevka Nerd Font",
+            fontsize=18,
+            padding_x=10,
+            spacing=3,
+            borderwidth=3,
+            active=colors[9],
+            inactive=colors[15],
+            center_aligned=True,
+            rounded=False,
+            highlight_color=colors[0],
+            highlight_method="line",
+            this_current_screen_border=colors[6],
+            other_current_screen_border=colors[6],
+        ),
+        widget.Sep(
+            padding=5,
+            linewidth=0,
+        ),
+        widget.TextBox(
+            text="",
+            font="Iosevka Nerd Font",
+            foreground=colors[14],
+            fontsize=18,
+        ),
+        widget.Sep(
+            padding=5,
+            linewidth=0,
         ),
         widget.CurrentLayoutIcon(
             custom_icon_paths=[os.path.expanduser("~/.config/qtile/icons")],
             scale=0.45,
             padding=0,
-            background=colors[10],
-            foreground=colors[2],
-            font="Hack Nerd Font",
+            font="Iosevka Nerd Font",
             fontsize=15,
         ),
         widget.CurrentLayout(
             font="Hack Nerd Font",
             fontsize=15,
-            background=colors[10],
-            foreground=colors[2],
+            foreground=colors[8],
         ),
-        widget.TextBox(
-            text="\ue0be",
-            font="JetBrainsMono Nerd Font Mono Medium",
-            fontsize="33",
-            padding=0,
-            background=colors[10],
-            foreground=colors[12],
+        widget.Spacer(
+            length=bar.STRETCH,
         ),
-        widget.TextBox(
-            text=" ",
+        widget.Wttr(
+            foreground=colors[1],
+            location={
+                'beijing': 'beijing',
+            },
+            format="%c %t %h",
             font="Hack Nerd Font",
             fontsize=15,
-            foreground=colors[2],
-            background=colors[12],
-            padding=0,
-            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("kitty -e bashtop")},
         ),
-        widget.Memory(
-            background=colors[12],
-            foreground=colors[2],
+        widget.Sep(
+            padding=5,
+            linewidth=0,
+        ),
+        widget.TextBox(
+            text="",
+            font="Iosevka Nerd Font",
+            foreground=colors[14],
+            fontsize=18,
+        ),
+        widget.Sep(
+            padding=5,
+            linewidth=0,
+        ),
+        widget.Net(
+            interface='wlp88s0',
             font="Hack Nerd Font",
             fontsize=15,
-            format="{MemUsed: .0f} MB",
-            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("kitty -e bashtop")},
+            format=' {down}',
+            foreground=colors[1],
         ),
         widget.Sep(
-            padding=8,
+            padding=5,
             linewidth=0,
-            background=colors[12],
-        ),
-        widget.TextBox(
-            text="\ue0be",
-            font="JetBrainsMono Nerd Font Mono Medium",
-            fontsize="33",
-            padding=0,
-            background=colors[12],
-            foreground=colors[7],
-        ),
-        widget.Sep(
-            padding=6,
-            linewidth=0,
-            background=colors[7],
-        ),
-        widget.Systray(
-            background=colors[7],
-            foreground=colors[2],
-            icons_size=18,
-            padding=4,
-        ),
-        widget.TextBox(
-            text="\ue0be",
-            font="JetBrainsMono Nerd Font Mono Medium",
-            fontsize="33",
-            padding=0,
-            background=colors[7],
-            foreground=colors[13],
         ),
         widget.TextBox(
             text="墳",
-            font="Hack Nerd Font",
+            font="Iosevka Nerd Font",
             fontsize=18,
-            background=colors[13],
-            foreground=colors[0],
+            foreground=colors[13],
         ),
         widget.PulseVolume(
             cardid="SPA33",
-            background=colors[13],
-            foreground=colors[0],
+            foreground=colors[1],
             limit_max_volume="True",
             mouse_callbacks={"Button3": lambda: qtile.cmd_spawn("pavucontrol")},
             font="Hack Nerd Font",
             fontsize=15,
         ),
-        widget.TextBox(
-            text="\ue0be",
-            font="JetBrainsMono Nerd Font Mono Medium",
-            fontsize="33",
-            padding=0,
-            background=colors[13],
-            foreground=colors[15],
+        widget.Sep(
+            padding=5,
+            linewidth=0,
         ),
         widget.TextBox(
-            text=" ",
-            font="Hack Nerd Font",
-            fontsize=15,
-            padding=0,
-            background=colors[15],
-            foreground=colors[0],
-        ),
-        widget.Clock(
-            font="Hack Nerd Font",
-            foreground=colors[0],
-            background=colors[15],
-            fontsize=15,
-            format="%d %b, %A",
+            text="",
+            font="Iosevka Nerd Font",
+            foreground=colors[14],
+            fontsize=18,
         ),
         widget.Sep(
-            padding=6,
+            padding=5,
             linewidth=0,
-            background=colors[15],
         ),
-        widget.TextBox(
-            text="\ue0be",
-            font="JetBrainsMono Nerd Font Mono Medium",
-            fontsize="33",
-            padding=0,
-            background=colors[15],
-            foreground=colors[16],
+        widget.Sep(
+            padding=5,
+            linewidth=0,
         ),
         widget.TextBox(
             text=" ",
-            font="Hack Nerd Font",
+            font="Iosevka Nerd Font",
             fontsize=18,
             padding=0,
-            background=colors[16],
-            foreground=colors[0],
+            foreground=colors[10],
         ),
         widget.Clock(
             font="Hack Nerd Font",
-            foreground=colors[0],
-            background=colors[16],
+            foreground=colors[1],
             fontsize=15,
-            format="%I:%M %p",
-        ),
-        widget.TextBox(
-            text="\ue0be",
-            font="JetBrainsMono Nerd Font Mono Medium",
-            fontsize="33",
-            padding=0,
-            background=colors[16],
-            foreground=colors[6],
+            format="%d %b, %A, %I:%M %p",
         ),
         widget.Sep(
-            padding=6,
+            padding=10,
             linewidth=0,
-            background=colors[6],
         ),
     ]
 
@@ -393,11 +357,11 @@ def top_bar():
 # Spawn bar at multiple screens.
 screens = [
     Screen(
-        wallpaper="~/Pictures/Wallpapers/z-w-gu-thronef3handfixweb.jpg",
+        wallpaper="~/Pictures/Wallpapers/wallpaper.jpg",
         wallpaper_mode="fill",
         top=bar.Bar(
             top_bar(),
-            size=28,
+            size=32,
             opacity=0.95,
             background=colors[0],
             margin=[8, 8, 0, 8],
