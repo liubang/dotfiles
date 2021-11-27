@@ -16,6 +16,7 @@ from typing import List  # noqa: F401
 
 # 我的键盘win键和alt调换位置了
 mod = "mod1"
+HOME = os.path.expanduser("~")
 
 keys = [
     Key([mod], "p", lazy.spawn("rofi -show drun -modi drun")),
@@ -107,25 +108,6 @@ for i in range(len(groups)):
             lazy.window.togroup(str(i+1), switch_group=True))
     )
 
-layout_theme = {
-    "border_width": 2,
-    "margin": 8,
-    "border_focus": "#e8dfD6",
-    "border_normal": "#021b21",
-}
-
-layouts = [
-    layout.MonadTall(**layout_theme),
-    layout.Tile(**layout_theme, ratio=0.5),
-    layout.Columns(**layout_theme),
-    layout.Matrix(**layout_theme, columns=3),
-    layout.MonadWide(**layout_theme),
-    layout.RatioTile(**layout_theme),
-    layout.TreeTab(**layout_theme),
-    layout.Max(**layout_theme),
-    layout.Floating(**layout_theme),
-]
-
 # ==== Colors ====
 
 # Navy and Ivory - Snazzy based.
@@ -146,6 +128,26 @@ colors = [
     ["#8ec07c", "#8ec07c"],  # 13 aqua
     ["#a89984", "#a89984"],  # 14 white
     ["#fbf1c7", "#fbf1c7"],  # 15 white
+]
+
+
+layout_theme = {
+    "border_width": 2,
+    "margin": 8,
+    "border_focus": colors[14][0],
+    "border_normal": colors[0][0],
+}
+
+layouts = [
+    layout.MonadTall(**layout_theme),
+    layout.Tile(**layout_theme, ratio=0.5),
+    layout.Columns(**layout_theme),
+    layout.Matrix(**layout_theme, columns=3),
+    layout.MonadWide(**layout_theme),
+    layout.RatioTile(**layout_theme),
+    layout.TreeTab(**layout_theme),
+    layout.Max(**layout_theme),
+    layout.Floating(**layout_theme),
 ]
 
 # ==== Widgets ====
@@ -226,7 +228,7 @@ def top_bar():
         ),
         widget.GroupBox(
             font="Iosevka Nerd Font",
-            fontsize=18,
+            fontsize=20,
             padding_x=10,
             spacing=3,
             borderwidth=3,
@@ -254,7 +256,7 @@ def top_bar():
             linewidth=0,
         ),
         widget.CurrentLayoutIcon(
-            custom_icon_paths=[os.path.expanduser("~/.config/qtile/icons")],
+            custom_icon_paths=[HOME + "/.config/qtile/icons"],
             scale=0.45,
             padding=0,
             font="Iosevka Nerd Font",
@@ -305,7 +307,7 @@ def top_bar():
         widget.TextBox(
             text="墳",
             font="Iosevka Nerd Font",
-            fontsize=18,
+            fontsize=20,
             foreground=colors[13],
         ),
         widget.PulseVolume(
@@ -313,6 +315,7 @@ def top_bar():
             foreground=colors[1],
             limit_max_volume="True",
             mouse_callbacks={"Button3": lambda: qtile.cmd_spawn("pavucontrol")},
+            # theme_path=HOME + "/.config/qtile/icons/",
             font="Hack Nerd Font",
             fontsize=15,
         ),
@@ -337,7 +340,7 @@ def top_bar():
         widget.TextBox(
             text=" ",
             font="Iosevka Nerd Font",
-            fontsize=18,
+            fontsize=20,
             padding=0,
             foreground=colors[10],
         ),
@@ -361,8 +364,8 @@ screens = [
         wallpaper_mode="fill",
         top=bar.Bar(
             top_bar(),
-            size=32,
-            opacity=0.95,
+            size=35,
+            opacity=0.9,
             background=colors[0],
             margin=[8, 8, 0, 8],
         ),
@@ -409,6 +412,5 @@ def dialogs(window):
 
 @hook.subscribe.startup_once
 def start_once():
-    home = os.path.expanduser("~")
-    subprocess.call([home + "/.config/qtile/autostart.sh"])
+    subprocess.call([HOME + "/.config/qtile/autostart.sh"])
 
