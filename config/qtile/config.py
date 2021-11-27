@@ -17,6 +17,7 @@ from typing import List  # noqa: F401
 # 我的键盘win键和alt调换位置了
 mod = "mod1"
 HOME = os.path.expanduser("~")
+BIN = HOME + "/.config/qtile/bin"
 
 keys = [
     Key([mod], "p", lazy.spawn("rofi -show drun -modi drun")),
@@ -349,6 +350,7 @@ def top_bar():
             foreground=colors[1],
             fontsize=15,
             format="%d %b, %A, %I:%M %p",
+            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(BIN+"/cal.sh")},
         ),
         widget.Sep(
             padding=10,
@@ -412,5 +414,5 @@ def dialogs(window):
 
 @hook.subscribe.startup_once
 def start_once():
-    subprocess.call([HOME + "/.config/qtile/autostart.sh"])
+    subprocess.call([BIN + "/autostart.sh"])
 
