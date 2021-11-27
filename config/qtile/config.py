@@ -183,7 +183,7 @@ def top_bar():
         widget.TextBox(
             text=' ',
             font="Iosevka Nerd Font",
-            fontsize=18,
+            fontsize=20,
             foreground=colors[6],
         ),
         widget.CPU(
@@ -199,7 +199,7 @@ def top_bar():
         widget.TextBox(
             text=' ',
             font="Iosevka Nerd Font",
-            fontsize=15,
+            fontsize=17,
             foreground=colors[10],
         ),
         widget.Memory(
