@@ -306,7 +306,7 @@ def top_bar():
             linewidth=0,
         ),
         widget.TextBox(
-            text="墳",
+            text="墳 ",
             font="Iosevka Nerd Font",
             fontsize=20,
             foreground=colors[13],
@@ -316,7 +316,6 @@ def top_bar():
             foreground=colors[1],
             limit_max_volume="True",
             mouse_callbacks={"Button3": lambda: qtile.cmd_spawn("pavucontrol")},
-            # theme_path=HOME + "/.config/qtile/icons/",
             font="Hack Nerd Font",
             fontsize=15,
         ),
