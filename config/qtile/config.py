@@ -167,7 +167,7 @@ def top_bar():
             linewidth=0,
         ),
         widget.TextBox(
-            text="  ",
+            text="   ",
             font="Iosevka Nerd Font",
             fontsize=20,
             foreground=colors[15],
