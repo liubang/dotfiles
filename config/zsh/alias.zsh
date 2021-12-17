@@ -16,6 +16,7 @@ alias gedit='gedit &>/dev/null'
 alias d2u='dos2unix'
 alias u2d='unix2dos'
 alias zinit-update='zinit delete --all; zinit self-update;' 
+alias kitty='GLFW_IM_MODULE=ibus kitty'
 # Make sudo use aliases
 # https://unix.stackexchange.com/a/148548
 alias sudo='sudo '
