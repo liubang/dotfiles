@@ -6,10 +6,11 @@ type = internal/pulseaudio
 sink = alsa_output.pci-0000_12_00.3.analog-stereo
 use-ui-max = false
 interval = 5
+click-right = pavucontrol
 format-volume = <ramp-volume><label-volume>
 
 format-muted = <label-muted>
-format-muted-prefix = "  "
+format-muted-prefix = " "
 format-muted-prefix-font = 3
 format-muted-prefix-foreground = ${color.altyellow}
 format-muted-prefix-background = ${color.background}
@@ -24,16 +25,16 @@ label-muted-background = ${color.background}
 label-volume-foreground = ${color.white}
 label-muted-foreground = ${color.white}
 
-ramp-volume-0 = "  "
-ramp-volume-1 = "  "
-ramp-volume-2 = "  "
-ramp-volume-3 = "  "
-ramp-volume-4 = "  "
-ramp-volume-5 = "  "
-ramp-volume-6 = "  "
-ramp-volume-7 = "  "
-ramp-volume-8 = "  "
-ramp-volume-9 = "  "
+ramp-volume-0 = " "
+ramp-volume-1 = " "
+ramp-volume-2 = " "
+ramp-volume-3 = " "
+ramp-volume-4 = " "
+ramp-volume-5 = " "
+ramp-volume-6 = " "
+ramp-volume-7 = " "
+ramp-volume-8 = " "
+ramp-volume-9 = " "
 ramp-volume-font = 3
 ramp-volume-foreground = ${color.altyellow}
 ramp-volume-background = ${color.background}
@@ -54,17 +55,8 @@ reverse-scroll = true
 
 fuzzy-match = true
 
-ws-icon-0=I;
-ws-icon-1=II;
-ws-icon-2=III;
-ws-icon-3=IV;
-ws-icon-4=V;
-ws-icon-5=VI;
-ws-icon-6=VII;漣
-ws-icon-default = 
-
 format = <label-state>
-format-font = 3
+format-font = 4
 
 label-monitor = %name%
 
@@ -122,7 +114,7 @@ label-private = " | Private"
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix-font = 4
+format-prefix-font = 5
 format-prefix = " "
 format-padding = 0
 format-prefix-foreground = ${color.altred}
@@ -198,7 +190,7 @@ label-font = 1
 [module/launcher]
 type=custom/text
 content = ""
-content-font = 4
+content-font = 5
 content-foreground= ${color.green}
 content-padding = 0
 click-left=rofi -show drun
@@ -210,7 +202,7 @@ type = internal/network
 interface = ${system.network_interface}
 interval = 1.0
 accumulate-stats = true
-unknown-as-up = true
+unknown-as-up = false
 format-connected = <ramp-signal><label-connected>
 format-disconnected = <label-disconnected>
 format-disconnected-prefix = "睊"
@@ -219,7 +211,8 @@ format-disconnected-foreground = ${color.red}
 format-disconnected-background = ${color.background}
 
 label-font = 1
-label-connected = "%{A1:def-nmdmenu &:}%essid%%{A}"
+;; label-connected = "%{A1:def-nmdmenu &:}%essid%%{A}"
+label-connected = " %downspeed:5%  %upspeed:5%"
 label-disconnected = "%{A1:def-nmdmenu &:}Offline%{A}"
 
 label-connected-foreground = ${color.white}
@@ -239,9 +232,10 @@ ramp-signal-font = 3
 
 [module/title]
 type = internal/xwindow
-format-foreground = ${colors.foreground}
-format-font = 1
+format = <label>
+format-foreground = ${color.foreground}
 format-padding = 0
+label = %title%
+label-font = 1
 label-maxlen = 30
 label-empty =
-

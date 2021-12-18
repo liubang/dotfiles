@@ -5,7 +5,7 @@ $HOME/.config/bspwm/autostart.sh
 workspaces() {
 	name=1
 	for monitor in `bspc query -M`; do
-		bspc monitor ${monitor} -n "$name" -d '' '' '' '' '' '' '漣'
+		bspc monitor ${monitor} -n "$name" -d '' '' '' '' '漣'
 		let name++
 	done
 }

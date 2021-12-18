@@ -50,14 +50,14 @@ wm-restack = bspwm
 font-0 = "Hack Nerd Font:size=12;3"
 font-1 = "Iosevka Nerd Font:size=12;2"
 font-2 = "Iosevka Nerd Font:size=14;3"
-font-3 = "Iosevka Nerd Font:size=16;4"
-font-4 = "Hack Nerd Font:size=14;2"
+font-3 = "Iosevka Nerd Font:size=13;2"
+font-4 = "Iosevka Nerd Font:size=16;4"
 
 # Default
 modules-left = spacing launcher sep cpu memory sep title
 modules-center = bspwm sep mod
 # modules-right = BLD MPL volume RPL spacing RRD sep GLD cpu YPL memory CPL filesystem CRD sep BLD time BRD spacing
-modules-right = volume spacing network spacing time sep 
+modules-right = network sep volume spacing time sep
 
 spacing = 0
 dim-value = 1.0
@@ -66,7 +66,6 @@ tray-position = right
 tray-detached = false
 tray-maxsize = 16
 tray-background = ${color.background}
-tray-transparent = false
 tray-offset-x = 0
 tray-offset-y = 0
 tray-padding = 0
