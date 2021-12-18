@@ -1,24 +1,17 @@
 #!/usr/bin/env bash
 
-## Copyright (C) 2020-2021 Aditya Shakya <adi1090x@gmail.com>
-## Everyone is permitted to copy and distribute copies of this file under GNU-GPL3
-
-## i3lock for bspwm for Archcraft OS.
-
 ## Get colors -----------------
-FG="$(xrdb -query | grep 'foreground:'| awk '{print $NF}')"
-BG="$(xrdb -query | grep 'background:'| awk '{print $NF}')"
+FG="#282828"
+BG="#ebdbb2"
 
-BLACK="$(xrdb -query | grep 'color0:'| awk '{print $NF}')"
-RED="$(xrdb -query | grep 'color1:'| awk '{print $NF}')"
-GREEN="$(xrdb -query | grep 'color2:'| awk '{print $NF}')"
-YELLOW="$(xrdb -query | grep 'color3:'| awk '{print $NF}')"
-BLUE="$(xrdb -query | grep 'color4:'| awk '{print $NF}')"
-MAGENTA="$(xrdb -query | grep 'color5:'| awk '{print $NF}')"
-CYAN="$(xrdb -query | grep 'color6:'| awk '{print $NF}')"
-WHITE="$(xrdb -query | grep 'color7:'| awk '{print $NF}')"
-
-TOTD=`fortune -n 90 -s | head -n 1`
+BLACK="#928374"
+RED="#fb4934"
+GREEN="#b8bb26"
+YELLOW="#fabd2f"
+BLUE="#83a598"
+MAGENTA="#d3869b"
+CYAN="#8ec07c"
+WHITE="#ebdbb2"
 
 ## Exec	-----------------
 i3lock \
@@ -49,11 +42,10 @@ i3lock \
 --pass-screen-keys			\
 --pass-power-keys			\
 --pass-volume-keys			\
---{time,date,layout,verif,wrong,greeter}-font="Iosevka"			\
+--{time,date,layout,verif,wrong,greeter}-font="Hack Nerd Font"	\
 --{layout,verif,wrong,greeter}-size=18							\
 --time-size=34													\
 --date-size=18													\
---greeter-text="${TOTD}"			\
 --greeter-color=${CYAN}				\
 --verif-text="verifying..."			\
 --wrong-text="wrong!"				\

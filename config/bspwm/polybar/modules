@@ -193,7 +193,7 @@ content = ""
 content-font = 5
 content-foreground= ${color.green}
 content-padding = 0
-click-left=rofi -show drun
+click-left=bash ~/.config/bspwm/rofi/bin/powermenu
 
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 

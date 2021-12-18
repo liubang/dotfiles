@@ -43,7 +43,7 @@ case $chosen in
         fi
         ;;
     $lock)
-        bsplock
+        ~/.config/bspwm/bin/bsplock
         ;;
     $suspend)
 		ans=$($HOME/.config/bspwm/rofi/bin/confirm)
