@@ -1,0 +1,21 @@
+; vim:ft=dosini
+[color]
+; background = #1a1b26
+background = #282828
+foreground = #ebdbb2
+black = #32344a
+red = #f7768e
+green = #8ec07c
+yellow = #fadb2f
+blue = #7aa2f7
+magenta = #ad8ee6
+cyan = #458558
+white = #fbf1c7
+gray = #a89984
+altblack = #444b6a
+altred = #ff7a93
+altgreen = #b9f27c
+altyellow = #ff9e64
+altblue = #7da6ff
+altmagenta = #bb9af7
+altcyan = #0db9d7
