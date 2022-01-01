@@ -1,7 +1,3 @@
-#
-# wm independent hotkeys
-#
-
 # terminal emulator
 alt + Return
   GLFW_IM_MODULE=ibus kitty --single-instance
@@ -16,13 +12,10 @@ alt + w
 
 # make sxhkd reload its configuration files:
 alt + Escape
-	pkill -USR1 -x sxhkd
+    pkill -USR1 -x sxhkd
 
 control + alt + a
     flameshot gui
-#
-# bspwm hotkeys
-#
 
 # restart and quit bspwm
 alt + shift + r
@@ -30,105 +23,53 @@ alt + shift + r
 
 # close and kill
 alt + shift + d
-	bspc node -{c,k}
-
-# send the newest marked node to the newest preselected node
-alt + y
-	bspc node newest.marked.local -n newest.!automatic.local
-
-# swap the current node and the biggest node
-alt + g
-	bspc node -s biggest
-
-#
-# state/flags
-#
-
-# set the window state
-super + {t,shift + t,s,f}
-	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
-
-# set the node flags
-super + ctrl + {m,x,y,z}
-	bspc node -g {marked,locked,sticky,private}
-
-#
-# focus/swap
-#
+    bspc node -{c,k}
 
 # focus the node in the given direction
 alt + {_,shift + }{h,j,k,l}
-	bspc node -{f,s} {west,south,north,east}
+    bspc node -{f,s} {west,south,north,east}
 
-# focus the node for the given path jump
-alt + {p,b,comma,period}
-	bspc node -f @{parent,brother,first,second}
-
-# focus the next/previous node in the current desktop
-alt + {_,shift + }c
-	bspc node -f {next,prev}.local
-
-# focus the next/previous desktop in the current monitor
-alt + bracket{left,right}
-	bspc desktop -f {prev,next}.local
-
-# focus the last node/desktop
-alt + {grave,Tab}
-	bspc {node,desktop} -f last
-
-# focus the older or newer node in the focus history
-alt + {o,i}
-	bspc wm -h off; \
-	bspc node {older,newer} -f; \
-	bspc wm -h on
+# set the window state
+alt + {t,shift + t,s,f}
+    bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
 
 # focus or send to the given desktop
-alt + {_,shift + }{1-9,0}
-	bspc {desktop -f,node -d} '^{1-9,10}'
+alt + {1-9,0}
+    bspc desktop -f '^{1-9,10}'
+
+# move and focus to the given desktop
+alt + shift + {1-9,0}
+    id=$(bspc query -N -n); bspc node -d ^{1-9,10}; bspc node -f ${id}
 
 # preselect the direction
 alt + ctrl + {h,j,k,l}
-	bspc node -p {west,south,north,east}
+    bspc node -p {west,south,north,east}
 
 # preselect the ratio
 alt + ctrl + {1-9}
-	bspc node -o 0.{1-9}
+    bspc node -o 0.{1-9}
 
 # cancel the preselection for the focused node
 alt + ctrl + space
-	bspc node -p cancel
+    bspc node -p cancel
 
 # cancel the preselection for the focused desktop
 alt + ctrl + shift + space
-	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
-
-#
-# move/resize
-#
+    bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
 # expand a window by moving one of its side outward
 super + alt + {h,j,k,l}
-	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+    bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
 
 # contract a window by moving one of its side inward
 super + alt + shift + {h,j,k,l}
-	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+    bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
 # move a floating window
-super + {Left,Down,Up,Right}
-	bspc node -v {-20 0,0 20,0 -20,20 0}
+alt + {Left,Down,Up,Right}
+    bspc node -v {-20 0,0 20,0 -20,20 0}
 
-# for spiral mode
-alt + shift + s
-    bspc config automatic_scheme spiral
-
-# for longest side mode
-alt shift + l
-    bspc config automatic_scheme longest_side
-
-# for automatic layout
-alt + shift + a
-    bspc config automatic_scheme first_child
-
+# lock screen
 alt + control + Delete
     betterlockscreen -l
+
