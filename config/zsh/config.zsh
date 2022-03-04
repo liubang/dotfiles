@@ -113,5 +113,8 @@ export PATH=$HOME/.config/rofi/bin:$PATH
 # fzf
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --exact --prompt=">>> "'
 
+# cargo
+[ -f "$HOME/.cargo/env" ] && source $HOME/.cargo/env
+
 # shellcheck source=~/.fzf.zsh
 [ -f ${HOME}/.fzf.zsh ] && source ${HOME}/.fzf.zsh
