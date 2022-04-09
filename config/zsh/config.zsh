@@ -62,7 +62,10 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$PATH:$HOME/bin"
 export PATH="/usr/local/opt/llvm/bin:$PATH"
 
-# jdtls
+if [ "${DESKTOP_SESSION}" = "bspwm" ]; then
+  export _JAVA_AWT_WM_NONREPARENTING=1
+fi
+
 export JDTLS_HOME="/opt/app/jdt-language-server"
 
 # redis
