@@ -21,7 +21,7 @@ configuration {
 @import "colors.rasi"
 
 * {
-    font:                           "Hack Nerd Fond 14";
+    font:                           "Hack Nerd Font 14";
     background-color:             	@background;
 }
 
