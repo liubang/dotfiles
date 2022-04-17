@@ -1,0 +1,76 @@
+set showmode
+set number
+set history=2000
+set nocompatible
+syntax enable
+syntax on
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+set wildmenu
+set laststatus=2
+set ruler
+set cursorline
+set nowrap
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set foldmethod=indent
+set foldmethod=syntax
+set nofoldenable
+
+set easymotion
+set commentary
+set surround
+
+let mapleader=' '
+
+nmap <Leader>kk <Plug>(easymotion-k)
+nmap <Leader>jj <Plug>(easymotion-j)
+
+" Window operation
+nnoremap <Leader>ww <C-W>w
+nnoremap <Leader>wd <C-W>c
+nnoremap <Leader>wj <C-W>j
+nnoremap <Leader>wk <C-W>k
+nnoremap <Leader>wh <C-W>h
+nnoremap <Leader>wl <C-W>l
+nnoremap <Leader>ws <C-W>s
+nnoremap <Leader>w- <C-W>s
+nnoremap <Leader>wv <C-W>v
+nnoremap <Leader>w\| <C-W>v
+
+" Tab operation
+nnoremap K gt
+nnoremap J gT
+
+" built in search looks better
+" but preserve ideavim search
+nnoremap <Leader>/ :action Find<CR>
+
+nnoremap <Leader>fm :action ReformatCode<CR>
+nnoremap <Leader>o  :<C-u>action RecentProjectListGroup<CR>
+nnoremap <Leader>ga :<C-u>action GotoAction<CR>
+nnoremap <Leader>gd :<C-u>action GotoDeclaration<CR>
+nnoremap <Leader>gt :<C-u>action GotoTest<CR>
+nnoremap <Leader>gr :<C-u>action ShowUsages<CR>
+nnoremap <Leader>pm :<C-u>action ShowPopupMenu<CR>
+" 重命名
+nnoremap <Leader>rn :action RenameElement<CR>
+nnoremap <C-o> :<C-u>action Back<CR>
+
+" 打开终端
+vnoremap <C-T> :action ActivateTerminalToolWindow<CR>
+
+nnoremap <Leader>ag :action SearchEverywhere<CR>
+nnoremap <Leader>ff :action GotoFile<CR>
+
+" 跳转到下一个错误
+nnoremap <Leader>ee :action GotoNextError<CR>
+nnoremap <Leader>eb :action GotoPreviousError<CR>
+
+
+command! Format action ReformatCode
+command! OptImports action OptimizeImports
