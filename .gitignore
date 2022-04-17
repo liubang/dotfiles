@@ -1,5 +1,0 @@
-**/*.o
-dwm/dwm
-dwm/config.h
-slstatus/slstatus
-config/picom/picom.logs
