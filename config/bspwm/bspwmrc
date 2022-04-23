@@ -29,10 +29,10 @@ bspc config pointer_modifier      mod1
 bspc rule -a Google-chrome       desktop='^1' state=tiled follow=on
 bspc rule -a kitty               desktop='^2' state=tiled follow=on
 bspc rule -a Zathura             desktop='^3' state=tiled follow=on
-bspc rule -a Emacs               desktop='^3' state=tiled follow=on
-bspc rule -a jetbrains-idea      desktop='^3' state=tiled follow=on
-bspc rule -a jetbrains-clion     desktop='^3' state=tiled follow=on
-bspc rule -a jetbrains-goland    desktop='^3' state=tiled follow=on
+bspc rule -a Emacs               desktop='^3' state=floating follow=on
+# bspc rule -a jetbrains-idea      desktop='^3' state=floating follow=on
+bspc rule -a jetbrains-clion     desktop='^3' state=floating follow=on
+bspc rule -a jetbrains-goland    desktop='^3' state=floating follow=on
 bspc rule -a netease-cloud-music desktop='^4' state=floating follow=on
 bspc rule -a mpv                 desktop='^5' state=floating follow=on
 bspc rule -a TelegramDesktop     desktop='^6' state=floating follow=on
