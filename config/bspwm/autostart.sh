@@ -17,3 +17,4 @@ run picom --experimental-backends -b
 
 feh --no-fehbg --bg-scale "$HOME/.config/bspwm/wallpaper.jpg"
 bash $HOME/.config/bspwm/polybar/launch.sh
+xsetroot -cursor_name left_ptr
