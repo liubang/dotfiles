@@ -1,0 +1,144 @@
+__build_info:
+  rime_version: 1.7.3
+  timestamps:
+    default: 1635007600
+    default.custom: 1652540418
+    key_bindings: 1635007600
+    key_bindings.custom: 0
+    melt_eng.custom: 0
+    melt_eng.schema: 1652539734
+    punctuation: 1635007600
+    punctuation.custom: 0
+engine:
+  filters:
+    - uniquifier
+  processors:
+    - ascii_composer
+    - key_binder
+    - speller
+    - recognizer
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - matcher
+    - ascii_segmentor
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - table_translator
+    - punct_translator
+key_binder:
+  bindings:
+    - {accept: Tab, send: "Shift+Right", when: composing}
+    - {accept: minus, send: Page_Up, when: paging}
+    - {accept: equal, send: Page_Down, when: has_menu}
+    - {accept: comma, send: Page_Up, when: paging}
+    - {accept: period, send: Page_Down, when: has_menu}
+    - {accept: bracketleft, send: Page_Up, when: paging}
+    - {accept: bracketright, send: Page_Down, when: has_menu}
+    - {accept: "Control+Shift+4", toggle: simplification, when: always}
+    - {accept: "Control+slash", toggle: simplification, when: always}
+  import_preset: default
+menu:
+  page_size: 6
+punctuator:
+  full_shape:
+    " ": {commit: "　"}
+    "!": {commit: "！"}
+    "\"": {pair: ["“", "”"]}
+    "#": ["＃", "⌘"]
+    "$": ["￥", "$", "€", "£", "¥", "¢", "¤"]
+    "%": ["％", "°", "℃"]
+    "&": "＆"
+    "'": {pair: ["‘", "’"]}
+    "(": "（"
+    ")": "）"
+    "*": ["＊", "·", "・", "×", "※", "❂"]
+    "+": "＋"
+    ",": {commit: "，"}
+    "-": "－"
+    .: {commit: "。"}
+    "/": ["／", "÷"]
+    ":": {commit: "："}
+    ";": {commit: "；"}
+    "<": ["《", "〈", "«", "‹"]
+    "=": "＝"
+    ">": ["》", "〉", "»", "›"]
+    "?": {commit: "？"}
+    "@": ["＠", "☯"]
+    "[": ["「", "【", "〔", "［"]
+    "\\": ["、", "＼"]
+    "]": ["」", "】", "〕", "］"]
+    "^": {commit: "……"}
+    _: "——"
+    "`": "｀"
+    "{": ["『", "〖", "｛"]
+    "|": ["·", "｜", "§", "¦"]
+    "}": ["』", "〗", "｝"]
+    "~": "～"
+  half_shape:
+    "!": {commit: "！"}
+    "\"": {pair: ["“", "”"]}
+    "#": "#"
+    "$": ["￥", "$", "€", "£", "¥", "¢", "¤"]
+    "%": ["%", "％", "°", "℃"]
+    "&": "&"
+    "'": {pair: ["‘", "’"]}
+    "(": "（"
+    ")": "）"
+    "*": ["*", "＊", "·", "・", "×", "※", "❂"]
+    "+": "+"
+    ",": {commit: "，"}
+    "-": "-"
+    .: {commit: "。"}
+    "/": ["、", "/", "／", "÷"]
+    ":": {commit: "："}
+    ";": {commit: "；"}
+    "<": ["《", "〈", "«", "‹"]
+    "=": "="
+    ">": ["》", "〉", "»", "›"]
+    "?": {commit: "？"}
+    "@": "@"
+    "[": ["「", "【", "〔", "［"]
+    "\\": ["、", "\\", "＼"]
+    "]": ["」", "】", "〕", "］"]
+    "^": {commit: "……"}
+    _: "——"
+    "`": "`"
+    "{": ["『", "〖", "｛"]
+    "|": ["·", "|", "｜", "§", "¦"]
+    "}": ["』", "〗", "｝"]
+    "~": ["~", "～"]
+  import_preset: default
+recognizer:
+  import_preset: default
+  patterns:
+    email: "^[A-Za-z][-_.0-9A-Za-z]*@.*$"
+    uppercase: "[A-Z][-_+.'0-9A-Za-z]*$"
+    url: "^(www[.]|https?:|ftp[.:]|mailto:|file:).*$|^[a-z]+[.].+$"
+schema:
+  author:
+    - "Patrick <ipatrickmac@gmail.com>"
+    - "tumuyan <tumuyan@21cn.com>"
+  description: "Easy English Nano，只包含少量常用词汇，方便中英文混合输入度方案调用。"
+  name: "Easy English Nano"
+  schema_id: melt_eng
+  version: 0.2.2
+speller:
+  algebra:
+    - "derive/['\\-_+,.]+//"
+    - "derive/^(.+)$/\\L$1/"
+    - "derive/^([a-z].+)$/\\U$1/"
+    - "derive/^([a-zA-Z])/\\U$1/"
+    - "derive/^([a-z][a-z])/\\U$1/"
+  alphabet: "zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA-_"
+  delimiter: " '"
+switches:
+  - name: ascii_mode
+    reset: 0
+    states: ["ASCII-OFF", "ASCII-ON"]
+translator:
+  dictionary: melt_eng
+  spelling_hints: 9

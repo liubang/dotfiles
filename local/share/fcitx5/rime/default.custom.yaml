@@ -1,9 +1,9 @@
 patch:
   schema_list:
-    - schema: luna_pinyin_simp # 朙月拼音
-    - schema: numbers # 大写数字
+    - schema: pinyin_simp # 间体拼音
+    - schema: wubi86_jidian # 五笔
 
-  menu/page_size: 9 # 候选词个数
+  menu/page_size: 6 # 候选词个数
 
   # 若 caps 切换大小写无效, 打开 Mac 系统偏好设置 > 键盘 > 输入法 > 取消勾选[使用大写锁定键切换“美国”输入模式]
   ascii_composer/good_old_caps_lock: true # 若为 true， Caps 只切换大小写
@@ -14,7 +14,19 @@ patch:
     Control_L: noop # 左 Control，屏蔽该切换键
     Control_R: noop # 右 Control，屏蔽该切换键
 
+  # 呼出输入法菜单的快捷键，切换方案、简繁、全半角、中英文符号等。
+  switcher/hotkeys:
+    - F4
+
+  # 匹配 patterns 时，自动英文
+  recognizer:
+    patterns:
+      email: "^[A-Za-z][-_.0-9A-Za-z]*@.*$"
+      uppercase: "[A-Z][-_+.'0-9A-Za-z]*$"
+      url: "^(www[.]|https?:|ftp[.:]|mailto:|file:).*$|^[a-z]+[.].+$"
+
   key_binder/bindings: # 若开启, 去掉前面#
+    # 简繁切换
     - { when: composing, accept: Tab, send: Shift+Right } # "tab" 键分词
     - { when: paging, accept: minus, send: Page_Up } # "-" 上一页
     - { when: has_menu, accept: equal, send: Page_Down } # "=" 下一页
@@ -23,3 +35,4 @@ patch:
     - { when: paging, accept: bracketleft, send: Page_Up } # "[" 上一页
     - { when: has_menu, accept: bracketright, send: Page_Down } # "]" 下一页
     - { when: always, accept: Control+Shift+4, toggle: simplification } # 繁简体切换
+    - { when: always, accept: Control+slash, toggle: simplification } # 繁简体切换 Ctrl + /
