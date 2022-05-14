@@ -26,8 +26,10 @@ patch:
       url: "^(www[.]|https?:|ftp[.:]|mailto:|file:).*$|^[a-z]+[.].+$"
 
   key_binder/bindings: # 若开启, 去掉前面#
-    # 简繁切换
-    - { when: composing, accept: Tab, send: Shift+Right } # "tab" 键分词
+    # move_by_word_with_tab: 这个太他妈好用了，Tab/Shift+Tab 切换光标至下/上一个拼音
+    - { when: composing, accept: ISO_Left_Tab, send: Shift+Left }
+    - { when: composing, accept: Shift+Tab, send: Shift+Left }
+    - { when: composing, accept: Tab, send: Shift+Right }
     - { when: paging, accept: minus, send: Page_Up } # "-" 上一页
     - { when: has_menu, accept: equal, send: Page_Down } # "=" 下一页
     - { when: paging, accept: comma, send: Page_Up } # "," 上一页
