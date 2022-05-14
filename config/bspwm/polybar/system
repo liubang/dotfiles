@@ -8,4 +8,4 @@
 adapter = ACAD
 battery = BAT0
 graphics_card = acpi_video0
-network_interface = wlp88s0
+network_interface = wlp89s0
