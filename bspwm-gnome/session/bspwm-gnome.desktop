@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=bspwm-gnome
+NoDisplay=true
+Comment=improved dynamic tiling window manager
+Exec=bspwm-gnome
+X-GNOME-WMName=bspwm-gnome
+X-GNOME-Autostart-Phase=WindowManager
+X-GNOME-Provides=windowmanager
+X-GNOME-Autostart-Notify=false
