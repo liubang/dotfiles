@@ -39,4 +39,5 @@ bspc rule -a TelegramDesktop     desktop='^6' state=floating follow=on
 bspc rule -a Thunderbird         desktop='^6' state=floating follow=on
 bspc rule -a Vmware              desktop='^7' state=floating follow=on
 bspc rule -a Vmware Player       desktop='^7' state=floating follow=on
+bspc rule -a VirtualBox          desktop='^7' state=floating follow=on
 bspc rule -a VirtualBox Manager  desktop='^7' state=floating follow=on
