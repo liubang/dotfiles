@@ -128,8 +128,8 @@ label-font = 1
 type = internal/date
 interval = 1
 format-margin = 0
-time = "%I:%M %p"
-time-alt = "%A, %m/%d/%y"
+time = "%H:%M:%S"
+time-alt = "%Y-%m-%d %a"
 
 format-prefix = " "
 format-prefix-font = 3
@@ -228,6 +228,15 @@ ramp-signal-4 = " "
 ramp-signal-foreground = ${color.green}
 ramp-signal-background = ${color.background}
 ramp-signal-font = 3
+
+[module/cava]
+type = custom/script
+tail = true
+exec = $HOME/.config/bspwm/polybar/scripts/cava.sh
+format = <label>
+format-font = 10
+label = %output%
+label-foreground = ${color.red}
 
 [module/title]
 type = internal/xwindow
