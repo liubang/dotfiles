@@ -15,33 +15,37 @@ esac
 
 # GCC
 export GCC_COLORS=1
+
 # lang
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+
 # editor
 export EDITOR=nvim
 export GIT_EDITOR=nvim
-# Homebrew
-export HOMEBREW_GITHUB_API_TOKEN='14d824b1b0e89cf84a410bf8709c9cd89459b5cd'
-export HOMEBREW_NO_ANALYTICS=1
+
+# for bspwm
+if [ "${DESKTOP_SESSION}" = "bspwm" ]; then
+  export _JAVA_AWT_WM_NONREPARENTING=1
+fi
 
 #----------------------------------------------------------------------
 # develop
 #----------------------------------------------------------------------
 if [ "$OS" = "Linux" ]; then
-  JAVA_HOME="/opt/app/java"
+  export JAVA_HOME="/opt/app/java"
   export GOROOT=/opt/app/go
 elif [ "$OS" = "Darwin" ]; then
-  JAVA_HOME="$(/usr/libexec/java_home -v 16)"
+  export JAVA_HOME="$(/usr/libexec/java_home -v 18)"
   export GOROOT=/usr/local/go
-  export CLANG_RESOURCEDIR="/Library/Developer/CommandLineTools/usr/lib/clang/11.0.0"
+  export CLANG_RESOURCEDIR="/Library/Developer/CommandLineTools/usr/lib/clang/13.0.0"
   export CLANG_ISYSTEM="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"
   export CLANG_INCLUDE="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/"
 fi
 
-export JAVA_HOME
 export PATH=$JAVA_HOME/bin:/opt/homebrew/bin:$PATH
-export CLASSPATH=".:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:/opt/app/jar/antlr-4.7.1-complete.jar:/opt/app/jar/jacococli.jar:$CLASSPATH"
+# after jdk15, there is no need to set CLASSPATH
+# export CLASSPATH=".:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$CLASSPATH"
 export MAVEN_HOME=/opt/app/maven
 export GRADLE_HOME=/opt/app/gradle
 
@@ -55,18 +59,9 @@ export PATH="/opt/app/bin:$PATH"
 export PATH="/opt/app/nvim/bin:$PATH"
 export PATH="$GOROOT/bin:$PATH"
 export PATH="$JAVA_HOME/bin:$MAVEN_HOME/bin:$GRADLE_HOME/bin:$GOBIN:$PATH"
-export PATH="/usr/local/opt/mysql-client/bin:$PATH"
-export PATH="/opt/app/clang/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.composer/vendor/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
-export PATH="$PATH:$HOME/bin"
-export PATH="/usr/local/opt/llvm/bin:$PATH"
-
-if [ "${DESKTOP_SESSION}" = "bspwm" ]; then
-  export _JAVA_AWT_WM_NONREPARENTING=1
-fi
-
-export JDTLS_HOME="/opt/app/jdt-language-server"
 
 # redis
 if [ "${INIT_OS_TYPE}" = "linux" ]; then
@@ -87,14 +82,12 @@ fi
 if [ -d "$HOME/.pyenv" ]; then
   export PYENV_ROOT="$HOME/.pyenv"
   export PATH="$PYENV_ROOT/bin:$PATH"
-  PYTHON3_HOST_PROG="$PYENV_ROOT/shims/python3"
-  eval "$(pyenv init --path)"
+  export PYTHON3_HOST_PROG="$PYENV_ROOT/shims/python3"
   eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
 else
-  PYTHON3_HOST_PROG="$(which python3)"
+  export PYTHON3_HOST_PROG="$(which python3)"
 fi
-export PYTHON3_HOST_PROG
+
 export PYTHON_HOST_PROG="$(which python2)"
 
 # bcloud
@@ -109,9 +102,6 @@ fi
 
 # arcanist
 export PATH=/opt/app/arcanist/bin:$PATH
-
-# rofi
-export PATH=$HOME/.config/rofi/bin:$PATH
 
 # fzf
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --exact --prompt=">>> "'
