@@ -2,7 +2,7 @@
     email = it.liubang@gmail.com
     name = liubang
 [core]
-    excludesfile=~/.gitignore_global
+    excludesfile=~/.config/git/gitignore_global
 [color]
     diff = auto
     status = auto
