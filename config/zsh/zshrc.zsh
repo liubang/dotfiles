@@ -7,108 +7,81 @@
 #
 #======================================================================
 
-module_path+=("$HOME/.zinit/bin/zmodules/Src")
-zmodload zdharma/zplugin &>/dev/null
+# Search path for the cd command
+cdpath=(..)
 
-# my config file
-export MY_CONFIG="$HOME/.config/zsh"
-source "$MY_CONFIG/init.zsh"
+# Use hard limits, except for a smaller stack and no core dumps
+unlimit
+limit stack 8192
+limit -s
 
-# enable proxy
-q_set_http_proxy
+# Fix common locale issues (e.g. less, tmux).
+export LC_CTYPE="${LC_CTYPE:-en_US.UTF-8}"
+export LC_LANG="${LC_LANG:-en_US.UTF-8}"
+export LESSCHARSET="${LESSCHARSET:-utf-8}"
+[[ $(uname) =~ 'Linux' ]] && export LC_TIME="${LC_TIME:-C.UTF-8}"
 
-# - - - - - - - - - - - - - - - - - - - -
-# ZSH Settings
-# - - - - - - - - - - - - - - - - - - - -
+# Enable colorized otput (e.g. for `ls`).
+export CLICOLOR="${CLICOLOR:-yes}"
 
-autoload -U colors && colors    # Load Colors.
-unsetopt case_glob              # Use Case-Insensitve Globbing.
-setopt extendedglob             # Use Extended Globbing.
-setopt autocd                   # Automatically Change Directory If A Directory Is Entered.
+# Shell functions
+setenv() { typeset -x "${1}${1:+=}${(@)argv[2,$#]}" }  # csh compatibility
+freload() { while (( $# )); do; unfunction $1; autoload -U $1; shift; done }
 
-# Smart URLs.
-autoload -Uz url-quote-magic
-zle -N self-insert url-quote-magic
+# Where to look for autoloaded function definitions
+fpath=($fpath)
 
-# General.
-setopt brace_ccl                # Allow Brace Character Class List Expansion.
-setopt combining_chars          # Combine Zero-Length Punctuation Characters ( Accents ) With The Base Character.
-setopt rc_quotes                # Allow 'Henry''s Garage' instead of 'Henry'\''s Garage'.
-unsetopt mail_warning           # Don't Print A Warning Message If A Mail File Has Been Accessed.
+# Autoload all shell functions from all directories in $fpath (following
+# symlinks) that have the executable bit on (the executable bit is not
+# necessary, but gives you an easy way to stop the autoloading of a
+# particular shell function). $fpath should not be empty for this to work.
+for func in $^fpath/*(N-.x:t); autoload $func
 
-fpath+=("$ZDOTDIR/completions")
-autoload -Uz compinit 
-compinit
+# automatically remove duplicates from these arrays
+typeset -U path cdpath fpath manpath
 
-### Added by Zinit's installer
-if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma-continuum/zinit.git "$HOME/.zinit/bin"
-fi
+# Global aliases -- These do not have to be
+# at the beginning of the command line.
+alias -g M='|more'
+alias -g H='|head'
+alias -g T='|tail'
 
-# zinit
-source "$HOME/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
+setopt   notify globdots correct pushdtohome cdablevars autolist
+setopt   correctall autocd recexact longlistjobs
+setopt   autoresume histignoredups pushdsilent noclobber
+setopt   autopushd pushdminus extendedglob rcquotes mailwarning
+unsetopt bgnice autoparamslash
 
-# theme 
-zinit ice wait'!' lucid
-zinit ice depth=1; zinit light romkatv/powerlevel10k
+# +─────────────────────+
+# │ LOAD CONFIGURATIONS │
+# +─────────────────────+
+source $HOME/.config/zsh/config.zsh
+source $HOME/.config/zsh/utils.zsh
+source $HOME/.config/zsh/p10k.zsh
+source $HOME/.config/zsh/zinit.zsh
+[[ -f "${HOME}/.custom.zsh" ]] && source "${HOME}/.custom.zsh"
 
-# - - - - - - - - - - - - - - - - - - - -
-# Plugins
-# - - - - - - - - - - - - - - - - - - - -
+# +───────────────────────+
+# │ Zsh Line Editor (ZLE) │
+# +───────────────────────+
+typeset -g zle_highlight=(region:bg=black) # Highlight the background of the text when selecting.
+typeset -g WORDCHARS='*?_-.[]~=&;!#$%^(){}<>' # List of characters considered part of a word.
+setopt NO_BEEP # Don't beep on errors.
+setopt VI      # Use vi emulation mode.
 
-zinit wait lucid light-mode for \
-      OMZ::lib/completion.zsh \
-      OMZ::lib/functions.zsh \
-      OMZ::lib/git.zsh \
-      OMZ::lib/grep.zsh \
-  atinit"zicompinit; zicdreplay" \
-      zdharma-continuum/fast-syntax-highlighting \
-      OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh \
-      OMZ::plugins/command-not-found/command-not-found.plugin.zsh \
-  atload"_zsh_autosuggest_start" \
-      zsh-users/zsh-autosuggestions \
-  pick"z.sh" \
-    rupa/z \
-  as"completion" \
-      OMZ::plugins/docker/_docker
+# +──────────────────────+
+# │ Changing Directories │
+# +──────────────────────+
+setopt GLOB_DOTS # Don't require a leading '.' in a filename to be matched explicitly.
+setopt MARK_DIRS # Append a trailing `/` to all directory names resulting from globbing.
+setopt NO_NOMATCH # If a pattern has no matches, don't print an error, leave it unchanged.
 
-# Recommended Be Loaded Last.
-zinit ice wait blockf lucid atpull'zinit creinstall -q .'
-zinit load zsh-users/zsh-completions
+# +────────────+
+# │ Completion │
+# +────────────+
+zstyle ':completion:*:*:make:*' tag-order 'targets'
 
-# Automatically refresh completions
-zstyle ':completion:*' rehash true
-# Highlight currently selected tab completion
-zstyle ':completion:*' menu select
-zstyle ':completion:*' completer _complete _expand _ignored _approximate
-zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' '+l:|=* r:|=*'
-zstyle ':completion:*' group-name '' # group results by category
-
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
-
-# Use hyphen-insensitive completion. Case sensitive completion must be off. _ and - will be interchangeable.
-HYPHEN_INSENSITIVE="true"
-
-# Display red dots whilst waiting for completion.
-COMPLETION_WAITING_DOTS="true"
-
-# homebrew completions
-if type brew &>/dev/null; then
-  FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
-fi
-
-# pip zsh completion
-function _pip_completion {
-  local words cword
-  read -Ac words
-  read -cn cword
-  reply=( $( COMP_WORDS="$words[*]" \
-             COMP_CWORD=$(( cword-1 )) \
-             PIP_AUTO_COMPLETE=1 $words[1] ) )
-}
-compctl -K _pip_completion pip
-
-# screenfetch
+PROMPT_EOL_MARK='%K{red} %k'   # mark the missing \n at the end of a comand output with a red block
+WORDCHARS=''                   # only alphanums make up words in word-based zle widgets
+ZLE_REMOVE_SUFFIX_CHARS=''     # don't eat space when typing '|' after a tab completion
+zle_highlight=('paste:none')   # disable highlighting of text pasted into the command line

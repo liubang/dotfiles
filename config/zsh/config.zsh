@@ -7,23 +7,6 @@
 #
 #======================================================================
 
-# skip if in non-interactive mode
-case "$-" in
-  *i*) ;;
-  *) return ;;
-esac
-
-# GCC
-export GCC_COLORS=1
-
-# lang
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-
-# editor
-export EDITOR=nvim
-export GIT_EDITOR=nvim
-
 # for bspwm
 if [ "${DESKTOP_SESSION}" = "bspwm" ]; then
   export _JAVA_AWT_WM_NONREPARENTING=1
@@ -63,11 +46,6 @@ export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.composer/vendor/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
-# redis
-if [ "${INIT_OS_TYPE}" = "linux" ]; then
-  export PATH="/opt/app/redis/bin:$PATH"
-fi
-
 # nodejs
 export PATH="/opt/app/node/bin:$PATH"
 
@@ -87,7 +65,6 @@ if [ -d "$HOME/.pyenv" ]; then
 else
   export PYTHON3_HOST_PROG="$(which python3)"
 fi
-
 export PYTHON_HOST_PROG="$(which python2)"
 
 # bcloud
@@ -100,14 +77,42 @@ if [ -d "/opt/app/bazel-compilation-database" ]; then
   export PATH="/opt/app/bazel-compilation-database:$PATH"
 fi
 
-# arcanist
-export PATH=/opt/app/arcanist/bin:$PATH
-
-# fzf
-export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --exact --prompt=">>> "'
-
 # cargo
 [ -f "$HOME/.cargo/env" ] && source $HOME/.cargo/env
 
-# shellcheck source=~/.fzf.zsh
-[ -f ${HOME}/.fzf.zsh ] && source ${HOME}/.fzf.zsh
+# alias
+alias ll='ls -lh'
+alias la='ls -lAh'
+alias diff='diff --color=auto'
+alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
+alias tree='tree -aC -I .git --dirsfirst'
+alias gedit='gedit &>/dev/null'
+alias d2u='dos2unix'
+alias u2d='unix2dos'
+alias zinit-update='zinit delete --all; zinit self-update;' 
+alias kitty='GLFW_IM_MODULE=ibus $HOME/.local/kitty.app/bin/kitty'
+# Make sudo use aliases
+# https://unix.stackexchange.com/a/148548
+alias sudo='sudo '
+# nvim
+alias vim='NVIM_TUI_ENABLE_TRUE_COLOR=1 /opt/app/nvim/bin/nvim'
+alias php-81='/opt/app/php-81/bin/php'
+
+# # Directory coloring
+if [ "$OS" = "Darwin" ]; then
+  export LSCOLORS="exgxdHdHcxaHaHhBhDeaec"
+  # gnu sed
+  if command -v gsed >/dev/null 2>&1; then
+    alias sed=gsed
+  fi
+else
+  alias ls='ls --group-directories-first --color=auto'
+fi
+
+if [ "$OS" = "Linux" ]; then
+  alias pbcopy='xclip -selection clipboard'
+  alias pbpaste='xclip -selection clipboard -o'
+  alias open='xdg-open'
+fi
+
+# vim:ft=zsh:sw=2:sts=2
