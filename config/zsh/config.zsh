@@ -8,17 +8,17 @@
 #======================================================================
 
 # for bspwm
-if [ "${DESKTOP_SESSION}" = "bspwm" ]; then
+if [[ "${DESKTOP_SESSION}" =~ "bspwm" ]]; then
   export _JAVA_AWT_WM_NONREPARENTING=1
 fi
 
 #----------------------------------------------------------------------
 # develop
 #----------------------------------------------------------------------
-if [ "$OS" = "Linux" ]; then
+if [[ "$OS" =~ "Linux" ]]; then
   export JAVA_HOME="/opt/app/java"
   export GOROOT=/opt/app/go
-elif [ "$OS" = "Darwin" ]; then
+elif [[ "$OS" = "Darwin" ]]; then
   export JAVA_HOME="$(/usr/libexec/java_home -v 18)"
   export GOROOT=/usr/local/go
   export CLANG_RESOURCEDIR="/Library/Developer/CommandLineTools/usr/lib/clang/13.0.0"

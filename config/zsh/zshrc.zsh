@@ -16,10 +16,12 @@ limit stack 8192
 limit -s
 
 # Fix common locale issues (e.g. less, tmux).
+#
+export OS="$(uname -s)"
 export LC_CTYPE="${LC_CTYPE:-en_US.UTF-8}"
 export LC_LANG="${LC_LANG:-en_US.UTF-8}"
 export LESSCHARSET="${LESSCHARSET:-utf-8}"
-[[ $(uname) =~ 'Linux' ]] && export LC_TIME="${LC_TIME:-C.UTF-8}"
+[[ ${OS} =~ 'Linux' ]] && export LC_TIME="${LC_TIME:-C.UTF-8}"
 
 # Enable colorized otput (e.g. for `ls`).
 export CLICOLOR="${CLICOLOR:-yes}"
@@ -55,9 +57,9 @@ unsetopt bgnice autoparamslash
 # +─────────────────────+
 # │ LOAD CONFIGURATIONS │
 # +─────────────────────+
+source $HOME/.config/zsh/p10k.zsh
 source $HOME/.config/zsh/config.zsh
 source $HOME/.config/zsh/utils.zsh
-source $HOME/.config/zsh/p10k.zsh
 source $HOME/.config/zsh/zinit.zsh
 [[ -f "${HOME}/.custom.zsh" ]] && source "${HOME}/.custom.zsh"
 
