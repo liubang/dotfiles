@@ -35,6 +35,14 @@ if [[ -e $ZI[BIN_DIR]/zinit.zsh ]] {
     && _comps[zinit]=_zinit
 } else { error 'failed to find zinit installation' }
 
+bindkey '^A' beginning-of-line
+bindkey '^E' end-of-line
+
+# After finishing the configuration wizard change the atload'' ice to:
+# -> atload'source ~/.p10k.zsh;
+zinit ice wait'!' lucid
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+
 # static zsh binary 
 zi nocompletions is-snippet for OMZL::{'compfix','completion','git'}.zsh
 zi nocompletions is-snippet for PZT::modules/{'environment','history','rsync'}
@@ -76,12 +84,6 @@ zstyle ":plugin:history-search-multi-word" active "underline"        # Effect on
 zstyle ":plugin:history-search-multi-word" check-paths "yes"         # Whether to check paths for existence and mark with magenta (default true)
 zstyle ":plugin:history-search-multi-word" clear-on-cancel "no"      # Whether pressing Ctrl-C or ESC should clear entered query
 zstyle ":plugin:history-search-multi-word" synhl "yes"               # Wh
-
-
-# After finishing the configuration wizard change the atload'' ice to:
-# -> atload'source ~/.p10k.zsh; _p9k_precmd'
-zi ice wait'!' lucid atload'true; _p9k_precmd' nocd
-zi light romkatv/powerlevel10k
 
 # program
 zi from'gh-r' lbin'!' nocompile for \
