@@ -1,4 +1,7 @@
-#! /bin/sh
+#!/bin/bash
+
+pkill sxhkd
+pkill picom
 
 $HOME/.config/bspwm/autostart.sh
 
@@ -28,6 +31,7 @@ bspc config pointer_modifier      mod1
 # bspc rule -a kitty desktop='^2'
 bspc rule -a Google-chrome       desktop='^1' state=tiled follow=on
 bspc rule -a kitty               desktop='^2' state=tiled follow=on
+bspc rule -a Alacritty           desktop='^2' state=tiled follow=on
 bspc rule -a Zathura             desktop='^3' state=tiled follow=on
 bspc rule -a Emacs               desktop='^3' state=floating follow=on
 # bspc rule -a jetbrains-idea      desktop='^3' state=floating follow=on

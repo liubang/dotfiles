@@ -57,7 +57,7 @@ font-4 = "Iosevka Nerd Font:size=16;4"
 modules-left = spacing launcher sep cpu memory sep title
 modules-center = bspwm sep mod
 # modules-right = BLD MPL volume RPL spacing RRD sep GLD cpu YPL memory CPL filesystem CRD sep BLD time BRD spacing
-modules-right = network sep time sep volume spacing cava sep
+modules-right = network sep time sep volume spacing sep
 
 spacing = 0
 dim-value = 1.0
