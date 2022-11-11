@@ -1,7 +1,7 @@
 #! /usr/bin/env zsh
 #======================================================================
 #
-# zinit.zsh - 
+# zinit.zsh -
 #
 # Created by liubang on 2022/08/13 21:35
 # Last Modified: 2022/08/13 21:35
@@ -43,10 +43,10 @@ bindkey '^E' end-of-line
 zinit ice wait'!' lucid
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 
-# static zsh binary 
+# static zsh binary
 zi nocompletions is-snippet for OMZL::{'compfix','completion','git'}.zsh
 zi nocompletions is-snippet for PZT::modules/{'environment','history','rsync'}
-zi as'completion' for OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'}
+zi as'completion' for OMZP::{'golang/_golang','pip/_pip'}
 
 # completions
 local GH_RAW_URL='https://raw.githubusercontent.com'
@@ -88,4 +88,4 @@ zstyle ":plugin:history-search-multi-word" synhl "yes"               # Wh
 # program
 zi from'gh-r' lbin'!' nocompile for \
   @{'junegunn/fzf','sharkdp/'{'fd','hyperfine','bat'}} \
-  lbin'!**/rg'       @BurntSushi/ripgrep 
+  lbin'!**/rg'       @BurntSushi/ripgrep
