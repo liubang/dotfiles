@@ -13,9 +13,10 @@
   user = liubang
 [commit]
   gpgsign = true
+  template = ~/.config/git/template
 [rebase]
   autosquash = true
-  abbreviateCommands = true
+  abbreviatecommands = true
 [fetch]
   prune = true
 [push]
