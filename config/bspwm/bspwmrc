@@ -1,17 +1,17 @@
 #!/bin/bash
 
-pkill sxhkd
-pkill picom
+pgrep -x sxhkd > /dev/null || sxhkd &
 
-$HOME/.config/bspwm/autostart.sh
+# bspc monitor -d 1 2 3 4 5 6 7 8
+bspc monitor -d '' '' '' '' '' '' ''
 
-workspaces() {
-	name=1
-	for monitor in `bspc query -M`; do
-		bspc monitor ${monitor} -n "$name" -d '' '' '' '' '' '' ''
-		let name++
-	done
-}
+# workspaces() {
+# 	name=1
+# 	for monitor in `bspc query -M`; do
+# 		bspc monitor ${monitor} -n "$name" -d '' '' '' '' '' '' ''
+# 		let name++
+# 	done
+# }
 
 workspaces
 
@@ -34,7 +34,6 @@ bspc rule -a kitty               desktop='^2' state=tiled follow=on
 bspc rule -a Alacritty           desktop='^2' state=tiled follow=on
 bspc rule -a Zathura             desktop='^3' state=tiled follow=on
 bspc rule -a Emacs               desktop='^3' state=floating follow=on
-# bspc rule -a jetbrains-idea      desktop='^3' state=floating follow=on
 bspc rule -a jetbrains-clion     desktop='^3' state=floating follow=on
 bspc rule -a jetbrains-goland    desktop='^3' state=floating follow=on
 bspc rule -a netease-cloud-music desktop='^4' state=floating follow=on
@@ -45,3 +44,5 @@ bspc rule -a Vmware              desktop='^7' state=floating follow=on
 bspc rule -a Vmware Player       desktop='^7' state=floating follow=on
 bspc rule -a VirtualBox          desktop='^7' state=floating follow=on
 bspc rule -a VirtualBox Manager  desktop='^7' state=floating follow=on
+
+$HOME/.config/bspwm/autostart
