@@ -1,13 +1,69 @@
 [user]
-    email = it.liubang@gmail.com
-    name = liubang
+  email = it.liubang@gmail.com
+  name = liubang
+  signingkey = 0D565379FE8C9D98
 [core]
-    excludesfile=~/.config/git/gitignore_global
+  excludesfile=~/.config/git/ignore
 [color]
-    diff = auto
-    status = auto
-    ui = auto
+  ui = true
+  pager = true
+  diff = auto
+  status = auto
+[github]
+  user = liubang
+[commit]
+  gpgsign = true
+[rebase]
+  autosquash = true
+  abbreviateCommands = true
+[fetch]
+  prune = true
+[push]
+  default = simple
+[remote "origin"]
+  prune = true
+[pull]
+  rebase = false
+[diff]
+  wsErrorHighlight = all
+  tool = vimdiff
+  algorithm = patience
+  indentHeuristic = true
+  wordRegex = [a-zA-Z0-9_]+|[^[:space:]]
+  mnemonicPrefix = true
+[difftool]
+  prompt = false
+  trustExitCode = true
+[diff "json"]
+  textconv = gojq '.' $1
+
+[merge]
+  tool = vimdiff
+  guitool = meld
+[mergetool]
+  prompt = false
+  keepBackup = false
+  trustExitCode = true
+  writeToTemp = true
+[mergetool "vimdiff"]
+  path = nvim
 [alias]
-    co = checkout
-    st = status
-    ls = log -n 20 --pretty=\"format:%C(auto)%h %ad %C(auto)%s%d %Cblue(%an)\" --decorate --abbrev-commit --date=local
+  ## CORE
+  st = status
+  co = checkout
+  aliases = "!git config -l | grep alias | cut -c 7-"
+
+  ## STATUS
+  ls = "log --pretty=format:"%C(yellow)%h\\ %C(auto)%ad\\ %Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=human"
+  lg = log --graph --abbrev-commit --decorate --all --date-order \
+           --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- <%an>%C(reset)%C(bold yellow)%d%C(reset)'
+  last = log -1 HEAD --stat
+  contrib = shortlog -e --summary --numbered
+  recent = branch --sort=-committerdate
+  branch-progress = for-each-ref --sort='authordate:iso8601' --format=' %(color:green)%(authordate:relative)%09%(color:white)%(refname:short)' refs/heads
+
+  # Show conflict-only diff patches.
+  conflicts = diff --diff-filter=U
+  conflict-files = conflicts --name-only
+  ignored = ls-files --others --i --exclude-standard
+  latest-tag = describe --tags --abbrev=0
