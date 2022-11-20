@@ -64,7 +64,7 @@ dim-value = 1.0
 
 tray-position = right
 tray-detached = false
-tray-maxsize = 16
+tray-maxsize = 18
 tray-background = ${color.background}
 tray-offset-x = 0
 tray-offset-y = 0
@@ -73,8 +73,8 @@ tray-scale = 1.0
 
 enable-ipc = true
 
-cursor-click = 
-cursor-scroll = 
+cursor-click =
+cursor-scroll =
 
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 

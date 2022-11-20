@@ -1,6 +1,6 @@
 # terminal emulator
 alt + Return
-    kitty
+    GLFW_IM_MODULE=ibus ~/.local/kitty.app/bin/kitty --single-instance
 
 # program launcher
 alt + p
@@ -72,4 +72,3 @@ alt + {Left,Down,Up,Right}
 # lock screen
 alt + control + Delete
     betterlockscreen -l
-

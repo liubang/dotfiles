@@ -1,4 +1,12 @@
-#!/bin/bash
+#! /bin/bash
+#======================================================================
+#
+# autostart -
+#
+# Created by liubang on 2022/11/19 16:59
+# Last Modified: 2022/11/19 16:59
+#
+#======================================================================
 
 function run {
   if ! pgrep $1 ;
@@ -8,8 +16,6 @@ function run {
 }
 
 
-
-run sxhkd &
 run dunst &
 run nm-applet &
 run fcitx5 -d
