@@ -1,9 +1,9 @@
 [user]
   email = it.liubang@gmail.com
   name = liubang
-  signingkey = 0D565379FE8C9D98
+  signingkey = BE31839E5EEFF377
 [core]
-  excludesfile=~/.config/git/ignore
+  excludesfile = ~/.config/git/ignore
 [color]
   ui = true
   pager = true
