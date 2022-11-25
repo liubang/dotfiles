@@ -55,7 +55,7 @@
   aliases = "!git config -l | grep alias | cut -c 7-"
 
   ## STATUS
-  ls = "log --pretty=format:"%C(yellow)%h\\ %C(auto)%ad\\ %Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=human"
+  ls = log --pretty=\"format:%C(auto)%h %ad %C(auto)%s%d %Cblue(%an)\" --decorate --abbrev-commit --date=local
   lg = log --graph --abbrev-commit --decorate --all --date-order \
            --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- <%an>%C(reset)%C(bold yellow)%d%C(reset)'
   last = log -1 HEAD --stat
