@@ -40,8 +40,8 @@ bindkey '^E' end-of-line
 
 # After finishing the configuration wizard change the atload'' ice to:
 # -> atload'source ~/.p10k.zsh;
-zinit ice wait'!' lucid
-zinit ice depth=1; zinit light romkatv/powerlevel10k
+zi ice wait'!' lucid
+zi ice depth=1; zinit light romkatv/powerlevel10k
 
 # static zsh binary
 zi nocompletions is-snippet for OMZL::{'compfix','completion','git'}.zsh
@@ -65,18 +65,15 @@ zi ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
     atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”'
 zi light trapd00r/LS_COLORS
 
-# Autosuggestions & fast-syntax-highlighting
-zi wait lucid for \
- atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
-    zdharma-continuum/fast-syntax-highlighting \
- blockf \
-    zsh-users/zsh-completions \
- atload"!_zsh_autosuggest_start" \
-    zsh-users/zsh-autosuggestions
+zi for \
+    light-mode \
+  zsh-users/zsh-autosuggestions \
+    light-mode \
+  zdharma-continuum/fast-syntax-highlighting \
+  zdharma-continuum/history-search-multi-word
 
-# zdharma-continuum/history-search-multi-word
-zi ice wait"1" lucid
-zi load zdharma-continuum/history-search-multi-word
+# z.lua
+zi light skywind3000/z.lua
 
 zstyle ":history-search-multi-word" highlight-color "fg=yellow,bold" # Color in which to highlight matched, searched text (default bg=17 on 256-color terminals)
 zstyle ":history-search-multi-word" page-size "8"                    # Number of entries to show (default is $LINES/3)
