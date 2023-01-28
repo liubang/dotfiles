@@ -28,21 +28,27 @@ bspc config single_monocle        false
 bspc config focus_follows_pointer true
 bspc config pointer_modifier      mod1
 
-# bspc rule -a kitty desktop='^2'
-bspc rule -a Google-chrome       desktop='^1' state=tiled follow=on
-bspc rule -a kitty               desktop='^2' state=tiled follow=on
-bspc rule -a Alacritty           desktop='^2' state=tiled follow=on
-bspc rule -a Zathura             desktop='^3' state=tiled follow=on
-bspc rule -a Emacs               desktop='^3' state=floating follow=on
-bspc rule -a jetbrains-clion     desktop='^3' state=floating follow=on
-bspc rule -a jetbrains-goland    desktop='^3' state=floating follow=on
-bspc rule -a netease-cloud-music desktop='^4' state=floating follow=on
-bspc rule -a mpv                 desktop='^5' state=floating follow=on
-bspc rule -a TelegramDesktop     desktop='^6' state=floating follow=on
-bspc rule -a Thunderbird         desktop='^6' state=floating follow=on
-bspc rule -a Vmware              desktop='^7' state=floating follow=on
-bspc rule -a Vmware Player       desktop='^7' state=floating follow=on
-bspc rule -a VirtualBox          desktop='^7' state=floating follow=on
-bspc rule -a VirtualBox Manager  desktop='^7' state=floating follow=on
+# 这里只能设置XDG class_name，通常，可以使用 xdotool和xprop来查看一个窗口的WM_CLASS
+# xdotool search --name 'Peek preview' 根据窗口title获取窗口id
+# xdotool search --pid 123 根据进程id获取窗口id
+# xprop -id $winid | grep WM_CLASS 通过窗口id获取WM_CLASS
+
+bspc rule -a 'Google-chrome'       desktop='^1' state=tiled follow=on
+bspc rule -a 'kitty'               desktop='^2' state=tiled follow=on
+bspc rule -a 'Alacritty'           desktop='^2' state=tiled follow=on
+bspc rule -a 'Zathura'             desktop='^3' state=tiled follow=on
+bspc rule -a 'Deno'                state=tiled follow=on
+bspc rule -a 'Emacs'               desktop='^3' state=floating follow=on
+bspc rule -a 'jetbrains-clion'     desktop='^3' state=floating follow=on
+bspc rule -a 'jetbrains-goland'    desktop='^3' state=floating follow=on
+bspc rule -a 'netease-cloud-music' desktop='^4' state=floating follow=on
+bspc rule -a 'mpv'                 desktop='^5' state=floating follow=on
+bspc rule -a 'TelegramDesktop'     desktop='^6' state=floating follow=on
+bspc rule -a 'Thunderbird'         desktop='^6' state=floating follow=on
+bspc rule -a 'Vmware'              desktop='^7' state=floating follow=on
+bspc rule -a 'Vmware Player'       desktop='^7' state=floating follow=on
+bspc rule -a 'VirtualBox'          desktop='^7' state=floating follow=on
+bspc rule -a 'VirtualBox Manager'  desktop='^7' state=floating follow=on
+
 
 $HOME/.config/bspwm/autostart

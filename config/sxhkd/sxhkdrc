@@ -1,3 +1,4 @@
+#!/usr/bin/env sh
 # terminal emulator
 alt + Return
     GLFW_IM_MODULE=ibus ~/.local/kitty.app/bin/kitty --single-instance
@@ -42,8 +43,8 @@ alt + shift + {1-9,0}
     id=$(bspc query -N -n); bspc node -d ^{1-9,10}; bspc node -f ${id}
 
 # preselect the direction
-# alt + ctrl + {h,j,k,l}
-#     bspc node -p {west,south,north,east}
+alt + ctrl + {h,j,k,l}
+    bspc node -p {west,south,north,east}
 
 # preselect the ratio
 alt + ctrl + {1-9}
