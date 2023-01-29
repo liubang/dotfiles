@@ -48,13 +48,15 @@ module-margin-right = 0
 wm-restack = bspwm
 
 font-0 = "Hack Nerd Font:size=12;3"
+; font-0 = "zpix:size=12;3"
 font-1 = "Iosevka Nerd Font:size=12;2"
 font-2 = "Iosevka Nerd Font:size=14;3"
 font-3 = "Iosevka Nerd Font:size=13;2"
 font-4 = "Iosevka Nerd Font:size=16;4"
 
 # Default
-modules-left = spacing launcher sep cpu memory sep title
+; modules-left = spacing launcher sep cpu memory sep title
+modules-left = spacing launcher sep cpu memory
 modules-center = bspwm sep mod
 # modules-right = BLD MPL volume RPL spacing RRD sep GLD cpu YPL memory CPL filesystem CRD sep BLD time BRD spacing
 modules-right = network sep time sep volume spacing sep
@@ -73,8 +75,8 @@ tray-scale = 1.0
 
 enable-ipc = true
 
-cursor-click =
-cursor-scroll =
+cursor-click = pointer 
+cursor-scroll = ns-resize
 
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
