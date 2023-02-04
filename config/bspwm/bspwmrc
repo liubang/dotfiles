@@ -1,6 +1,30 @@
 #!/bin/bash
 
-pgrep -x sxhkd > /dev/null || sxhkd &
+export SXHKD_SHELL=/usr/bin/bash
+export GDK_SCALE=1
+export GDK_DPI_SCALE=1
+
+LOGS=$HOME/.cache/bspwm/logs
+exec >$LOGS/bspwm.log 2>&1
+
+xsetroot -cursor_name left_ptr
+
+deamonize() {
+  echo "[start] $*"
+  if pgrep "$1" >/dev/null; then
+    echo "[warn] $1 is already running..."
+  else
+    "$@" >"$LOGS/$(basename "$1").log" 2>&1 &
+  fi
+}
+
+deamonize sxhkd
+deamonize dunst
+deamonize nm-applet
+deamonize fcitx5 -d
+deamonize picom --experimental-backends
+deamonize "$HOME/.config/bspwm/polybar/launch.sh"
+deamonize feh --no-fehbg --bg-scale "$HOME/.config/bspwm/wallpaper.png"
 
 # bspc monitor -d 1 2 3 4 5 6 7 8
 bspc monitor -d '' '' '' '' '' '' ''
@@ -12,8 +36,7 @@ bspc monitor -d '' '' '' '' '' '' ''
 # 		let name++
 # 	done
 # }
-
-workspaces
+# workspaces
 
 bspc config border_width          1
 bspc config window_gap            10
@@ -23,7 +46,6 @@ bspc config normal_border_color   "#282828"
 bspc config active_border_color   "#282828"
 bspc config borderless_monocle    true
 bspc config gapless_monocle       true
-bspc config paddingless_monocle   true
 bspc config single_monocle        false
 bspc config focus_follows_pointer true
 bspc config pointer_modifier      mod1
@@ -49,6 +71,3 @@ bspc rule -a 'Vmware'              desktop='^7' state=floating follow=on
 bspc rule -a 'Vmware Player'       desktop='^7' state=floating follow=on
 bspc rule -a 'VirtualBox'          desktop='^7' state=floating follow=on
 bspc rule -a 'VirtualBox Manager'  desktop='^7' state=floating follow=on
-
-
-$HOME/.config/bspwm/autostart
