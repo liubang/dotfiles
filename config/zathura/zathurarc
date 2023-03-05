@@ -8,6 +8,8 @@ map <Return> feedkeys f
 map ; feedkeys :
 map <C-f> feedkeys F11
 
+set window-title-basename "true"
+set selection-clipboard "clipboard"
 set adjust-open "width"
 set continuous-hist-save true
 set page-padding 10
@@ -15,3 +17,6 @@ set recolor true
 set show-hidden true
 set statusbar-home-tilde true
 set selection-clipboard "clipboard"
+
+set synctex true
+set synctex-editor-command "code -g %{input}:%{line}"
