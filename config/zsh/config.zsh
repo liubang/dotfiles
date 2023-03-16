@@ -91,7 +91,6 @@ alias gedit='gedit &>/dev/null'
 alias d2u='dos2unix'
 alias u2d='unix2dos'
 alias zinit-update='zinit delete --all; zinit self-update;' 
-alias kitty='GLFW_IM_MODULE=ibus $HOME/.local/kitty.app/bin/kitty'
 # Make sudo use aliases
 # https://unix.stackexchange.com/a/148548
 alias sudo='sudo '
@@ -100,20 +99,20 @@ alias vim='NVIM_TUI_ENABLE_TRUE_COLOR=1 /opt/app/nvim/bin/nvim'
 alias php-81='/opt/app/php-81/bin/php'
 
 # # Directory coloring
-if [ "$OS" = "Darwin" ]; then
+if [[ "$OS" =~ "Darwin" ]]; then
   export LSCOLORS="exgxdHdHcxaHaHhBhDeaec"
   # gnu sed
   if command -v gsed >/dev/null 2>&1; then
     alias sed=gsed
   fi
-else
-  alias ls='ls --group-directories-first --color=auto'
 fi
 
-if [ "$OS" = "Linux" ]; then
+if [[ "$OS" =~ "Linux" ]]; then
+  alias ls='ls --group-directories-first --color=auto'
   alias pbcopy='xclip -selection clipboard'
   alias pbpaste='xclip -selection clipboard -o'
   alias open='xdg-open'
+  alias kitty='GLFW_IM_MODULE=ibus $HOME/.local/kitty.app/bin/kitty'
 fi
 
 # vim:ft=zsh:sw=2:sts=2
