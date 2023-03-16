@@ -58,10 +58,10 @@ unsetopt bgnice autoparamslash
 # +─────────────────────+
 # │ LOAD CONFIGURATIONS │
 # +─────────────────────+
-source $HOME/.config/zsh/p10k.zsh
-source $HOME/.config/zsh/config.zsh
-source $HOME/.config/zsh/utils.zsh
 source $HOME/.config/zsh/zinit.zsh
+source $HOME/.config/zsh/p10k.zsh
+source $HOME/.config/zsh/env.zsh
+source $HOME/.config/zsh/utils.zsh
 [[ -f "${HOME}/.custom.zsh" ]] && source "${HOME}/.custom.zsh"
 
 # +───────────────────────+

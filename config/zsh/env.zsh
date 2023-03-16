@@ -8,6 +8,19 @@
 #
 #======================================================================
 
+(( ${+TERM} )) || export TERM="xterm-256color"; COLORTERM="truecolor"
+(( ${+USER} )) || export USER="${USERNAME}"
+(( ${+XDG_CACHE_HOME} )) || export XDG_CACHE_HOME="${HOME}/.cache"
+(( ${+XDG_CONFIG_HOME} )) || export XDG_CONFIG_HOME="${HOME}/.config"
+(( ${+XDG_DATA_HOME} )) || export XDG_DATA_HOME="${HOME}/.local/share"
+
+export CLICOLOR=1
+export GCC_COLORS=1
+export EDITOR=nvim
+export GIT_EDITOR=nvim
+export GPG_TTY=$(tty)
+export GIT_CONFIG="$XDG_CONFIG_HOME"/git/config
+
 # for bspwm
 if [[ "${DESKTOP_SESSION}" =~ "bspwm" ]]; then
   export _JAVA_AWT_WM_NONREPARENTING=1
@@ -27,9 +40,6 @@ elif [[ "$OS" = "Darwin" ]]; then
   export CLANG_INCLUDE="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/"
 fi
 
-export PATH=$JAVA_HOME/bin:/opt/homebrew/bin:$PATH
-# after jdk15, there is no need to set CLASSPATH
-# export CLASSPATH=".:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$CLASSPATH"
 export MAVEN_HOME=/opt/app/maven
 export GRADLE_HOME=/opt/app/gradle
 
@@ -37,17 +47,15 @@ export GRADLE_HOME=/opt/app/gradle
 export GOPATH=${HOME}/.go
 export GOBIN=$GOPATH/bin
 
-# path
+export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 export PATH="/opt/app/bin:$PATH"
 export PATH="/opt/app/nvim/bin:$PATH"
 export PATH="$GOROOT/bin:$PATH"
-export PATH="$JAVA_HOME/bin:$MAVEN_HOME/bin:$GRADLE_HOME/bin:$GOBIN:$PATH"
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.composer/vendor/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
-
-# nodejs
+export PATH="$JAVA_HOME/bin:$MAVEN_HOME/bin:$GRADLE_HOME/bin:$GOBIN:$PATH"
 export PATH="/opt/app/node/bin:$PATH"
 
 # ruby
@@ -115,4 +123,4 @@ if [[ "$OS" =~ "Linux" ]]; then
   alias kitty='GLFW_IM_MODULE=ibus $HOME/.local/kitty.app/bin/kitty'
 fi
 
-# vim:ft=zsh:sw=2:sts=2
+# vim: set fenc=utf8 ffs=unix ft=zsh list et sts=2 sw=2 ts=2 tw=100:

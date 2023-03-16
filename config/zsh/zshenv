@@ -8,23 +8,6 @@
 #
 #======================================================================
 
-# +─────────────────+
-# │ # ENV VARIABLES │
-# +─────────────────+
-(( ${+LANGUAGE} )) || export LANGUAGE="$LANG"
-(( ${+USER} )) || export USER="$USERNAME"
-(( ${+XDG_CACHE_HOME} )) || export XDG_CACHE_HOME="$HOME/.cache"
-(( ${+XDG_CONFIG_HOME} )) || export XDG_CONFIG_HOME="$HOME/.config"
-(( ${+XDG_DATA_HOME} )) || export XDG_DATA_HOME="$HOME/.local/share"
+ZDOTDIR=${XDG_CONFIG_HOME:=~/.config}/zsh
 
-export CLICOLOR=1
-export GCC_COLORS=1
-export EDITOR=nvim
-export GIT_EDITOR=nvim
-export GPG_TTY=$(tty)
-export GIT_CONFIG="$XDG_CONFIG_HOME"/git/config
-export ZDOTDIR="$XDG_CONFIG_HOME"/zsh
-
-# skip_global_compinit=1
-
-# vim:ft=zsh:sw=2:sts=2
+# vim: set fenc=utf8 ffs=unix ft=zsh list et sts=2 sw=2 ts=2 tw=100:
