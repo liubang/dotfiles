@@ -1,9 +1,10 @@
+#! /usr/bin/env zsh
 #======================================================================
 #
-# config.sh -
+# config.zsh -
 #
 # Created by liubang on 2018/11/22
-# Last Modified: 2018/11/22 21:45:30
+# Last Modified: 2023/03/16 10:33
 #
 #======================================================================
 
@@ -19,7 +20,7 @@ if [[ "$OS" =~ "Linux" ]]; then
   export JAVA_HOME="/opt/app/java"
   export GOROOT=/opt/app/go
 elif [[ "$OS" = "Darwin" ]]; then
-  export JAVA_HOME="$(/usr/libexec/java_home -v 18)"
+  export JAVA_HOME="$(/usr/libexec/java_home -v 17)"
   export GOROOT=/usr/local/go
   export CLANG_RESOURCEDIR="/Library/Developer/CommandLineTools/usr/lib/clang/13.0.0"
   export CLANG_ISYSTEM="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"

@@ -4,7 +4,7 @@
 # zinit.zsh -
 #
 # Created by liubang on 2022/08/13 21:35
-# Last Modified: 2022/08/13 21:35
+# Last Modified: 2023/03/16 10:33
 #
 #======================================================================
 
@@ -71,6 +71,9 @@ zi for \
     light-mode \
   zdharma-continuum/fast-syntax-highlighting \
   zdharma-continuum/history-search-multi-word
+
+# zsh-autosuggestions color
+typeset -g ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#928374'
 
 # z.lua
 zi light skywind3000/z.lua
