@@ -43,8 +43,8 @@ else
     error 'failed to find zinit installation'
 fi
 
-bindkey '^A' beginning-of-line
-bindkey '^E' end-of-line
+# bindkey '^A' beginning-of-line
+# bindkey '^E' end-of-line
 
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================
 zi is-snippet nocompletions light-mode compile light-mode for \
@@ -78,7 +78,7 @@ zi lucid wait light-mode depth'1' for \
   zsh-users/zsh-completions \
   svn submods'zsh-users/zsh-completions -> external' \
   PZTM::completion \
-  atload'!_zsh_autosuggest_start' atinit'bindkey "^_" autosuggest-execute;bindkey "^ " autosuggest-accept;' \
+  atload'!_zsh_autosuggest_start' atinit'bindkey "^_" autosuggest-execute;bindkey "^E" autosuggest-accept;' \
   zsh-users/zsh-autosuggestions
 zi ice lucid wait'0c' depth'1' atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' atpull'%atclone' compile'.*fast*~*.zwc'
 zi light "${ZI[FORK]:-${ZI[SRC]}}"/fast-syntax-highlighting

@@ -8,8 +8,19 @@
 #
 #======================================================================
 
-# Search path for the cd command
-cdpath=(..)
+setopt EXTENDED_GLOB
+# Just in case: If the parent directory doesn't exist, create it.
+# [[ -d $HISTFILE(:h) ]] || mkdir -p $HISTFILE(:h)
+# Max number of entries to keep in history file.
+SAVEHIST=$(( 100 * 1000 ))      # Use multiplication for readability.
+# Max number of history entries to keep in memory.
+HISTSIZE=$(( 1.2 * SAVEHIST ))  # Zsh recommended value
+# Use modern file-locking mechanisms, for better safety & performance.
+setopt HIST_FCNTL_LOCK
+# Keep only the most recent copy of each duplicate entry in history.
+setopt HIST_IGNORE_ALL_DUPS
+# Auto-sync history between concurrent sessions.
+setopt SHARE_HISTORY
 
 # Use hard limits, except for a smaller stack and no core dumps
 unlimit
@@ -27,10 +38,6 @@ export LESSCHARSET="${LESSCHARSET:-utf-8}"
 # Enable colorized otput (e.g. for `ls`).
 export CLICOLOR="${CLICOLOR:-yes}"
 
-# Shell functions
-setenv() { typeset -x "${1}${1:+=}${(@)argv[2,$#]}" }  # csh compatibility
-freload() { while (( $# )); do; unfunction $1; autoload -U $1; shift; done }
-
 # Where to look for autoloaded function definitions
 fpath=($fpath)
 
@@ -43,18 +50,6 @@ for func in $^fpath/*(N-.x:t); autoload $func
 # automatically remove duplicates from these arrays
 typeset -U path cdpath fpath manpath
 
-# Global aliases -- These do not have to be
-# at the beginning of the command line.
-alias -g M='|more'
-alias -g H='|head'
-alias -g T='|tail'
-
-setopt   notify globdots pushdtohome cdablevars autolist
-setopt   autocd recexact longlistjobs
-setopt   autoresume histignoredups pushdsilent noclobber
-setopt   autopushd pushdminus extendedglob rcquotes mailwarning
-unsetopt bgnice autoparamslash
-
 # +─────────────────────+
 # │ LOAD CONFIGURATIONS │
 # +─────────────────────+
@@ -64,27 +59,17 @@ source $HOME/.config/zsh/env.zsh
 source $HOME/.config/zsh/utils.zsh
 [[ -f "${HOME}/.custom.zsh" ]] && source "${HOME}/.custom.zsh"
 
-# +───────────────────────+
-# │ Zsh Line Editor (ZLE) │
-# +───────────────────────+
-typeset -g zle_highlight=(region:bg=black) # Highlight the background of the text when selecting.
-typeset -g WORDCHARS='*?_-.[]~=&;!#$%^(){}<>' # List of characters considered part of a word.
-setopt NO_BEEP # Don't beep on errors.
-setopt VI      # Use vi emulation mode.
-
-# +──────────────────────+
-# │ Changing Directories │
-# +──────────────────────+
-setopt GLOB_DOTS # Don't require a leading '.' in a filename to be matched explicitly.
-setopt MARK_DIRS # Append a trailing `/` to all directory names resulting from globbing.
-setopt NO_NOMATCH # If a pattern has no matches, don't print an error, leave it unchanged.
-
-# +────────────+
-# │ Completion │
-# +────────────+
-zstyle ':completion:*:*:make:*' tag-order 'targets'
-
-PROMPT_EOL_MARK='%K{red} %k'   # mark the missing \n at the end of a comand output with a red block
-WORDCHARS=''                   # only alphanums make up words in word-based zle widgets
-ZLE_REMOVE_SUFFIX_CHARS=''     # don't eat space when typing '|' after a tab completion
-zle_highlight=('paste:none')   # disable highlighting of text pasted into the command line
+# don't let > silently overwrite files. to overwrite, use >! instead.
+setopt NO_CLOBBER
+# treat comments pasted into the command line as comments, not code.
+setopt INTERACTIVE_COMMENTS
+# don't treat non-executable files in your $path as commands. this makes sure
+# they don't show up as command completions. settinig this option can impact
+# performance on older systems, but should not be a problem on modern ones.
+setopt HASH_EXECUTABLES_ONLY
+# enable ** and *** as shortcuts for **/* and ***/*, respectively.
+# https://zsh.sourceforge.io/Doc/Release/Expansion.html#Recursive-Globbing
+setopt GLOB_STAR_SHORT
+# sort numbers numerically, not lexicographically.
+setopt NUMERIC_GLOB_SORT
+zstyle ':completion:*' rehash true
