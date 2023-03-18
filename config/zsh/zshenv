@@ -1,13 +1,2 @@
-#! /usr/bin/env zsh
-#======================================================================
-#
-# .zshenv -
-#
-# Created by liubang on 2022/08/14 00:37
-# Last Modified: 2022/08/14 00:37
-#
-#======================================================================
-
-ZDOTDIR=${XDG_CONFIG_HOME:=~/.config}/zsh
-
-# vim: set fenc=utf8 ffs=unix ft=zsh list et sts=2 sw=2 ts=2 tw=100:
+ZDOTDIR=~/.config/zsh
+source -- "$ZDOTDIR"/.zshenv

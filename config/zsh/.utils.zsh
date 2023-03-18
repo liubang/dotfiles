@@ -1,43 +1,11 @@
-#! /usr/bin/env zsh
 #======================================================================
 #
-# utils.zsh -
+# function.sh -
 #
 # Created by liubang on 2018/11/22
-# Last Modified: 2023/03/16 10:33
+# Last Modified: 2018/11/22 21:52:49
 #
 #======================================================================
-
-q_weather() {
-  local city="${1:-beijing}"
-  if [ -x "$(which wget)" ]; then
-    wget -qO- "wttr.in/~${city}"
-  elif [ -x "$(which curl)" ]; then
-    curl "wttr.in/~${city}"
-  fi
-}
-
-# get all IPs
-q_ips() {
-  case $(uname) in
-    Darwin | *BSD)
-      ip=$(ifconfig | grep -E 'inet.[0-9]' | grep -v '127.0.0.1' | awk '{ print $2}')
-      ;;
-    *)
-      ip=$(hostname --all-ip-addresses | tr " " "\n" | grep -v "0.0.0.0" | grep -v "127.0.0.1")
-      ;;
-  esac
-  echo "${ip}"
-}
-
-# get public IP
-q_myip() {
-  if command -v curl &>/dev/null; then
-    curl ifconfig.co
-  elif command -v wget &>/dev/null; then
-    wget -qO- ifconfig.co
-  fi
-}
 
 q_set_http_proxy() {
   proxy="http://127.0.0.1:7890"
@@ -54,9 +22,24 @@ q_unset_http_proxy() {
   unset HTTPS_PROXY
 }
 
-export FZF_COMPLETION_OPTS='--preview "bat --color=always --line-range :50 {} 2> /dev/null || head -50 {}"'
-export FZF_COMPLETION_TRIGGER='**'
-export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --exact --prompt=">>> "'
+dots() { # quick lookup for my config files
+  find ${DOTFILES:-$HOME/.config/dotfiles} | awk '!/git|plugged|autoload|.DS_Store/ && gsub("//", "/")' | fzfp | xargs $EDITOR
+}
+
+fzfp() { #fzf with preview options
+  fzf \
+    --ansi
+  --bind '?:toggle-preview' \
+    --inline-info \
+    --preview='\
+    [[ $(file --mime {}) =~ binary ]] \
+    && echo {} is a binary file \
+    || highlight --style base16/nord -O ansi -l {} \
+    || cat {} 2> /dev/null | head -500' \
+    --reverse \
+    --tabstop=1
+
+}
 
 gli() {
   local filter
@@ -64,8 +47,8 @@ gli() {
     filter="-- $@"
   fi
   git log \
-    --graph --color=always --abbrev=7 --format='%C(auto)%h %an %C(blue)%s %C(yellow)%cr' "$@" |
-    fzf \
+    --graph --color=always --abbrev=7 --format='%C(auto)%h %an %C(blue)%s %C(yellow)%cr' "$@" \
+    | fzf \
       --ansi --no-sort --reverse --tiebreak=index --height 80% --preview-window=right:60% \
       --preview "f() { set -- \$(echo -- \$@ | grep -o '[a-f0-9]\{7\}'); [ \$# -eq 0 ] || git show --color=always \$1 $filter; }; f {}" \
       --bind "j:down,k:up,alt-j:preview-down,alt-k:preview-up,ctrl-f:preview-page-down,ctrl-b:preview-page-up,q:abort,ctrl-m:execute:
@@ -79,17 +62,17 @@ gli() {
 fgco() { # checkout git branch (including remote branches) with FZF
   local branches=$(
     git branch --all | grep -v HEAD
-  ) &&
-    local branch=$(echo "$branches" | fzf-tmux -d $((2 + $(wc -l <<<"$branches"))) +m) &&
-    git checkout $(
+  ) \
+    && local branch=$(echo "$branches" | fzf-tmux -d $((2 + $(wc -l <<< "$branches"))) +m) \
+    && git checkout $(
       echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##"
     )
 }
 
 fglog() { # git log browser with FZF
   git log --graph --color=always \
-    --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
-    fzf \
+    --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" \
+    | fzf \
       --ansi \
       --bind=ctrl-s:toggle-sort \
       --no-sort \
@@ -102,7 +85,6 @@ fglog() { # git log browser with FZF
       | less -R'
   ) << 'FZF-EOF' {} FZF-EOF"
 }
-
 # fstash - easier way to deal with stashes
 # type fstash to get a list of your stashes
 # enter shows you the contents of the stash
@@ -111,11 +93,11 @@ fglog() { # git log browser with FZF
 fstash() {
   local out q k sha
   while out=$(
-    git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" |
-      fzf --ansi --no-sort --query="$q" --print-query \
+    git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" \
+      | fzf --ansi --no-sort --query="$q" --print-query \
         --expect=ctrl-d,ctrl-b
   ); do
-    mapfile -t out <<<"$out"
+    mapfile -t out <<< "$out"
     q="${out[0]}"
     k="${out[1]}"
     sha="${out[-1]}"
