@@ -64,3 +64,5 @@ autoload -Uz zmv archive lsarchive unarchive
 z4h source -c "$ZDOTDIR"/.aliases.zsh
 # Some custom functions
 z4h source -c "$ZDOTDIR"/.utils.zsh
+# Machine specified config
+z4h source -c "$HOME/.custom.zsh"

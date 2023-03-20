@@ -14,6 +14,7 @@
 (( ${+XDG_CONFIG_HOME} )) || export XDG_CONFIG_HOME="${HOME}/.config"
 (( ${+XDG_DATA_HOME} )) || export XDG_DATA_HOME="${HOME}/.local/share"
 
+export OS="$(uname -s)"
 export CLICOLOR=1
 export GCC_COLORS=1
 export EDITOR=nvim
