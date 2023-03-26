@@ -1,2 +1,5 @@
 .DS_Store
-.idea
+compile_commands.json
+.idea/
+_build/
+*.log
