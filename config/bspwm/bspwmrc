@@ -22,7 +22,7 @@ deamonize sxhkd
 deamonize dunst
 deamonize nm-applet
 deamonize fcitx5 -d
-deamonize picom --experimental-backends
+deamonize picom
 deamonize "$HOME/.config/bspwm/polybar/launch.sh"
 deamonize feh --no-fehbg --bg-scale "$HOME/.config/bspwm/wallpaper.png"
 

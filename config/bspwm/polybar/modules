@@ -38,9 +38,6 @@ ramp-volume-font = 3
 ramp-volume-foreground = ${color.altyellow}
 ramp-volume-background = ${color.background}
 
-ramp-headphones-0 = 
-ramp-headphones-1 = 
-
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
 [module/bspwm]
@@ -188,7 +185,7 @@ label-font = 1
 
 [module/launcher]
 type=custom/text
-content = ""
+content = ""
 content-font = 5
 content-foreground= ${color.green}
 content-padding = 0
