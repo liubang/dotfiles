@@ -9,3 +9,5 @@
 ## bspwm
 
 ![screen](./pics/1.png)
+
+![screen](./pics/2.png)
