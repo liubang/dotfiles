@@ -28,7 +28,7 @@ deamonize "$HOME/.config/bspwm/polybar/launch.sh"
 deamonize feh --no-fehbg --bg-scale "$HOME/.config/bspwm/wallpaper.png"
 
 # bspc monitor -d 1 2 3 4 5 6 7 8
-bspc monitor -d '' '' '' '' '' '' ''
+bspc monitor -d '' '' '' '' '' '' ''
 
 # workspaces() {
 #   name=1
