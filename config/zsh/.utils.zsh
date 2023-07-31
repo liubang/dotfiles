@@ -7,6 +7,10 @@
 #
 #======================================================================
 
+gcc_macros() {
+  gcc -E -dM - </dev/null
+}
+
 q_set_http_proxy() {
   proxy="http://127.0.0.1:7890"
   export HTTP_PROXY=$proxy
