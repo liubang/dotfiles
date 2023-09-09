@@ -1,9 +1,0 @@
-var:
-  last_build_time: 1652540514
-  option:
-    full_shape: true
-  previously_selected_schema: pinyin_simp
-  schema_access_time:
-    luna_pinyin_simp: 1652282485
-    pinyin_simp: 1652539971
-    wubi86_jidian: 1652539965
