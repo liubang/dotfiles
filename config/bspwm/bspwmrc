@@ -25,7 +25,7 @@ deamonize blueman-applet
 deamonize fcitx5 -d
 deamonize picom
 deamonize "$HOME/.config/bspwm/polybar/launch.sh"
-deamonize feh --no-fehbg --bg-scale "$HOME/.config/bspwm/wallpaper.png"
+deamonize feh --no-fehbg --bg-scale "$HOME/.config/bspwm/wallpaper/black.jpg"
 
 # bspc monitor -d 1 2 3 4 5 6 7 8
 bspc monitor -d '' '' '' '' '' '' ''
