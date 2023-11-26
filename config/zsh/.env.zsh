@@ -39,6 +39,7 @@ elif [[ "$OS" = "Darwin" ]]; then
   export CLANG_RESOURCEDIR="/Library/Developer/CommandLineTools/usr/lib/clang/13.0.0"
   export CLANG_ISYSTEM="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"
   export CLANG_INCLUDE="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/"
+  export PATH="/opt/homebrew/bin:$PATH"
 fi
 
 export MAVEN_HOME=/opt/app/maven
@@ -48,7 +49,6 @@ export GRADLE_HOME=/opt/app/gradle
 export GOPATH=${HOME}/.go
 export GOBIN=$GOPATH/bin
 
-export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 export PATH="/opt/app/bin:$PATH"
 export PATH="/opt/app/nvim/bin:$PATH"
@@ -58,6 +58,7 @@ export PATH="$HOME/.composer/vendor/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$JAVA_HOME/bin:$MAVEN_HOME/bin:$GRADLE_HOME/bin:$GOBIN:$PATH"
 export PATH="/opt/app/node/bin:$PATH"
+export PATH="/opt/app/clang+llvm/bin:$PATH"
 
 # ruby
 if [ -d "/usr/local/opt/ruby/bin" ]; then
@@ -77,6 +78,11 @@ else
 fi
 export PYTHON_HOST_PROG="$(which python2)"
 
+# php
+if [ -d "/opt/app/php82" ]; then
+  export PATH="/opt/app/php82/bin:$PATH"
+fi
+
 # bcloud
 if [ -d "$HOME/.BCloud/bin" ]; then
   export PATH=$HOME/.BCloud/bin:$PATH
@@ -86,6 +92,10 @@ fi
 if [ -d "/opt/app/bazel-compilation-database" ]; then
   export PATH="/opt/app/bazel-compilation-database:$PATH"
 fi
+
+# rust
+export RUSTUP_DIST_SERVER="https://rsproxy.cn"
+export RUSTUP_UPDATE_ROOT="https://rsproxy.cn/rustup"
 
 # cargo
 [ -f "$HOME/.cargo/env" ] && source $HOME/.cargo/env
