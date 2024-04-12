@@ -52,6 +52,7 @@ export GOBIN=$GOPATH/bin
 export PATH="/usr/local/sbin:$PATH"
 export PATH="/opt/app/bin:$PATH"
 export PATH="/opt/app/nvim/bin:$PATH"
+export PATH="/opt/app/redis/bin:$PATH"
 export PATH="$GOROOT/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.composer/vendor/bin:$PATH"
