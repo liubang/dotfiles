@@ -1,11 +1,16 @@
 [Unit]
 Description=Redis In-Memory Data Store
-After=network.target
+Wants=network-online.target
+After=network-online.target
+
 
 [Service]
+Type=forking
 ExecStart=/opt/app/redis/bin/redis-server /opt/app/redis/conf/redis.conf
 ExecStop=/opt/app/redis/bin/redis-cli shutdown
-Restart=always
+PIDFile=/opt/app/redis/run/redis_6379.pid
+Restart=on-failure
+RestartSec=10
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target

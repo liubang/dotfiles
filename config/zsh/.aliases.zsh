@@ -8,6 +8,7 @@
 #
 #======================================================================
 
+alias s='neofetch'
 alias ll='ls -lh'
 alias la='ls -lAh'
 alias diff='diff --color=auto'

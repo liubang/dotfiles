@@ -1,6 +1,8 @@
 [Unit]
 Description=aria2
-After=network.target
+Wants=network-online.target
+After=network-online.target
+
 
 [Service]
 Type=simple
@@ -8,4 +10,4 @@ Restart=on-abort
 ExecStart=/usr/local/bin/aria2c
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
