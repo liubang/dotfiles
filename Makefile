@@ -26,12 +26,12 @@ apply:
 	rsync -av --delete ./config/fontconfig ${HOME}/.config/
 	rsync -av --delete ./config/kitty ${HOME}/.config/
 	rsync -av --delete ./config/neofetch ${HOME}/.config/
-	rsync -av --delete ./config/picom ${HOME}/.config/
 	rsync -av --delete ./config/qtile ${HOME}/.config/
 	rsync -av --delete ./config/sxhkd ${HOME}/.config/
 	rsync -av --delete ./config/systemd ${HOME}/.config/
 	rsync -av --delete ./config/zathura ${HOME}/.config/
 	rsync -av --delete ./config/zsh ${HOME}/.config/
+	rsync -av --delete ./config/picom ${HOME}/.config/
 
 update:
 	rsync -av --delete ${HOME}/.config/bspwm ./config/
@@ -43,9 +43,9 @@ update:
 	rsync -av --delete ${HOME}/.config/fontconfig ./config/
 	rsync -av --delete ${HOME}/.config/kitty ./config/
 	rsync -av --delete ${HOME}/.config/neofetch ./config/
-	rsync -av --delete ${HOME}/.config/picom ./config/
 	rsync -av --delete ${HOME}/.config/qtile ./config/
 	rsync -av --delete ${HOME}/.config/sxhkd ./config/
 	rsync -av --delete ${HOME}/.config/systemd ./config/
 	rsync -av --delete ${HOME}/.config/zathura ./config/
+	rsync -av --delete ${HOME}/.config/picom --exclude="**/*.logs" ./config/
 	rsync -av --exclude='*.zwc' --exclude=".zsh_history" --delete ${HOME}/.config/zsh ./config/

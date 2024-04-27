@@ -20,7 +20,7 @@ export GCC_COLORS=1
 export EDITOR=nvim
 export GIT_EDITOR=nvim
 export GPG_TTY=$TTY
-export GIT_CONFIG="$XDG_CONFIG_HOME"/git/config
+# export GIT_CONFIG="$XDG_CONFIG_HOME"/git/config
 
 # for bspwm
 if [[ "${DESKTOP_SESSION}" =~ "bspwm" ]]; then
