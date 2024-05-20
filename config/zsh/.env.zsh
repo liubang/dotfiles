@@ -59,7 +59,7 @@ export PATH="$HOME/.composer/vendor/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$JAVA_HOME/bin:$MAVEN_HOME/bin:$GRADLE_HOME/bin:$GOBIN:$PATH"
 export PATH="/opt/app/node/bin:$PATH"
-export PATH="/opt/app/clang+llvm/bin:$PATH"
+export PATH="/opt/app/llvm/bin:$PATH"
 
 # ruby
 if [ -d "/usr/local/opt/ruby/bin" ]; then

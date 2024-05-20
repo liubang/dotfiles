@@ -32,6 +32,7 @@ apply:
 	rsync -av --delete ./config/zathura ${HOME}/.config/
 	rsync -av --delete ./config/zsh ${HOME}/.config/
 	rsync -av --delete ./config/picom ${HOME}/.config/
+	rsync -av --delete ./config/git ${HOME}/.config/
 
 update:
 	rsync -av --delete ${HOME}/.config/bspwm ./config/
@@ -47,5 +48,6 @@ update:
 	rsync -av --delete ${HOME}/.config/sxhkd ./config/
 	rsync -av --delete ${HOME}/.config/systemd ./config/
 	rsync -av --delete ${HOME}/.config/zathura ./config/
+	rsync -av --delete ${HOME}/.config/git ./config/
 	rsync -av --delete ${HOME}/.config/picom --exclude="**/*.logs" ./config/
 	rsync -av --exclude='*.zwc' --exclude=".zsh_history" --delete ${HOME}/.config/zsh ./config/
