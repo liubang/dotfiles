@@ -17,6 +17,10 @@ zstyle ':z4h:fzf-history'            fzf-preview            no
 zstyle ':z4h:direnv'                 enable                 'no'
 zstyle ':z4h:direnv:success'         notify                 'yes'
 zstyle ':z4h:ssh:*'                  enable                 'no'
+zstyle ':z4h:term-title:ssh'         preexec '%n@%m: ${1//\%/%%}'
+zstyle ':z4h:term-title:ssh'         precmd  '%n@%m: %~'
+zstyle ':z4h:term-title:local'       preexec '${1//\%/%%}'
+zstyle ':z4h:term-title:local'       precmd  '%~'
 
 # install packages
 z4h install romkatv/archive
