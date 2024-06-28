@@ -1,12 +1,19 @@
 #! /usr/bin/env zsh
-#======================================================================
+# Copyright (c) 2024 The Authors. All rights reserved.
 #
-# config.zsh -
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-# Created by liubang on 2018/11/22
-# Last Modified: 2023/03/16 10:33
+#      https://www.apache.org/licenses/LICENSE-2.0
 #
-#======================================================================
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Authors: liubang (it.liubang@gmail.com)
 
 (( ${+TERM} )) || export TERM="xterm-256color"; COLORTERM="truecolor"
 (( ${+USER} )) || export USER="${USERNAME}"
@@ -20,7 +27,6 @@ export GCC_COLORS=1
 export EDITOR=nvim
 export GIT_EDITOR=nvim
 export GPG_TTY=$TTY
-# export GIT_CONFIG="$XDG_CONFIG_HOME"/git/config
 
 # for bspwm
 if [[ "${DESKTOP_SESSION}" =~ "bspwm" ]]; then
@@ -36,9 +42,9 @@ if [[ "$OS" =~ "Linux" ]]; then
 elif [[ "$OS" = "Darwin" ]]; then
   export JAVA_HOME="$(/usr/libexec/java_home -v 17)"
   export GOROOT=/usr/local/go
-  export CLANG_RESOURCEDIR="/Library/Developer/CommandLineTools/usr/lib/clang/13.0.0"
-  export CLANG_ISYSTEM="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"
-  export CLANG_INCLUDE="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/"
+  # export CLANG_RESOURCEDIR="/Library/Developer/CommandLineTools/usr/lib/clang/13.0.0"
+  # export CLANG_ISYSTEM="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"
+  # export CLANG_INCLUDE="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/"
   export PATH="/opt/homebrew/bin:$PATH"
 fi
 
@@ -87,11 +93,6 @@ fi
 # bcloud
 if [ -d "$HOME/.BCloud/bin" ]; then
   export PATH=$HOME/.BCloud/bin:$PATH
-fi
-
-# bazel-compilation-database
-if [ -d "/opt/app/bazel-compilation-database" ]; then
-  export PATH="/opt/app/bazel-compilation-database:$PATH"
 fi
 
 # rust

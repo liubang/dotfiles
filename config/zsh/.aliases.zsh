@@ -1,33 +1,35 @@
 #! /usr/bin/env zsh
-#======================================================================
+# Copyright (c) 2024 The Authors. All rights reserved.
 #
-# .aliases.zsh -
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-# Created by liubang on 2023/03/18 00:43
-# Last Modified: 2023/03/18 00:43
+#      https://www.apache.org/licenses/LICENSE-2.0
 #
-#======================================================================
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Authors: liubang (it.liubang@gmail.com)
 
 alias s='neofetch'
 alias ll='ls -lh'
 alias la='ls -lAh'
 alias diff='diff --color=auto'
 alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
-alias tree='tree -aC -I .git --dirsfirst'
-alias gedit='gedit &>/dev/null'
 alias d2u='dos2unix'
 alias u2d='unix2dos'
-alias zinit-update='zinit delete --all; zinit self-update;' 
 # Make sudo use aliases
 # https://unix.stackexchange.com/a/148548
 alias sudo='sudo '
 # nvim
 alias vim='NVIM_TUI_ENABLE_TRUE_COLOR=1 /opt/app/nvim/bin/nvim'
-alias php-81='/opt/app/php-81/bin/php'
 
 # # Directory coloring
 if [[ "$OS" =~ "Darwin" ]]; then
-  export LSCOLORS="exgxdHdHcxaHaHhBhDeaec"
   # gnu sed
   if command -v gsed >/dev/null 2>&1; then
     alias sed=gsed
