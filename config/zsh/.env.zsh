@@ -42,9 +42,6 @@ if [[ "$OS" =~ "Linux" ]]; then
 elif [[ "$OS" = "Darwin" ]]; then
   export JAVA_HOME="$(/usr/libexec/java_home -v 17)"
   export GOROOT=/usr/local/go
-  # export CLANG_RESOURCEDIR="/Library/Developer/CommandLineTools/usr/lib/clang/13.0.0"
-  # export CLANG_ISYSTEM="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"
-  # export CLANG_INCLUDE="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/"
   export PATH="/opt/homebrew/bin:$PATH"
 fi
 
@@ -101,5 +98,22 @@ export RUSTUP_UPDATE_ROOT="https://rsproxy.cn/rustup"
 
 # cargo
 [ -f "$HOME/.cargo/env" ] && source $HOME/.cargo/env
+
+
+# 整理 PATH，删除重复路径
+if [ -n "$PATH" ]; then
+    old_PATH=$PATH:; PATH=
+    while [ -n "$old_PATH" ]; do
+        x=${old_PATH%%:*}
+        case $PATH: in
+           *:"$x":*) ;;
+           *) PATH=$PATH:$x;;
+        esac
+        old_PATH=${old_PATH#*:}
+    done
+    PATH=${PATH#:}
+    unset old_PATH x
+fi
+export PATH
 
 # vim: set fenc=utf8 ffs=unix ft=zsh list et sts=2 sw=2 ts=2 tw=100:
