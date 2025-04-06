@@ -28,6 +28,13 @@ export EDITOR=nvim
 export GIT_EDITOR=nvim
 export GPG_TTY=$TTY
 
+# 设置 core dump 大小
+ulimit -c unlimited
+# 设置最大文件描述符数
+ulimit -n 1048576
+# 设置最大进程数
+ulimit -u 65535
+
 # for bspwm
 if [[ "${DESKTOP_SESSION}" =~ "bspwm" ]]; then
   export _JAVA_AWT_WM_NONREPARENTING=1
@@ -99,6 +106,7 @@ export RUSTUP_UPDATE_ROOT="https://rsproxy.cn/rustup"
 # cargo
 [ -f "$HOME/.cargo/env" ] && source $HOME/.cargo/env
 
+source $HOME/.local/share/../bin/env
 
 # 整理 PATH，删除重复路径
 if [ -n "$PATH" ]; then
