@@ -22,9 +22,6 @@
 [push]
     default = simple
 [remote "origin"]
-    tagopt = --tags
-    fetch = +refs/archive/*:refs/archive/*
-    push = +refs/archive/*:refs/archive/*
     prune = true
 [pull]
     rebase = false
