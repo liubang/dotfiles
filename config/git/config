@@ -1,78 +1,81 @@
 [user]
-  email = it.liubang@gmail.com
-  name = liubang
-  signingkey = BE31839E5EEFF377
+    email = it.liubang@gmail.com
+    name = liubang
+    signingkey = BE31839E5EEFF377
 [core]
-  excludesfile = ~/.config/git/ignore
+    excludesfile = ~/.config/git/ignore
 [color]
-  ui = true
-  pager = true
-  diff = auto
-  status = auto
+    ui = true
+    pager = true
+    diff = auto
+    status = auto
 [github]
-  user = liubang
+    user = liubang
 [commit]
-  gpgsign = true
-  template = ~/.config/git/template
+    gpgsign = true
+    template = ~/.config/git/template
 [rebase]
-  autosquash = true
-  abbreviatecommands = true
+    autosquash = true
+    abbreviatecommands = true
 [fetch]
-  prune = true
+    prune = true
 [push]
-  default = simple
+    default = simple
 [remote "origin"]
-  prune = true
+    tagopt = --tags
+    fetch = +refs/archive/*:refs/archive/*
+    push = +refs/archive/*:refs/archive/*
+    prune = true
 [pull]
-  rebase = false
+    rebase = false
 [diff]
-  wsErrorHighlight = all
-  tool = vimdiff
-  algorithm = patience
-  indentHeuristic = true
-  wordRegex = [a-zA-Z0-9_]+|[^[:space:]]
-  mnemonicPrefix = true
+    wsErrorHighlight = all
+    tool = vimdiff
+    algorithm = patience
+    indentHeuristic = true
+    wordRegex = [a-zA-Z0-9_]+|[^[:space:]]
+    mnemonicPrefix = true
 [difftool]
-  prompt = false
-  trustExitCode = true
+    prompt = false
+    trustExitCode = true
 [diff "json"]
-  textconv = gojq '.' $1
+    textconv = gojq '.' $1
 
 [merge]
-  tool = vimdiff
-  guitool = meld
+    tool = vimdiff
+    guitool = meld
 [mergetool]
-  prompt = false
-  keepBackup = false
-  trustExitCode = true
-  writeToTemp = true
+    prompt = false
+    keepBackup = false
+    trustExitCode = true
+    writeToTemp = true
 [mergetool "vimdiff"]
-  path = nvim
+    path = nvim
 [alias]
-  ## CORE
-  st = status
-  co = checkout
-  aliases = "!git config -l | grep alias | cut -c 7-"
+    ## CORE
+    st = status
+    co = checkout
+    aliases = "!git config -l | grep alias | cut -c 7-"
 
-  ## STATUS
-  ls = log --pretty=\"format:%C(auto)%h %ad %C(auto)%s%d %Cblue(%an)\" --decorate --abbrev-commit --date=local
-  lg = log --graph --abbrev-commit --decorate --all --date-order \
-           --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- <%an>%C(reset)%C(bold yellow)%d%C(reset)'
-  last = log -1 HEAD --stat
-  contrib = shortlog -e --summary --numbered
-  recent = branch --sort=-committerdate
-  branch-progress = for-each-ref --sort='authordate:iso8601' --format=' %(color:green)%(authordate:relative)%09%(color:white)%(refname:short)' refs/heads
-  # Show conflict-only diff patches.
-  conflicts = diff --diff-filter=U
-  conflict-files = conflicts --name-only
-  ignored = ls-files --others --i --exclude-standard
-  latest-tag = describe --tags --abbrev=0
+    ## STATUS
+    ls = log --pretty=\"format:%C(auto)%h %ad %C(auto)%s%d %Cblue(%an)\" --decorate --abbrev-commit --date=local
+    lg = log --graph --abbrev-commit --decorate --all --date-order \
+            --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- <%an>%C(reset)%C(bold yellow)%d%C(reset)'
+    last = log -1 HEAD --stat
+    contrib = shortlog -e --summary --numbered
+    recent = branch --sort=-committerdate
+    branch-progress = for-each-ref --sort='authordate:iso8601' --format=' %(color:green)%(authordate:relative)%09%(color:white)%(refname:short)' refs/heads
+    # Show conflict-only diff patches.
+    conflicts = diff --diff-filter=U
+    conflict-files = conflicts --name-only
+    ignored = ls-files --others --i --exclude-standard
+    latest-tag = describe --tags --abbrev=0
 [lfs]
-	repositoryformatversion = 0
+    repositoryformatversion = 0
 [filter "lfs"]
-	process = git-lfs filter-process
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
 [lfs "origin.git/info/lfs"]
-	locksverify = false
+    locksverify = false
